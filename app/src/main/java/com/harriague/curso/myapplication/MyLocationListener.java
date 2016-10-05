@@ -30,7 +30,7 @@ public class MyLocationListener implements LocationListener {
                 + loc.getLatitude() + "\n Long = " + loc.getLongitude();
         Toast toast = Toast.makeText(getMainActivity(), text, Toast.LENGTH_LONG);
         toast.show();
-        this.mainActivity.setLocation(loc);
+       // this.mainActivity.setLocation(loc);
     }
 
     @Override

@@ -1,34 +1,16 @@
 package com.harriague.curso.myapplication;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,23 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 		
-		Log.d(TAG, "Por validar if");
-        mlocManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Pase el if");
-                requestPermissions(new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.INTERNET}, 10);
-                return;
-            }
-        } else {
-            // Acquire a reference to the system Location Manager
-            MyLocationListener mlocListener = new MyLocationListener();
-            mlocListener.setMainActivity(this);
-            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) mlocListener);
-
-        }
-
-        // get the listview
+	   // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
 
         // preparing list data
@@ -127,45 +93,9 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
-
         return super.onOptionsItemSelected(item);
     }
-	
-	@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case 10:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    // Acquire a reference to the system Location Manager
-                    MyLocationListener mlocListener = new MyLocationListener();
-                    mlocListener.setMainActivity(this);
-                    mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) mlocListener);
-                }
-        }
-    }
 
-    public void setLocation(Location loc) {
-        Log.d(TAG, "setLocation");
-        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
-            Log.d(TAG, "loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0");
-            try {
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
-                if (!list.isEmpty()) {
-                    Log.d(TAG, "!list.isEmpty()");
-                    Address address = list.get(0);
-
-                    Toast toast = Toast.makeText(this, "My address is: \n" + address.getAddressLine(0), Toast.LENGTH_LONG);
-                    toast.show();
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     protected void onResume() {
