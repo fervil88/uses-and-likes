@@ -1,5 +1,7 @@
 package com.harriague.curso.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 	private static final String TAG = "myApp";
-    LocationManager mlocManager;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPreference" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +42,16 @@ public class MainActivity extends AppCompatActivity {
 		
 	   // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         // preparing list data
         prepareListData();
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        listAdapter.setSharedPreference(sharedpreferences);
+
+        String itemSelected = sharedpreferences.getString("Item selected", "nothing");
+        Toast.makeText(this, itemSelected, Toast.LENGTH_LONG).show();
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -45,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
-        // Adding child data
+        /*// Adding child data
         listDataHeader.add("Top 250");
         listDataHeader.add("Now Showing");
         listDataHeader.add("Coming Soon..");
@@ -77,7 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(2), comingSoon);*/
+        try {
+            readJson();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -125,5 +151,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+    }
+
+
+
+    public void readJson() throws FileNotFoundException, JSONException {
+        InputStream inputStream = getResources().openRawResource(R.raw.categories);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        int ctr;
+        try {
+            ctr = inputStream.read();
+            while (ctr != -1) {
+                byteArrayOutputStream.write(ctr);
+                ctr = inputStream.read();
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
+            JSONArray jArray = jObject.getJSONArray("categories");
+            String catName;
+            for (int i = 0; i < jArray.length(); i++) {
+                catName = jArray.getJSONObject(i).getString("name");
+                JSONArray subcategories = jArray.getJSONObject(i).getJSONArray("subcategory");
+                String subcatName;
+                List<String> subCategories = new ArrayList<String>();
+                for (int j = 0; j < subcategories.length(); j++){
+                    subcatName = subcategories.getJSONObject(j).getString("name");
+                    subCategories.add(subcatName);
+                }
+                listDataHeader.add(catName);
+                listDataChild.put(catName, subCategories);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
