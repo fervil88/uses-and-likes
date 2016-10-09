@@ -1,16 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="55dip"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17dip"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="5dp"
+            android:textSize="17dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_alignParentRight="true"
+            android:layoutDirection="rtl">
+
+            <TextView
+                android:id="@+id/item_dislike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:layout_alignParentRight="true"
+                android:paddingTop="5dp"
+                android:text="9"
+                android:textSize="10dip" />
+
+            <ImageView
+                android:id="@+id/dislikes"
+                android:layout_width="18dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:paddingBottom="5dp"
+                android:layout_toRightOf="@id/item_dislike"
+                android:paddingTop="5dp"
+                android:src="@mipmap/ic_dislike"
+                android:layout_weight="0.01" />
+
+            <TextView
+                android:id="@+id/item_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:layout_toRightOf="@id/dislikes"
+                android:paddingTop="5dp"
+                android:text="17"
+                android:textSize="10dip" />
+
+            <ImageView
+                android:id="@+id/likes"
+                android:layout_width="23dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:paddingBottom="5dp"
+                android:layout_toRightOf="@id/item_like"
+                android:paddingTop="5dp"
+                android:src="@mipmap/ic_like" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

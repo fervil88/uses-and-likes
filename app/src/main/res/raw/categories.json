@@ -1,54 +1,54 @@
 {
   "categories": [{
-    "name": "Top 250",
+    "name": "Hombres",
     "subcategory": [{
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }]
   }, {
-    "name": "Now Showing",
+    "name": "Mujeres",
     "subcategory": [{
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }]
   }, {
-    "name": "Coming Soon..",
+    "name": "Deportes",
     "subcategory": [{
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }, {
-      "name": "The Shawshank Redemption"
+      "name": "The Shawshank"
     }]
   }]
 }
