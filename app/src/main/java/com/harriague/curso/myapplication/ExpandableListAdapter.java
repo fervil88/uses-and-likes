@@ -57,15 +57,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.item);
+        String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0"};
 
+        TextView countLikesText = (TextView) convertView.findViewById(R.id.item_like);
+        countLikesText.setText(values[2]);
 
-        txtListChild.setText(childText);
+        TextView countDislikesText = (TextView) convertView.findViewById(R.id.item_dislike);
+        countDislikesText.setText(values[3]);
+
+        TextView subCategoryText = (TextView) convertView.findViewById(R.id.item);
+        subCategoryText.setText(values[1]);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("Item selected", childText);
+        editor.putString("Item selected", values[1]);
         editor.commit();
-        txtListChild.setOnClickListener(new View.OnClickListener() {
+        subCategoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

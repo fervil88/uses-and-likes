@@ -2,7 +2,6 @@ package com.harriague.curso.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,10 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -177,11 +174,17 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < jArray.length(); i++) {
                 catName = jArray.getJSONObject(i).getString("name");
                 JSONArray subcategories = jArray.getJSONObject(i).getJSONArray("subcategory");
+                int id = 0;
                 String subcatName;
+                int likes = 0;
+                int dislikes = 0;
                 List<String> subCategories = new ArrayList<String>();
                 for (int j = 0; j < subcategories.length(); j++){
+                    id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
-                    subCategories.add(subcatName);
+                    likes = subcategories.getJSONObject(j).getInt("likes");
+                    dislikes = subcategories.getJSONObject(j).getInt("dislikes");
+                    subCategories.add(id+"<->"+subcatName+"<->"+likes+"<->"+dislikes);
                 }
                 listDataHeader.add(catName);
                 listDataChild.put(catName, subCategories);

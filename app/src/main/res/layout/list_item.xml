@@ -35,7 +35,6 @@
                 android:paddingBottom="5dp"
                 android:layout_alignParentRight="true"
                 android:paddingTop="5dp"
-                android:text="9"
                 android:textSize="10dip" />
 
             <ImageView
@@ -56,7 +55,6 @@
                 android:paddingBottom="5dp"
                 android:layout_toRightOf="@id/dislikes"
                 android:paddingTop="5dp"
-                android:text="17"
                 android:textSize="10dip" />
 
             <ImageView
