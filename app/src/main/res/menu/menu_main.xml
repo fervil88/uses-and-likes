@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.harriague.curso.myapplication.MainActivity">
 
+    <group android:checkableBehavior="all">
+        <item android:id="@+id/option_heavy_joke"
+            android:title="@string/heavy_joke" />
+    </group>
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/option_feedback"
+            android:title="@string/feedback" />
+
+        <item
+            android:id="@+id/option_about"
+            android:title="@string/about" />
+    </group>
+
     <item
         android:id="@+id/search"
         android:title="@string/search"
