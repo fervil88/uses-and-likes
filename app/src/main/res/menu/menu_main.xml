@@ -4,8 +4,8 @@
     tools:context="com.harriague.curso.myapplication.MainActivity">
 
     <group android:checkableBehavior="all">
-        <item android:id="@+id/option_heavy_joke"
-            android:title="@string/heavy_joke" />
+        <item android:id="@+id/option_dirty_joke"
+            android:title="@string/dirty_joke" />
     </group>
 
     <group android:checkableBehavior="none">
