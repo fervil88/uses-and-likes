@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPreference" ;
+    public static final String MY_PREFERENCES = "MyPreference" ;
+    public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 		
 	   // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
 
         // preparing list data
         prepareListData();
@@ -111,17 +112,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        menu.getItem(0).setChecked(sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false));
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (item.getItemId()) {
-            case R.id.option_heavy_joke:
-                if (item.isChecked())
+            case R.id.option_dirty_joke:
+                sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                if (item.isChecked()){
                     item.setChecked(false);
-                else
+                    editor.putBoolean(MY_ENABLED_HEAVY_JOKE, false);
+                }
+                else {
                     item.setChecked(true);
+                    editor.putBoolean(MY_ENABLED_HEAVY_JOKE, true);
+                }
+                editor.commit();
                 return true;
             case R.id.option_feedback:
                 Toast.makeText(getApplicationContext(),"Danos un feedback vieja!",Toast.LENGTH_LONG).show();
@@ -186,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
             JSONArray jArray = jObject.getJSONArray("categories");
             String catName;
+            sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+            boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
             for (int i = 0; i < jArray.length(); i++) {
                 catName = jArray.getJSONObject(i).getString("name");
                 JSONArray subcategories = jArray.getJSONObject(i).getJSONArray("subcategory");
@@ -195,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 int dislikes = 0;
                 List<String> subCategories = new ArrayList<String>();
                 for (int j = 0; j < subcategories.length(); j++){
+                    if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
+                        continue;
+                    }
                     id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
                     likes = subcategories.getJSONObject(j).getInt("likes");
