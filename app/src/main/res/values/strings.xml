@@ -5,4 +5,5 @@
     <string name="heavy_joke">Verdes</string>
     <string name="about">Acerca de</string>
     <string name="feedback">Calificar App</string>
+    <string name="title_activity_info_joke">InfoJokeActivity</string>
 </resources>

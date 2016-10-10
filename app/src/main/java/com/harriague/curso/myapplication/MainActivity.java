@@ -24,11 +24,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static String TAG = "Jokes";
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-	private static final String TAG = "myApp";
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPreference" ;
 

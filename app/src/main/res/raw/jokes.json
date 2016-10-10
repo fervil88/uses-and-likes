@@ -1,0 +1,40 @@
+{
+  "jokes": [
+    {
+      "id": "1",
+      "name": "Mujeres hablan",
+      "category" : "Machistas",
+      "joke" : "¿Por qué las mujeres hablan más de lo que piensan y los hombres piensan más de lo que hablan? \n -Porque las mujeres tienen cuatro labios y los hombres dos cabezas.",
+      "user": "elfer"
+    },
+    {
+      "id": "2",
+      "name": "Mujer y Niña",
+      "category" : "Machistas",
+      "joke" : "- ¿ Sabes cuál es la diferencia entre una niña y una mujer? \n - A la niña la llevas a la cama y le cuentas un cuento, a la mujer le cuentas un cuento y la llevas a la cama.",
+      "user": "elfer"
+    },
+
+    {
+      "id": "3",
+      "name": "Timon Titanic",
+      "category" : "Machistas",
+      "joke" : "¿Que es lo último que se oyo en el Titanic? \n -!!!NO LE DEJES EL TIMON A ELLA ¡¡¡",
+      "user": "elfer"
+    },
+    {
+      "id": "4",
+      "name": "Mujer y almeja",
+      "category" : "Machistas",
+      "joke" : "¿en que se parece una mujer a una almeja? \n R: En que cuando se calientan se abren",
+      "user": "elfer"
+    },
+    {
+      "id": "5",
+      "name": "Delfines?",
+      "category" : "Machistas",
+      "joke" : "¿En que se parecen las mujeres a los delfines? \n -En que se cree que tienen inteligencia pero no se ha demostrado aun.",
+      "user": "elfer"
+    }
+  ]
+}

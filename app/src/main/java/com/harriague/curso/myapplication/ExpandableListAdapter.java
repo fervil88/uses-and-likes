@@ -7,8 +7,11 @@ package com.harriague.curso.myapplication;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +60,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0"};
+        final String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0"};
 
         TextView countLikesText = (TextView) convertView.findViewById(R.id.item_like);
         countLikesText.setText(values[2]);
@@ -65,28 +68,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView countDislikesText = (TextView) convertView.findViewById(R.id.item_dislike);
         countDislikesText.setText(values[3]);
 
-        TextView subCategoryText = (TextView) convertView.findViewById(R.id.item);
+        final TextView subCategoryText = (TextView) convertView.findViewById(R.id.item);
         subCategoryText.setText(values[1]);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("Item selected", values[1]);
         editor.commit();
-        subCategoryText.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-
-                final ProgressDialog progressBar = ProgressDialog.show(context, "Showing ProgressDialog", "Loading...");
-
-                final WebView wv = new WebView(context);
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        wv.loadUrl("https://es.wikipedia.org/wiki/Selecci%C3%B3n_de_f%C3%BAtbol_de_Argentina");
-                        alertDialog.setView(wv);
-                    }
-                }.run();
-                wv.setWebViewClient(new CustomWebViewClient(progressBar, alertDialog));
+                Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id", String.valueOf(values[0]));
+                showJokeIntent.putExtras(b);
+                context.startActivity(showJokeIntent);
             }
         });
         return convertView;
