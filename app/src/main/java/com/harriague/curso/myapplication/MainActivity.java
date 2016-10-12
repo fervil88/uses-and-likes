@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 int dislikes = 0;
                 List<String> subCategories = new ArrayList<String>();
                 for (int j = 0; j < subcategories.length(); j++){
-                    if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
+                    /*if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
                         continue;
-                    }
+                    }*/
                     id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
                     likes = subcategories.getJSONObject(j).getInt("likes");

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="color_for_background">#ffce9a</color>
+    <color name="dislike_floating_button">#E53935</color>
+    <color name="like_floating_button">#00897B</color>
     <color name="color_for_area">#f9f297</color>
 
 
