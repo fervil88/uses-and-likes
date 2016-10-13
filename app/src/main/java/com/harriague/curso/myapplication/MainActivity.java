@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.harriague.curso.domain.Joke;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             }
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         try {
             JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
@@ -223,10 +225,12 @@ public class MainActivity extends AppCompatActivity {
                     if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
                         continue;
                     }
+
                     id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
                     likes = subcategories.getJSONObject(j).getInt("likes");
                     dislikes = subcategories.getJSONObject(j).getInt("dislikes");
+                    Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, false);
                     subCategories.add(id+"<->"+subcatName+"<->"+likes+"<->"+dislikes);
                 }
                 listDataHeader.add(catName);
