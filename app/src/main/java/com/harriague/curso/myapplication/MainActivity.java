@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,8 +24,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String MY_PREFERENCES = "MyPreference" ;
     public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
     private MainActivity context;
+    private Map<String, List<Joke>> mapJokes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,40 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-
-        /*// Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
-
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);*/
+        mapJokes = new LinkedHashMap<String, List<Joke>>();
         readJsonFile();
     }
 
@@ -143,18 +113,42 @@ public class MainActivity extends AppCompatActivity {
             case R.id.option_dirty_joke:
                 sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
+                listDataHeader.clear();
+                listDataChild.clear();
                 if (item.isChecked()){
                     item.setChecked(false);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, false);
+                    for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                        String category = entry.getKey();
+                        List<Joke> jokes = entry.getValue();
+                        List<String> subCategories = new ArrayList<String>();
+                        for (Joke joke: jokes){
+                            if (joke.isDirtyJoke()){
+                                continue;
+                            }
+                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                        }
+                        listDataHeader.add(category);
+                        listDataChild.put(category, subCategories);
+                    }
                 }
                 else {
                     item.setChecked(true);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, true);
+
+                    for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                        String category = entry.getKey();
+                        List<Joke> jokes = entry.getValue();
+                        List<String> subCategories = new ArrayList<String>();
+                        for (Joke joke: jokes){
+                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                        }
+                        listDataHeader.add(category);
+                        listDataChild.put(category, subCategories);
+                    }
                 }
                 editor.commit();
-                listDataHeader.clear();
-                listDataHeader.clear();
-                readJsonFile();
+            //    readJsonFile();
                 listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
@@ -239,18 +233,24 @@ public class MainActivity extends AppCompatActivity {
                 int likes = 0;
                 int dislikes = 0;
                 List<String> subCategories = new ArrayList<String>();
+                List<Joke> jokes = new ArrayList<>();
                 for (int j = 0; j < subcategories.length(); j++){
-                    if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
-                        continue;
-                    }
-
+                    boolean isDirtyJoke = subcategories.getJSONObject(j).getBoolean("is_dirty_joke");
                     id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
                     likes = subcategories.getJSONObject(j).getInt("likes");
                     dislikes = subcategories.getJSONObject(j).getInt("dislikes");
-                    Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, false);
-                    subCategories.add(id+"<->"+subcatName+"<->"+likes+"<->"+dislikes);
+                    Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, isDirtyJoke);
+                    jokes.add(joke);
                 }
+                Collections.sort(jokes);
+                for (Joke joke: jokes){
+                    if (!includeDirtyJokes && joke.isDirtyJoke()){
+                        continue;
+                    }
+                    subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                }
+                mapJokes.put(catName, jokes);
                 listDataHeader.add(catName);
                 listDataChild.put(catName, subCategories);
             }
