@@ -1,5 +1,6 @@
 package com.harriague.curso.myapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,7 +30,17 @@ public class CreateJokeActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         String[] categories = b.getStringArray(Util.CATEGORIES);
 
-        Spinner spinner = (Spinner) findViewById(R.id.category_joke_input);
+        final Spinner spinner = (Spinner) findViewById(R.id.category_joke_input);
+        assert spinner != null;
+        spinner.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(spinner.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        }) ;
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
@@ -53,9 +67,10 @@ public class CreateJokeActivity extends AppCompatActivity {
             Spinner category = (Spinner) findViewById(R.id.category_joke_input);
             TextView jokeText = (TextView) findViewById(R.id.joke_text_input);
             TextView user = (TextView) findViewById(R.id.user_joke_input);
+            CheckBox checkBox = (CheckBox) findViewById(R.id.check_dirty_input);
 
             Joke currentJoke = new Joke(title.getText().toString(),category.getSelectedItem().toString(),
-                    jokeText.getText().toString(), user.getText().toString());
+                    jokeText.getText().toString(), user.getText().toString(), checkBox.isChecked());
 
             Log.i(MainActivity.TAG, currentJoke.toString());
 

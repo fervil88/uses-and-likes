@@ -29,10 +29,6 @@
         <item name="android:textColor">#000000</item>
         <item name="android:padding">12dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:shadowColor">#3F51B5</item>
-        <item name="android:shadowDx">4</item>
-        <item name="android:shadowDy">4</item>
-        <item name="android:shadowRadius">1</item>
         <item name="android:background">@color/color_for_area</item>
     </style>
 

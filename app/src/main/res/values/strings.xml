@@ -12,4 +12,5 @@
     <string name="joke">Type your awesome joke...</string>
     <string name="user">Your user...</string>
     <string name="save_menu">SAVE</string>
+    <string name="is_dirty">Is dirty:</string>
 </resources>

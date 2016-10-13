@@ -50,11 +50,12 @@ public class Joke implements Comparable<Joke> {
         this.dislikes = dislikes;
     }
 
-    public Joke(String title, String category, String jokeText, String user) {
+    public Joke(String title, String category, String jokeText, String user, boolean isDirty) {
         this.title = title;
         this.category = category;
         this.jokeText = jokeText;
         this.user = user;
+        this.isDirtyJoke = isDirty;
         this.likes = 0;
         this.dislikes = 0;
     }
