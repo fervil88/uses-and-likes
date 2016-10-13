@@ -70,9 +70,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         final TextView subCategoryText = (TextView) convertView.findViewById(R.id.item);
         subCategoryText.setText(values[1]);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("Item selected", values[1]);
-        editor.commit();
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

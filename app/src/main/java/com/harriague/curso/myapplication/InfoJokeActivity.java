@@ -57,6 +57,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                 dislikeButton.setEnabled(true);
                 dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
                 //TODO Send like to the server
+                //TODO Update likes on existing list
             }
         });
 
@@ -78,11 +79,12 @@ public class InfoJokeActivity extends AppCompatActivity {
                 likeButton.setEnabled(true);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
                 //TODO Send dislike to the server
-
+                //TODO Update dislikes on existing list
             }
         });
 
         try {
+            //TODO Take JSon from server instead of file
             Joke joke = JSonParser.readJson(this, idStr);
             if (joke != null){
                 TextView title = (TextView) findViewById(R.id.title_joke);
@@ -93,8 +95,6 @@ public class InfoJokeActivity extends AppCompatActivity {
                 jokeText.setText(joke.getJokeText());
                 TextView user = (TextView) findViewById(R.id.user_joke);
                 user.setText(joke.getUser());
-                //TextView like = (TextView) findViewById(R.id.title_joke);
-                //TextView dislike = (TextView) findViewById(R.id.title_joke);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

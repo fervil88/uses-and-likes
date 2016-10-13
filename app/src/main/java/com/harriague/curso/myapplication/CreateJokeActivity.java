@@ -74,6 +74,9 @@ public class CreateJokeActivity extends AppCompatActivity {
 
             Log.i(MainActivity.TAG, currentJoke.toString());
 
+            //TODO Send joke to the server
+            //TODO Update joke on existing list
+
             onBackPressed();
         }
 
