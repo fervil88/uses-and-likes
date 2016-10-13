@@ -6,4 +6,10 @@
     <string name="about">Acerca de</string>
     <string name="feedback">Calificar App</string>
     <string name="title_activity_info_joke">InfoJokeActivity</string>
+    <string name="title_activity_create_joke">CreateJokeActivity</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="joke">Type your awesome joke...</string>
+    <string name="user">Your user...</string>
+    <string name="save_menu">SAVE</string>
 </resources>

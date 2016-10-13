@@ -11,6 +11,20 @@ public class Joke {
     private String jokeText;
     private String user;
     private int likes;
+
+    @Override
+    public String toString() {
+        return "Joke{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", jokeText='" + jokeText + '\'' +
+                ", user='" + user + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                '}';
+    }
+
     private int dislikes;
 
     public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes) {
@@ -21,6 +35,15 @@ public class Joke {
         this.user = user;
         this.likes = likes;
         this.dislikes = dislikes;
+    }
+
+    public Joke(String title, String category, String jokeText, String user) {
+        this.title = title;
+        this.category = category;
+        this.jokeText = jokeText;
+        this.user = user;
+        this.likes = 0;
+        this.dislikes = 0;
     }
 
     public String getId() {
