@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.harriague.curso.domain.Joke;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,13 +115,7 @@ public class MainActivity extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);*/
-        try {
-            readJson();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        readJsonFile();
     }
 
     @Override
@@ -156,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, true);
                 }
                 editor.commit();
+                listDataHeader.clear();
+                listDataHeader.clear();
+                readJsonFile();
+                listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
                 Toast.makeText(getApplicationContext(),"Danos un feedback vieja!",Toast.LENGTH_LONG).show();
@@ -168,6 +168,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void readJsonFile(){
+        try {
+            readJson();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG,"json file not found: "+ e.getMessage());
+        } catch (JSONException e) {
+            Log.e(TAG,"error reading json: "+ e.getMessage());
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -214,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             }
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         try {
             JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
@@ -231,20 +240,22 @@ public class MainActivity extends AppCompatActivity {
                 int dislikes = 0;
                 List<String> subCategories = new ArrayList<String>();
                 for (int j = 0; j < subcategories.length(); j++){
-                    /*if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
+                    if (!includeDirtyJokes && subcategories.getJSONObject(j).getBoolean("is_dirty_joke")){
                         continue;
-                    }*/
+                    }
+
                     id = subcategories.getJSONObject(j).getInt("id");
                     subcatName = subcategories.getJSONObject(j).getString("name");
                     likes = subcategories.getJSONObject(j).getInt("likes");
                     dislikes = subcategories.getJSONObject(j).getInt("dislikes");
+                    Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, false);
                     subCategories.add(id+"<->"+subcatName+"<->"+likes+"<->"+dislikes);
                 }
                 listDataHeader.add(catName);
                 listDataChild.put(catName, subCategories);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG,"error trying to read the json file: "+ e.getMessage());
         }
     }
 }

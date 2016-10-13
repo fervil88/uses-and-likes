@@ -44,7 +44,7 @@
                 android:paddingBottom="5dp"
                 android:layout_toRightOf="@id/item_dislike"
                 android:paddingTop="5dp"
-                android:src="@mipmap/ic_dislike"
+                android:src="@mipmap/dislike_red"
                 android:layout_weight="0.01" />
 
             <TextView
@@ -64,7 +64,7 @@
                 android:paddingBottom="5dp"
                 android:layout_toRightOf="@id/item_like"
                 android:paddingTop="5dp"
-                android:src="@mipmap/ic_like" />
+                android:src="@mipmap/like_green" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
