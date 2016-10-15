@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String TAG = "Jokes";
+    public final static String URL_MAIN_JSON = "http://";
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
     private MainActivity context;
     private Map<String, List<Joke>> mapJokes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         listAdapter.setSharedPreference(sharedpreferences);
 
-        String itemSelected = sharedpreferences.getString("Item selected", "nothing");
-        Toast.makeText(this, itemSelected, Toast.LENGTH_LONG).show();
+        includeTheBestJokes(10);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -70,8 +70,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent createJokeIntent = new Intent(context, CreateJokeActivity.class);
-                String[] stockArr = new String[listDataHeader.size()];
-                stockArr = listDataHeader.toArray(stockArr);
+                String[] stockArr = new String[listDataHeader.size() - 2];
+                int index = 0;
+                for (String header: listDataHeader){
+                    if(Util.BEST_JOKES.equalsIgnoreCase(header) || Util.NEW_JOKES.equalsIgnoreCase(header)){
+                        continue;
+                    }
+                    stockArr[index] = header;
+                    index++;
+                }
                 createJokeIntent.putExtra(Util.CATEGORIES,stockArr);
                 startActivity(createJokeIntent);
             }
@@ -85,7 +92,13 @@ public class MainActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
-        readJsonFile();
+        try {
+            readJson();
+        } catch (FileNotFoundException e) {
+            Log.e(Util.TAG,"json file not found: "+ e.getMessage());
+        } catch (JSONException e) {
+            Log.e(Util.TAG,"error reading json: "+ e.getMessage());
+        }
     }
 
     @Override
@@ -119,36 +132,31 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(false);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, false);
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        String category = entry.getKey();
-                        List<Joke> jokes = entry.getValue();
-                        List<String> subCategories = new ArrayList<String>();
-                        for (Joke joke: jokes){
+                        List<String> subCategoriesJokes = new ArrayList<String>();
+                        for (Joke joke: entry.getValue()){
                             if (joke.isDirtyJoke()){
                                 continue;
                             }
-                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
                         }
-                        listDataHeader.add(category);
-                        listDataChild.put(category, subCategories);
+                        listDataHeader.add(entry.getKey());
+                        listDataChild.put(entry.getKey(), subCategoriesJokes);
                     }
                 }
                 else {
                     item.setChecked(true);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, true);
-
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        String category = entry.getKey();
-                        List<Joke> jokes = entry.getValue();
                         List<String> subCategories = new ArrayList<String>();
-                        for (Joke joke: jokes){
+                        for (Joke joke: entry.getValue()){
                             subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
                         }
-                        listDataHeader.add(category);
-                        listDataChild.put(category, subCategories);
+                        listDataHeader.add(entry.getKey());
+                        listDataChild.put(entry.getKey(), subCategories);
                     }
                 }
                 editor.commit();
-            //    readJsonFile();
+                includeTheBestJokes(10);
                 listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
@@ -162,49 +170,86 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void readJsonFile(){
-        try {
-            readJson();
-        } catch (FileNotFoundException e) {
-            Log.e(TAG,"json file not found: "+ e.getMessage());
-        } catch (JSONException e) {
-            Log.e(TAG,"error reading json: "+ e.getMessage());
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
+        Log.d(Util.TAG, "onResume");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "onRestart");
+        Log.d(Util.TAG, "onRestart");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart");
+        Log.d(Util.TAG, "onStart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
+        Log.d(Util.TAG, "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
+        Log.d(Util.TAG, "onDestroy");
+    }
+
+    private void includeTheBestJokes(int top){
+        List<Joke> jokes = getTheBestJokes(top);
+        List<String> subCategoriesJokes = new ArrayList<String>();
+        for (Joke joke: jokes){
+            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+        }
+        listDataHeader.add(Util.BEST_JOKES);
+        listDataChild.put(Util.BEST_JOKES, subCategoriesJokes);
+    }
+
+    private List<Joke> getTheBestJokes(int top){
+        List<Joke> jokes = new ArrayList<Joke>();
+        int minAdded = 0;
+        sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
+
+        for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+            if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
+                continue;
+
+            for (Joke joke: entry.getValue()){
+                if (!includeDirtyJokes && joke.isDirtyJoke()){
+                    continue;
+                }
+                try {
+                    Joke newJoke = (Joke) joke.clone();
+                    newJoke.setCategory(Util.BEST_JOKES);
+                    if (jokes.size() < top) {
+                        jokes.add(newJoke);
+                        Collections.sort(jokes);
+                        minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
+                    } else if (minAdded <= (joke.getLikes() / (joke.getDislikes() != 0 ? joke.getDislikes() : 1))) {
+                        jokes.remove(jokes.size() - 1);
+                        jokes.add(newJoke);
+                        Collections.sort(jokes);
+                        minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
+                    } else {
+                        break;
+                    }
+                } catch (CloneNotSupportedException e) {
+                    Log.e(Util.TAG, "Error clone joke: " + e.getMessage());
+                }
+            }
+        }
+        Collections.sort(jokes);
+        return jokes;
     }
 
 
-
-    public void readJson() throws FileNotFoundException, JSONException {
+    private void readJson() throws FileNotFoundException, JSONException {
         InputStream inputStream = getResources().openRawResource(R.raw.categories);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -217,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(Util.TAG, e.getMessage());
         }
         try {
             JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
@@ -227,19 +272,19 @@ public class MainActivity extends AppCompatActivity {
             boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
             for (int i = 0; i < jArray.length(); i++) {
                 catName = jArray.getJSONObject(i).getString("name");
-                JSONArray subcategories = jArray.getJSONObject(i).getJSONArray("subcategory");
+                JSONArray subCategories = jArray.getJSONObject(i).getJSONArray("subcategory");
                 int id = 0;
                 String subcatName;
                 int likes = 0;
                 int dislikes = 0;
-                List<String> subCategories = new ArrayList<String>();
+                List<String> subCategoriesJokes = new ArrayList<String>();
                 List<Joke> jokes = new ArrayList<>();
-                for (int j = 0; j < subcategories.length(); j++){
-                    boolean isDirtyJoke = subcategories.getJSONObject(j).getBoolean("is_dirty_joke");
-                    id = subcategories.getJSONObject(j).getInt("id");
-                    subcatName = subcategories.getJSONObject(j).getString("name");
-                    likes = subcategories.getJSONObject(j).getInt("likes");
-                    dislikes = subcategories.getJSONObject(j).getInt("dislikes");
+                for (int j = 0; j < subCategories.length(); j++){
+                    boolean isDirtyJoke = subCategories.getJSONObject(j).getBoolean("is_dirty_joke");
+                    id = subCategories.getJSONObject(j).getInt("id");
+                    subcatName = subCategories.getJSONObject(j).getString("name");
+                    likes = subCategories.getJSONObject(j).getInt("likes");
+                    dislikes = subCategories.getJSONObject(j).getInt("dislikes");
                     Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, isDirtyJoke);
                     jokes.add(joke);
                 }
@@ -248,14 +293,14 @@ public class MainActivity extends AppCompatActivity {
                     if (!includeDirtyJokes && joke.isDirtyJoke()){
                         continue;
                     }
-                    subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                    subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
                 }
                 mapJokes.put(catName, jokes);
                 listDataHeader.add(catName);
-                listDataChild.put(catName, subCategories);
+                listDataChild.put(catName, subCategoriesJokes);
             }
         } catch (Exception e) {
-            Log.e(TAG,"error trying to read the json file: "+ e.getMessage());
+            Log.e(Util.TAG,"error trying to read the json file: "+ e.getMessage());
         }
     }
 }

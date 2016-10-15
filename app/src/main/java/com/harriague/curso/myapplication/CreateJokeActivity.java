@@ -72,7 +72,7 @@ public class CreateJokeActivity extends AppCompatActivity {
             Joke currentJoke = new Joke(title.getText().toString(),category.getSelectedItem().toString(),
                     jokeText.getText().toString(), user.getText().toString(), checkBox.isChecked());
 
-            Log.i(MainActivity.TAG, currentJoke.toString());
+            Log.i(Util.TAG, currentJoke.toString());
 
             //TODO Send joke to the server
             //TODO Update joke on existing list

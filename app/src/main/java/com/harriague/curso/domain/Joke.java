@@ -3,7 +3,7 @@ package com.harriague.curso.domain;
 /**
  * Created by Fernando on 10/10/2016.
  */
-public class Joke implements Comparable<Joke> {
+public class Joke implements Comparable<Joke>, Cloneable{
     private String id;
     private String title;
     private String category;
@@ -100,15 +100,24 @@ public class Joke implements Comparable<Joke> {
         isDirtyJoke = dirtyJoke;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
     @Override
     public int compareTo(Joke anotherJoke) {
 
-        int compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() - ((Joke) anotherJoke).getDislikes();
+        int compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() / (((Joke) anotherJoke).getDislikes() != 0 ? ((Joke) anotherJoke).getDislikes() : 1);
 
         //ascending order
-        //return ((this.getLikes() - this.getDislikes()) - compareQuantityOfLikes);
+        //return ((this.getLikes() - (this.getDislikes() != 0 ? this.getDislikes() : 1)) - compareQuantityOfLikes);
 
         //descending order
-        return (compareQuantityOfLikes - (this.getLikes() - this.getDislikes()));
+        return (compareQuantityOfLikes - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
     }
 }

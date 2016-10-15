@@ -8,17 +8,9 @@
       {"id":32, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false},
       {"id":33, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true}]},
     {
-      "name": "Destacados",
-      "subcategory": [
-        {"id":34, "name": "El negro de whatsapp", "likes":999, "dislikes":0, "is_dirty_joke":true},
-        {"id":35, "name": "Chuck Norris Hacker", "likes":408, "dislikes":3, "is_dirty_joke":false},
-        {"id":36, "name": "Gallegos", "likes":300, "dislikes":40, "is_dirty_joke":false},
-        {"id":37, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":38, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true}]},
-    {
       "name": "Machistas",
       "subcategory": [
-        {"id":1, "name": "Mujeres hablan", "likes":10, "dislikes":3, "is_dirty_joke":false},
+        {"id":1, "name": "Mujeres hablan", "likes":27, "dislikes":3, "is_dirty_joke":false},
         {"id":2, "name": "Mujer y Niña", "likes":10, "dislikes":3, "is_dirty_joke":false},
         {"id":3, "name": "Timon Titanic", "likes":10, "dislikes":3, "is_dirty_joke":true},
         {"id":4, "name": "Mujer y almeja", "likes":10, "dislikes":3, "is_dirty_joke":false},
