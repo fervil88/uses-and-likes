@@ -36,7 +36,6 @@
             android:id="@+id/category_joke_input"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            style="@style/InputJoke"
             android:hint="@string/category"/>
 
         <ScrollView
