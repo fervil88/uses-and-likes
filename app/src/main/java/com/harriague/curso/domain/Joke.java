@@ -10,6 +10,9 @@ public class Joke implements Comparable<Joke>, Cloneable{
     private String jokeText;
     private String user;
     private int likes;
+    private int dislikes;
+    private boolean isDirtyJoke;
+    private String creationDate;
 
     @Override
     public String toString() {
@@ -23,9 +26,6 @@ public class Joke implements Comparable<Joke>, Cloneable{
                 ", dislikes=" + dislikes +
                 '}';
     }
-
-    private int dislikes;
-    private boolean isDirtyJoke;
 
     public Joke(){}
 
@@ -119,5 +119,13 @@ public class Joke implements Comparable<Joke>, Cloneable{
 
         //descending order
         return (compareQuantityOfLikes - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 }

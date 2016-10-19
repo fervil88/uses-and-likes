@@ -1,4 +1,4 @@
-package com.harriague.curso.Util;
+package com.harriague.curso.util;
 
 import android.content.Context;
 
@@ -13,8 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Fernando on 10/10/2016.

@@ -3,12 +3,9 @@ package com.harriague.curso.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,16 +13,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.harriague.curso.domain.Joke;
+import com.harriague.curso.util.RequestBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +33,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String URL_MAIN_JSON = "http://";
+    public final static String URL_MAIN_JSON = "http://192.168.1.4:9090/jokes";
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
@@ -52,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     public static final String MY_PREFERENCES = "MyPreference" ;
     public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
+    public static final String TAG = "JOKEAPP";
     private MainActivity context;
     private Map<String, List<Joke>> mapJokes;
 
@@ -96,38 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.1.4:9090/jokes";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("Response from server", response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("Response from server", error.toString());
-                    }
-                }){
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(
-                        "Authorization",
-                        String.format("Basic %s", Base64.encodeToString(
-                                String.format("%s:%s", "admin", "pizzaTech123").getBytes(), Base64.DEFAULT)));
-                return params;
-            }
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-
-
+        RequestBuilder.requestGetAllJokes(this);
     }
 
     /*

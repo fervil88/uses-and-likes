@@ -18,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.harriague.curso.domain.Joke;
+import com.harriague.curso.util.RequestBuilder;
+
+import java.text.SimpleDateFormat;
 
 public class CreateJokeActivity extends AppCompatActivity {
 
@@ -72,9 +75,10 @@ public class CreateJokeActivity extends AppCompatActivity {
             Joke currentJoke = new Joke(title.getText().toString(),category.getSelectedItem().toString(),
                     jokeText.getText().toString(), user.getText().toString(), checkBox.isChecked());
 
+            currentJoke.setCreationDate(new SimpleDateFormat("yyyy/mm/dd").toString());
             Log.i(Util.TAG, currentJoke.toString());
 
-            //TODO Send joke to the server
+            RequestBuilder.requestPostJoke(this, RequestBuilder.URL_MAIN_JSON, currentJoke);
             //TODO Update joke on existing list
 
             onBackPressed();
