@@ -14,22 +14,9 @@ public class Joke implements Comparable<Joke>, Cloneable{
     private boolean isDirtyJoke;
     private String creationDate;
 
-    @Override
-    public String toString() {
-        return "Joke{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", jokeText='" + jokeText + '\'' +
-                ", user='" + user + '\'' +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                '}';
-    }
-
     public Joke(){}
 
-    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke) {
+    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -38,26 +25,7 @@ public class Joke implements Comparable<Joke>, Cloneable{
         this.likes = likes;
         this.dislikes = dislikes;
         this.isDirtyJoke = isDirtyJoke;
-    }
-
-    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.jokeText = jokeText;
-        this.user = user;
-        this.likes = likes;
-        this.dislikes = dislikes;
-    }
-
-    public Joke(String title, String category, String jokeText, String user, boolean isDirty) {
-        this.title = title;
-        this.category = category;
-        this.jokeText = jokeText;
-        this.user = user;
-        this.isDirtyJoke = isDirty;
-        this.likes = 0;
-        this.dislikes = 0;
+        this.creationDate = creationDate;
     }
 
     public String getId() {
@@ -109,23 +77,38 @@ public class Joke implements Comparable<Joke>, Cloneable{
         return super.clone();
     }
 
-    @Override
-    public int compareTo(Joke anotherJoke) {
-
-        int compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() / (((Joke) anotherJoke).getDislikes() != 0 ? ((Joke) anotherJoke).getDislikes() : 1);
-
-        //ascending order
-        //return ((this.getLikes() - (this.getDislikes() != 0 ? this.getDislikes() : 1)) - compareQuantityOfLikes);
-
-        //descending order
-        return (compareQuantityOfLikes - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
-    }
-
     public String getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Joke{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", jokeText='" + jokeText + '\'' +
+                ", user='" + user + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", isDirtyJoke=" + isDirtyJoke +
+                ", creationDate='" + creationDate + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Joke anotherJoke) {
+
+        float compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() / (((Joke) anotherJoke).getDislikes() != 0 ? ((Joke) anotherJoke).getDislikes() : 1);
+
+        //ascending order
+        //return ((this.getLikes() - (this.getDislikes() != 0 ? this.getDislikes() : 1)) - compareQuantityOfLikes);
+
+        //descending order
+        return (Math.round(compareQuantityOfLikes) - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
     }
 }

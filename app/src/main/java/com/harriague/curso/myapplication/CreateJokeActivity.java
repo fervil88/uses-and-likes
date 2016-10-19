@@ -72,10 +72,10 @@ public class CreateJokeActivity extends AppCompatActivity {
             TextView user = (TextView) findViewById(R.id.user_joke_input);
             CheckBox checkBox = (CheckBox) findViewById(R.id.check_dirty_input);
 
-            Joke currentJoke = new Joke(title.getText().toString(),category.getSelectedItem().toString(),
-                    jokeText.getText().toString(), user.getText().toString(), checkBox.isChecked());
+            Joke currentJoke = new Joke(null, title.getText().toString(), category.getSelectedItem().toString(),
+                    jokeText.getText().toString(), user.getText().toString(), 0, 0, checkBox.isChecked(),
+                    new SimpleDateFormat("yyyy/mm/dd").toString());
 
-            currentJoke.setCreationDate(new SimpleDateFormat("yyyy/mm/dd").toString());
             Log.i(Util.TAG, currentJoke.toString());
 
             RequestBuilder.requestPostJoke(this, RequestBuilder.URL_MAIN_JSON, currentJoke);

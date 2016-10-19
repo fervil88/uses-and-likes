@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        mapJokes = new LinkedHashMap<String, List<Joke>>();
 
 	   // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent createJokeIntent = new Intent(context, CreateJokeActivity.class);
-                String[] stockArr = new String[listDataHeader.size() - 2];
+                String[] stockArr = new String[listDataHeader.size() - 1];
                 int index = 0;
                 for (String header: listDataHeader){
                     if(Util.BEST_JOKES.equalsIgnoreCase(header) || Util.NEW_JOKES.equalsIgnoreCase(header)){
@@ -93,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
      * Preparing the list data
      */
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-        mapJokes = new LinkedHashMap<String, List<Joke>>();
         try {
             readJson();
         } catch (FileNotFoundException e) {
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Joke> getTheBestJokes(int top){
         List<Joke> jokes = new ArrayList<Joke>();
-        int minAdded = 0;
+        float minAdded = 0;
         sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
 
@@ -269,39 +269,43 @@ public class MainActivity extends AppCompatActivity {
             Log.e(Util.TAG, e.getMessage());
         }
         try {
-            JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
-            JSONArray jArray = jObject.getJSONArray("categories");
-            String catName;
             sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
             boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
+            JSONArray jArray = new JSONArray(byteArrayOutputStream.toString());
             for (int i = 0; i < jArray.length(); i++) {
-                catName = jArray.getJSONObject(i).getString("name");
-                JSONArray subCategories = jArray.getJSONObject(i).getJSONArray("subcategory");
-                int id = 0;
-                String subcatName;
-                int likes = 0;
-                int dislikes = 0;
-                List<String> subCategoriesJokes = new ArrayList<String>();
-                List<Joke> jokes = new ArrayList<>();
-                for (int j = 0; j < subCategories.length(); j++){
-                    boolean isDirtyJoke = subCategories.getJSONObject(j).getBoolean("is_dirty_joke");
-                    id = subCategories.getJSONObject(j).getInt("id");
-                    subcatName = subCategories.getJSONObject(j).getString("name");
-                    likes = subCategories.getJSONObject(j).getInt("likes");
-                    dislikes = subCategories.getJSONObject(j).getInt("dislikes");
-                    Joke joke = new Joke(""+id, subcatName, catName, null, null, likes, dislikes, isDirtyJoke);
-                    jokes.add(joke);
+                String id = jArray.getJSONObject(i).getString("id");
+                String user = jArray.getJSONObject(i).getString("user");
+                String jokeTitle = jArray.getJSONObject(i).getString("title");
+                String jokeText = jArray.getJSONObject(i).getString("jokeText");
+                int likes = jArray.getJSONObject(i).getInt("likes");
+                int dislikes = jArray.getJSONObject(i).getInt("dislikes");
+                String jokeCategory = jArray.getJSONObject(i).getString("category");
+                boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
+                String creationDate = jArray.getJSONObject(i).getString("creationDate");
+                Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
+                List<Joke> jokes;
+
+                if (!mapJokes.containsKey(jokeCategory)) {
+                    jokes = new ArrayList<>();
+                } else {
+                    jokes = mapJokes.get(jokeCategory);
                 }
-                Collections.sort(jokes);
-                for (Joke joke: jokes){
+                jokes.add(joke);
+                mapJokes.put(jokeCategory, jokes);
+            }
+
+            for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                List<Joke> jokeList = entry.getValue();
+                Collections.sort(jokeList);
+                List<String> subCategoriesJokes = new ArrayList<String>();
+                for (Joke joke: jokeList){
                     if (!includeDirtyJokes && joke.isDirtyJoke()){
                         continue;
                     }
                     subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
                 }
-                mapJokes.put(catName, jokes);
-                listDataHeader.add(catName);
-                listDataChild.put(catName, subCategoriesJokes);
+                listDataHeader.add(entry.getKey());
+                listDataChild.put(entry.getKey(), subCategoriesJokes);
             }
         } catch (Exception e) {
             Log.e(Util.TAG,"error trying to read the json file: "+ e.getMessage());

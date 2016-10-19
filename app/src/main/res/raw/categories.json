@@ -1,57 +1,121 @@
-{
-  "categories": [{
-    "name": "Nuevos",
-    "subcategory": [
-      {"id":29, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false},
-      {"id":30, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-      {"id":31, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-      {"id":32, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false},
-      {"id":33, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true}]},
-    {
-      "name": "Machistas",
-      "subcategory": [
-        {"id":1, "name": "Mujeres hablan", "likes":27, "dislikes":3, "is_dirty_joke":false},
-        {"id":2, "name": "Mujer y Niña", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":3, "name": "Timon Titanic", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":4, "name": "Mujer y almeja", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":5, "name": "Delfines?", "likes":10, "dislikes":3, "is_dirty_joke":true}]},
-    {
-      "name": "Feministas",
-      "subcategory": [
-        {"id":6, "name": "El negro de whatsapp", "likes":999, "dislikes":0, "is_dirty_joke":true},
-        {"id":7, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":8, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":9, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":10, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false}]},
-    {
-      "name": "Laborales",
-      "subcategory": [
-        {"id":11, "name": "Oficinistas", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":12, "name": "Politicos", "likes":14, "dislikes":3, "is_dirty_joke":false},
-        {"id":13, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":14, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":15, "name": "The Shawshank", "likes":10, "dislikes":3, "is_dirty_joke":false}]},
-    {
-      "name": "Etnicos",
-      "subcategory": [
-        {"id":16, "name": "Gallegos", "likes":300, "dislikes":40, "is_dirty_joke":false},
-        {"id":17, "name": "Argentinos", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":18, "name": "Negros", "likes":10, "dislikes":3, "is_dirty_joke":true},
-        {"id":19, "name": "Sudaca", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":20, "name": "Chino", "likes":10, "dislikes":3, "is_dirty_joke":false}]},
-    {
-      "name": "Animales",
-      "subcategory": [
-        {"id":21, "name": "Animales", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":22, "name": "Mascotas", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":23, "name": "Selva", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":24, "name": "El gato con botas", "likes":10, "dislikes":3, "is_dirty_joke":true}]},
-    {
-      "name": "Informaticos",
-      "subcategory": [
-        {"id":25, "name": "Windows", "likes":10, "dislikes":3, "is_dirty_joke":false},
-        {"id":26, "name": "Unix", "likes":2, "dislikes":3, "is_dirty_joke":false},
-        {"id":27, "name": "Programador", "likes":3, "dislikes":33, "is_dirty_joke":false},
-        {"id":28, "name": "Chuck Norris Hacker", "likes":408, "dislikes":3, "is_dirty_joke":false}]}
-  ]
-}
+[{
+  "id": "5806a3b93a93a518945e71a8",
+  "title": "title1",
+  "category": "category1",
+  "jokeText": "tesxt1",
+  "user": "user1",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": false
+}, {
+  "id": "5806a4383a93a5113c5a6570",
+  "title": "title2",
+  "category": "category2",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 2,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6571",
+  "title": "title21",
+  "category": "category2",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 10,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6572",
+  "title": "title22",
+  "category": "category1",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": false
+}, {
+  "id": "5806a4383a93a5113c5a6573",
+  "title": "title23",
+  "category": "category1",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": false
+}, {
+  "id": "5806a4383a93a5113c5a6574",
+  "title": "title24",
+  "category": "category2",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6575",
+  "title": "title25",
+  "category": "category4",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 5,
+  "dislikes": 3,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6576",
+  "title": "title26",
+  "category": "category3",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 5,
+  "dislikes": 2,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6576",
+  "title": "title27",
+  "category": "category5",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806a4383a93a5113c5a6577",
+  "title": "title28",
+  "category": "category2",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 10,
+  "dislikes": 20,
+  "creationDate": null,
+  "dirtyJoke": false
+}, {
+  "id": "5806a4383a93a5113c5a6578",
+  "title": "title29",
+  "category": "category5",
+  "jokeText": "tesxt2",
+  "user": "user2",
+  "likes": 5,
+  "dislikes": 7,
+  "creationDate": null,
+  "dirtyJoke": true
+}, {
+  "id": "5806acb33a93a514c45e81fb",
+  "title": "title3",
+  "category": "category3",
+  "jokeText": "tesxt3",
+  "user": "user3",
+  "likes": 170,
+  "dislikes": 3,
+  "creationDate": "2016/10/18",
+  "dirtyJoke": true
+}]

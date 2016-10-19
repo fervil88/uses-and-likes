@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Fernando on 10/10/2016.
@@ -47,7 +48,7 @@ public class JSonParser {
                     String user = jArray.getJSONObject(i).getString("user");
                     //String likes = jArray.getJSONObject(i).getString("likes");
                     //String dislikes = jArray.getJSONObject(i).getString("dislikes");
-                    Joke joke = new Joke(id, title, category, jokeText, user, Integer.parseInt("30"), Integer.parseInt("30"));
+                    Joke joke = new Joke(id, title, category, jokeText, user, Integer.parseInt("30"), Integer.parseInt("30"), false, new SimpleDateFormat("yyyy/mm/dd").toString());
                     return joke;
                 }
             }
