@@ -11,13 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.harriague.curso.util.JSonParser;
 import com.harriague.curso.domain.Joke;
 import com.harriague.curso.util.RequestBuilder;
-
-import org.json.JSONException;
-
-import java.io.FileNotFoundException;
 
 public class InfoJokeActivity extends AppCompatActivity {
 
@@ -78,25 +73,19 @@ public class InfoJokeActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            //TODO Take JSon from server instead of file
-            Joke joke = JSonParser.readJson(this, idStr);
-            if (joke != null){
-                TextView title = (TextView) findViewById(R.id.title_joke);
-                title.setText(joke.getTitle());
-                TextView category = (TextView) findViewById(R.id.category_joke);
-                category.setText(joke.getCategory());
-                TextView jokeText = (TextView) findViewById(R.id.joke_text);
-                jokeText.setText(joke.getJokeText());
-                TextView user = (TextView) findViewById(R.id.user_joke);
-                user.setText(joke.getUser());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
+        //TODO Take JSon from server instead of file
+        Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
+        if (joke != null) {
+            TextView title = (TextView) findViewById(R.id.title_joke);
+            title.setText(joke.getTitle());
+            TextView category = (TextView) findViewById(R.id.category_joke);
+            category.setText(joke.getCategory());
+            TextView jokeText = (TextView) findViewById(R.id.joke_text);
+            jokeText.setText(joke.getJokeText());
+            TextView user = (TextView) findViewById(R.id.user_joke);
+            user.setText(joke.getUser());
+        }
 
         final FloatingActionButton shareButton = (FloatingActionButton) findViewById(R.id.share);
         assert shareButton != null;

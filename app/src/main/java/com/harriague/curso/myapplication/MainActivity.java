@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                             if (joke.isDirtyJoke()){
                                 continue;
                             }
-                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                         List<String> subCategories = new ArrayList<String>();
                         for (Joke joke: entry.getValue()){
-                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategories);
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         List<Joke> jokes = getTheBestJokes(top);
         List<String> subCategoriesJokes = new ArrayList<String>();
         for (Joke joke: jokes){
-            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
         }
         listDataHeader.add(Util.BEST_JOKES);
         listDataChild.put(Util.BEST_JOKES, subCategoriesJokes);
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                             if (!includeDirtyJokes && joke.isDirtyJoke()){
                                 continue;
                             }
-                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         /*TODO - to avoid call the server and read from categories file use the following code and comment the previous*/
-     /*   InputStream inputStream =  getResources().openRawResource(R.raw.categories);
+       /* InputStream inputStream =  getResources().openRawResource(R.raw.categories);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
 
@@ -365,13 +365,14 @@ public class MainActivity extends AppCompatActivity {
                     if (!includeDirtyJokes && joke.isDirtyJoke()){
                         continue;
                     }
-                    subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                    subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
                 }
                 listDataHeader.add(entry.getKey());
                 listDataChild.put(entry.getKey(), subCategoriesJokes);
             }
         } catch (Exception e) {
             Log.e(Util.TAG,"error trying to read the json file: "+ e.getMessage());
-        }*/
+        }
+        */
     }
 }

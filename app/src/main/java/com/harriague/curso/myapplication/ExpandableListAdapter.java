@@ -60,7 +60,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        final String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0"};
+        final String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0","nada","indefinido","2016/10/19","el chistoso"};
 
         TextView countLikesText = (TextView) convertView.findViewById(R.id.item_like);
         countLikesText.setText(values[2]);
@@ -74,9 +74,33 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
-                Bundle b = new Bundle();
-                b.putString("id", String.valueOf(values[0]));
-                showJokeIntent.putExtras(b);
+                Bundle bId = new Bundle();
+                bId.putString("id", String.valueOf(values[0]));
+                showJokeIntent.putExtras(bId);
+                Bundle bTitle = new Bundle();
+                bTitle.putString("title", String.valueOf(values[1]));
+                showJokeIntent.putExtras(bTitle);
+                Bundle bLikes = new Bundle();
+                bLikes.putInt("likes", Integer.parseInt(values[2]));
+                showJokeIntent.putExtras(bLikes);
+                Bundle bDislikes = new Bundle();
+                bDislikes.putInt("dislikes", Integer.parseInt(values[3]));
+                showJokeIntent.putExtras(bDislikes);
+                Bundle bJokeText = new Bundle();
+                bJokeText.putString("joketext", String.valueOf(values[4]));
+                showJokeIntent.putExtras(bJokeText);
+                Bundle bCategory = new Bundle();
+                bCategory.putString("category", String.valueOf(values[5]));
+                showJokeIntent.putExtras(bCategory);
+                Bundle bIsDirtyJoke = new Bundle();
+                bIsDirtyJoke.putBoolean("isdirtyjoke", Boolean.parseBoolean(values[6]));
+                showJokeIntent.putExtras(bIsDirtyJoke);
+                Bundle bCreationDate = new Bundle();
+                bCreationDate.putString("creationdate", String.valueOf(values[7]));
+                showJokeIntent.putExtras(bCreationDate);
+                Bundle bUser = new Bundle();
+                bUser.putString("user", String.valueOf(values[8]));
+                showJokeIntent.putExtras(bUser);
                 context.startActivity(showJokeIntent);
             }
         });
