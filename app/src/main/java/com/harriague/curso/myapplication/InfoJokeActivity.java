@@ -22,8 +22,8 @@ public class InfoJokeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_joke);
-        Bundle b = getIntent().getExtras();
-        final String idStr = b.getString("id");
+        Intent i = getIntent();
+        final Joke joke = (Joke)i.getSerializableExtra("joke");
 
         this.sharedpreferences = getSharedPreferences(MainActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
 
@@ -33,7 +33,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
         assert dislikeButton != null;
 
-        String idLiked = sharedpreferences.getString(idStr, "");
+        String idLiked = sharedpreferences.getString(joke.getId(), "");
         if (idLiked.equals("liked")){
             likeButton.setEnabled(false);
             likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
@@ -42,19 +42,19 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(idStr, "liked");
+                editor.putString(joke.getId(), "liked");
                 editor.commit();
                 likeButton.setEnabled(false);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
 
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_LIKE + idStr);
+                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_LIKE + joke.getId());
                 //TODO Update likes on existing list
             }
         });
 
 
 
-        String idDisliked = sharedpreferences.getString(idStr, "");
+        String idDisliked = sharedpreferences.getString(joke.getId(), "");
         if (idDisliked.equals("disliked")){
             dislikeButton.setEnabled(false);
             dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
@@ -63,19 +63,19 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(idStr, "disliked");
+                editor.putString(joke.getId(), "disliked");
                 editor.commit();
                 dislikeButton.setEnabled(false);
                 dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
 
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + idStr);
+                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
                 //TODO Update dislikes on existing list
             }
         });
 
 
         //TODO Take JSon from server instead of file
-        Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
+       // Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
         if (joke != null) {
             TextView title = (TextView) findViewById(R.id.title_joke);
             title.setText(joke.getTitle());

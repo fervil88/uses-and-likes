@@ -19,6 +19,8 @@ import android.webkit.WebView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.harriague.curso.domain.Joke;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,33 +76,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
-                Bundle bId = new Bundle();
-                bId.putString("id", String.valueOf(values[0]));
-                showJokeIntent.putExtras(bId);
-                Bundle bTitle = new Bundle();
-                bTitle.putString("title", String.valueOf(values[1]));
-                showJokeIntent.putExtras(bTitle);
-                Bundle bLikes = new Bundle();
-                bLikes.putInt("likes", Integer.parseInt(values[2]));
-                showJokeIntent.putExtras(bLikes);
-                Bundle bDislikes = new Bundle();
-                bDislikes.putInt("dislikes", Integer.parseInt(values[3]));
-                showJokeIntent.putExtras(bDislikes);
-                Bundle bJokeText = new Bundle();
-                bJokeText.putString("joketext", String.valueOf(values[4]));
-                showJokeIntent.putExtras(bJokeText);
-                Bundle bCategory = new Bundle();
-                bCategory.putString("category", String.valueOf(values[5]));
-                showJokeIntent.putExtras(bCategory);
-                Bundle bIsDirtyJoke = new Bundle();
-                bIsDirtyJoke.putBoolean("isdirtyjoke", Boolean.parseBoolean(values[6]));
-                showJokeIntent.putExtras(bIsDirtyJoke);
-                Bundle bCreationDate = new Bundle();
-                bCreationDate.putString("creationdate", String.valueOf(values[7]));
-                showJokeIntent.putExtras(bCreationDate);
-                Bundle bUser = new Bundle();
-                bUser.putString("user", String.valueOf(values[8]));
-                showJokeIntent.putExtras(bUser);
+                Joke joke = new Joke(String.valueOf(values[0]), String.valueOf(values[1]), String.valueOf(values[5]), String.valueOf(values[4]),
+                        String.valueOf(values[8]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Boolean.parseBoolean(values[6]), String.valueOf(values[7]));
+
+                showJokeIntent.putExtra("joke", joke);
                 context.startActivity(showJokeIntent);
             }
         });

@@ -1,9 +1,11 @@
 package com.harriague.curso.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Fernando on 10/10/2016.
  */
-public class Joke implements Comparable<Joke>, Cloneable{
+public class Joke implements Comparable<Joke>, Cloneable, Serializable{
     private String id;
     private String title;
     private String category;
