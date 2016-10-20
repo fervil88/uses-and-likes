@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.harriague.curso.domain.Joke;
 import com.harriague.curso.util.RequestBuilder;
+import com.harriague.curso.util.VolleyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,7 +90,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RequestBuilder.requestGetAllJokes(this);
+        RequestBuilder.requestGetAllJokes(this, new VolleyCallback(){
+            @Override
+            public void onSuccess(String result){
+            }
+        });
     }
 
     /*
@@ -254,8 +259,65 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void readJson() throws FileNotFoundException, JSONException {
-        InputStream inputStream = getResources().openRawResource(R.raw.categories);
+        RequestBuilder.requestGetAllJokes(this, new VolleyCallback(){
+            @Override
+            public void onSuccess(String result){
+                try {
+                    sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+                    boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
+                    JSONArray jArray = new JSONArray(result);
+                    for (int i = 0; i < jArray.length(); i++) {
+                        String id = jArray.getJSONObject(i).getString("id");
+                        String user = jArray.getJSONObject(i).getString("user");
+                        String jokeTitle = jArray.getJSONObject(i).getString("title");
+                        String jokeText = jArray.getJSONObject(i).getString("jokeText");
+                        int likes = jArray.getJSONObject(i).getInt("likes");
+                        int dislikes = jArray.getJSONObject(i).getInt("dislikes");
+                        String jokeCategory = jArray.getJSONObject(i).getString("category");
+                        jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
+                        boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
+                        String creationDate = jArray.getJSONObject(i).getString("creationDate");
+                        Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
+                        List<Joke> jokes;
+
+                        if (!mapJokes.containsKey(jokeCategory)) {
+                            jokes = new ArrayList<>();
+                        } else {
+                            jokes = mapJokes.get(jokeCategory);
+                        }
+                        jokes.add(joke);
+                        mapJokes.put(jokeCategory, jokes);
+                    }
+
+                    for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                        List<Joke> jokeList = entry.getValue();
+                        Collections.sort(jokeList);
+                        List<String> subCategoriesJokes = new ArrayList<String>();
+                        for (Joke joke: jokeList){
+                            if (!includeDirtyJokes && joke.isDirtyJoke()){
+                                continue;
+                            }
+                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes());
+                        }
+                        listDataHeader.add(entry.getKey());
+                        listDataChild.put(entry.getKey(), subCategoriesJokes);
+                    }
+                } catch (Exception e) {
+                    Log.e(Util.TAG,"error trying to read the json file: "+ e.getMessage());
+                }
+            }
+        });
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        /*TODO - to avoid call the server and read from categories file use the following code and comment the previous*/
+     /*   InputStream inputStream =  getResources().openRawResource(R.raw.categories);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
 
         int ctr;
         try {
@@ -280,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
                 int likes = jArray.getJSONObject(i).getInt("likes");
                 int dislikes = jArray.getJSONObject(i).getInt("dislikes");
                 String jokeCategory = jArray.getJSONObject(i).getString("category");
+                jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
                 boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
                 String creationDate = jArray.getJSONObject(i).getString("creationDate");
                 Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
@@ -309,6 +372,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.e(Util.TAG,"error trying to read the json file: "+ e.getMessage());
-        }
+        }*/
     }
 }

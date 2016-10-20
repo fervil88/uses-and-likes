@@ -24,11 +24,11 @@ import java.util.Map;
  */
 public class RequestBuilder {
 
-    public final static String URL_MAIN_JSON = "http://192.168.1.4:9090/jokes";
+    public final static String URL_MAIN_JSON = "https://jokes-server.herokuapp.com/jokes";
     public final static String URL_JOKE_LIKE = URL_MAIN_JSON + "/like/";
     public final static String URL_JOKE_DISLIKE = URL_MAIN_JSON + "/dislike/";
 
-    public static void requestGetAllJokes (Context context) {
+    public static void requestGetAllJokes (Context context, final VolleyCallback callback) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MAIN_JSON,
@@ -37,6 +37,7 @@ public class RequestBuilder {
                     public void onResponse(String response) {
                         Log.i(MainActivity.TAG, URL_MAIN_JSON);
                         Log.i(MainActivity.TAG, response.toString());
+                        callback.onSuccess(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
