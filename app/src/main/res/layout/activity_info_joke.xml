@@ -8,6 +8,25 @@
     tools:context="com.harriague.curso.myapplication.InfoJokeActivity"
     android:background="@color/color_for_background">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+
     <include layout="@layout/content_info_joke" />
 
     <LinearLayout
@@ -41,6 +60,15 @@
             android:layout_margin="@dimen/fab_margin"
             app:backgroundTint="@color/disable_floating_button"
             android:src="@mipmap/dislike_white" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/next_joke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/next_floating_button"
+            android:src="@mipmap/next" />
 
     </LinearLayout>
 

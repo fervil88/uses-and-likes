@@ -29,11 +29,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> listDataChild;
+    private HashMap<String, List<Joke>> listDataChild;
     private SharedPreferences sharedpreferences;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+                                 HashMap<String, List<Joke>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
@@ -54,7 +54,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final Joke selectedJoke = (Joke) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -62,24 +62,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        final String[] values = childText != null ? childText.split("<->") : new String[]{"1","indefinido","0","0","nada","indefinido","2016/10/19","el chistoso"};
-
         TextView countLikesText = (TextView) convertView.findViewById(R.id.item_like);
-        countLikesText.setText(values[2]);
+        countLikesText.setText(selectedJoke.getLikes() + "");
 
         TextView countDislikesText = (TextView) convertView.findViewById(R.id.item_dislike);
-        countDislikesText.setText(values[3]);
+        countDislikesText.setText(selectedJoke.getDislikes() + "");
 
         final TextView subCategoryText = (TextView) convertView.findViewById(R.id.item);
-        subCategoryText.setText(values[1]);
+        subCategoryText.setText(selectedJoke.getTitle());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
-                Joke joke = new Joke(String.valueOf(values[0]), String.valueOf(values[1]), String.valueOf(values[5]), String.valueOf(values[4]),
-                        String.valueOf(values[8]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), Boolean.parseBoolean(values[6]), String.valueOf(values[7]));
-
-                showJokeIntent.putExtra("joke", joke);
+                showJokeIntent.putExtra("joke", selectedJoke);
+                showJokeIntent.putExtra("listCategory", listDataChild );
                 context.startActivity(showJokeIntent);
             }
         });

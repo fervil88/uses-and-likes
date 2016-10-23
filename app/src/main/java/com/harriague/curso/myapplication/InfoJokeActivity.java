@@ -8,11 +8,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.harriague.curso.domain.Joke;
 import com.harriague.curso.util.RequestBuilder;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class InfoJokeActivity extends AppCompatActivity {
 
@@ -23,69 +28,32 @@ public class InfoJokeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_joke);
         Intent i = getIntent();
-        final Joke joke = (Joke)i.getSerializableExtra("joke");
+
+        final Random random = new Random();
+        final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
+        final HashMap<String, List<Joke>> hashCategory = (HashMap<String, List<Joke>>) i.getSerializableExtra("listCategory");
+
+        final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
 
         this.sharedpreferences = getSharedPreferences(MainActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
 
-        final FloatingActionButton likeButton = (FloatingActionButton) findViewById(R.id.like);
-        assert likeButton != null;
+        updateLike(joke[0]);
+        updateDislike(joke[0]);
+        updateJoke(joke[0]);
 
-        final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
-        assert dislikeButton != null;
-
-        String idLiked = sharedpreferences.getString(joke.getId(), "");
-        if (idLiked.equals("liked")){
-            likeButton.setEnabled(false);
-            likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
-        }
-        likeButton.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.next_joke);
+        assert nextButton != null;
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId(), "liked");
-                editor.commit();
-                likeButton.setEnabled(false);
-                likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
-
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_LIKE + joke.getId());
-                //TODO Update likes on existing list
+                int index = random.nextInt(listCategory.size());
+                Log.i(MainActivity.TAG, index+"");
+                joke[0] = listCategory.get(index);
+                updateLike(joke[0]);
+                updateDislike(joke[0]);
+                updateJoke(joke[0]);
             }
         });
-
-
-
-        String idDisliked = sharedpreferences.getString(joke.getId(), "");
-        if (idDisliked.equals("disliked")){
-            dislikeButton.setEnabled(false);
-            dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
-        }
-        dislikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId(), "disliked");
-                editor.commit();
-                dislikeButton.setEnabled(false);
-                dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
-
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
-                //TODO Update dislikes on existing list
-            }
-        });
-
-
-        //TODO Take JSon from server instead of file
-       // Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
-        if (joke != null) {
-            TextView title = (TextView) findViewById(R.id.title_joke);
-            title.setText(joke.getTitle());
-            TextView category = (TextView) findViewById(R.id.category_joke);
-            category.setText(joke.getCategory());
-            TextView jokeText = (TextView) findViewById(R.id.joke_text);
-            jokeText.setText(joke.getJokeText());
-            TextView user = (TextView) findViewById(R.id.user_joke);
-            user.setText(joke.getUser());
-        }
 
         final FloatingActionButton shareButton = (FloatingActionButton) findViewById(R.id.share);
         assert shareButton != null;
@@ -102,4 +70,72 @@ public class InfoJokeActivity extends AppCompatActivity {
         });
     }
 
+    private void updateDislike(final Joke joke) {
+        final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
+        assert dislikeButton != null;
+        String idDisliked = sharedpreferences.getString(joke.getId(), "");
+        if (idDisliked.equals("disliked")){
+            dislikeButton.setEnabled(false);
+            dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
+        } else {
+            dislikeButton.setEnabled(true);
+            dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9E9E9E")));
+        }
+
+        dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(joke.getId(), "disliked");
+                editor.commit();
+                dislikeButton.setEnabled(false);
+                dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
+
+                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
+                //TODO Update dislikes on existing list
+            }
+        });
+    }
+
+    private void updateLike(final Joke joke) {
+        final FloatingActionButton likeButton = (FloatingActionButton) findViewById(R.id.like);
+        assert likeButton != null;
+
+        String idLiked = sharedpreferences.getString(joke.getId(), "");
+        if (idLiked.equals("liked")){
+            likeButton.setEnabled(false);
+            likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
+        } else {
+            likeButton.setEnabled(true);
+            likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9E9E9E")));
+        }
+
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(joke.getId(), "liked");
+                editor.commit();
+                likeButton.setEnabled(false);
+                likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
+                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_LIKE + joke.getId());
+                //TODO Update likes on existing list
+            }
+        });
+    }
+
+    private void updateJoke(Joke joke) {
+        //TODO Take JSon from server instead of file
+        // Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
+        if (joke != null) {
+            TextView title = (TextView) findViewById(R.id.title_joke);
+            title.setText(joke.getTitle());
+            TextView category = (TextView) findViewById(R.id.category_joke);
+            category.setText(joke.getCategory());
+            TextView jokeText = (TextView) findViewById(R.id.joke_text);
+            jokeText.setText(joke.getJokeText());
+            TextView user = (TextView) findViewById(R.id.user_joke);
+            user.setText(joke.getUser());
+        }
+    }
 }

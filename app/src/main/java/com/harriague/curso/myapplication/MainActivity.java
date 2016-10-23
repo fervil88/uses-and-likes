@@ -19,26 +19,21 @@ import com.harriague.curso.util.VolleyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String URL_MAIN_JSON = "http://192.168.1.4:9090/jokes";
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    HashMap<String, List<Joke>> listDataChild;
     SharedPreferences sharedpreferences;
     public static final String MY_PREFERENCES = "MyPreference" ;
     public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
@@ -53,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
         listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataChild = new HashMap<String, List<Joke>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
 
 	   // get the listview
@@ -141,12 +136,13 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(false);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, false);
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        List<String> subCategoriesJokes = new ArrayList<String>();
+                        List<Joke> subCategoriesJokes = new LinkedList<>();
                         for (Joke joke: entry.getValue()){
                             if (joke.isDirtyJoke()){
                                 continue;
                             }
-                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
+                            //TODO replace the string by object
+                            subCategoriesJokes.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);
@@ -156,9 +152,10 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(true);
                     editor.putBoolean(MY_ENABLED_HEAVY_JOKE, true);
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        List<String> subCategories = new ArrayList<String>();
+                        List<Joke> subCategories = new LinkedList<>();
                         for (Joke joke: entry.getValue()){
-                            subCategories.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
+                            //TODO replace the string by object
+                            subCategories.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategories);
@@ -211,16 +208,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void includeTheBestJokes(int top){
         List<Joke> jokes = getTheBestJokes(top);
-        List<String> subCategoriesJokes = new ArrayList<String>();
+        List<Joke> subCategoriesJokes = new LinkedList<>();
         for (Joke joke: jokes){
-            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
+            //TODO replace the string by object
+            subCategoriesJokes.add(joke);
         }
         listDataHeader.add(Util.BEST_JOKES);
         listDataChild.put(Util.BEST_JOKES, subCategoriesJokes);
     }
 
     private List<Joke> getTheBestJokes(int top){
-        List<Joke> jokes = new ArrayList<Joke>();
+        List<Joke> jokes = new LinkedList<>();
         float minAdded = 0;
         sharedpreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         boolean includeDirtyJokes = sharedpreferences.getBoolean(MY_ENABLED_HEAVY_JOKE, false);
@@ -281,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                         List<Joke> jokes;
 
                         if (!mapJokes.containsKey(jokeCategory)) {
-                            jokes = new ArrayList<>();
+                            jokes = new LinkedList<>();
                         } else {
                             jokes = mapJokes.get(jokeCategory);
                         }
@@ -292,12 +290,13 @@ public class MainActivity extends AppCompatActivity {
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                         List<Joke> jokeList = entry.getValue();
                         Collections.sort(jokeList);
-                        List<String> subCategoriesJokes = new ArrayList<String>();
+                        List<Joke> subCategoriesJokes = new LinkedList<>();
                         for (Joke joke: jokeList){
                             if (!includeDirtyJokes && joke.isDirtyJoke()){
                                 continue;
                             }
-                            subCategoriesJokes.add(joke.getId()+"<->"+joke.getTitle()+"<->"+joke.getLikes()+"<->"+joke.getDislikes()+"<->"+joke.getJokeText()+"<->"+joke.getCategory()+"<->"+joke.isDirtyJoke()+"<->"+joke.getCreationDate()+"<->"+joke.getUser());
+                            //TODO replace the string by object
+                            subCategoriesJokes.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);

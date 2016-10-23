@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="color_for_background">#ffce9a</color>
     <color name="disable_floating_button">#9E9E9E</color>
+    <color name="next_floating_button">#125688</color>
     <color name="color_for_area">#f9f297</color>
     <color name="grey_disabled">#9E9E9E</color>
 
@@ -18,6 +17,10 @@
     <color name="light_bright_green">#86E0CE</color>
     <color name="light_button_green">#70D89A</color>
 
-
+    <color name="colorPrimary">#125688</color>
+    <color name="colorPrimaryDark">#125688</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 
 </resources>

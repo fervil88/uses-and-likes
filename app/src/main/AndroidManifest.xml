@@ -29,11 +29,11 @@
         <activity
             android:name=".InfoJokeActivity"
             android:label="@string/title_activity_info_joke"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".CreateJokeActivity"
             android:label="@string/title_activity_create_joke"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
