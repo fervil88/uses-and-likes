@@ -25,7 +25,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         Intent i = getIntent();
         final Joke joke = (Joke)i.getSerializableExtra("joke");
 
-        this.sharedpreferences = getSharedPreferences(MainActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
+        this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
         final FloatingActionButton likeButton = (FloatingActionButton) findViewById(R.id.like);
         assert likeButton != null;
