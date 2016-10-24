@@ -23,6 +23,7 @@ import com.harriague.curso.domain.Joke;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -34,6 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<Joke>> listChildData) {
+
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;

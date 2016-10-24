@@ -22,6 +22,7 @@ import java.util.Random;
 public class InfoJokeActivity extends AppCompatActivity {
 
     private SharedPreferences sharedpreferences;
+    private String currentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         final HashMap<String, List<Joke>> hashCategory = (HashMap<String, List<Joke>>) i.getSerializableExtra("listCategory");
 
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
-
-        this.sharedpreferences = getSharedPreferences(MainActivity.MY_PREFERENCES, Context.MODE_PRIVATE);
+        this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
         updateLike(joke[0]);
         updateDislike(joke[0]);
@@ -46,9 +46,13 @@ public class InfoJokeActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int index = random.nextInt(listCategory.size());
-                Log.i(MainActivity.TAG, index+"");
-                joke[0] = listCategory.get(index);
+                currentId = joke[0].getId();
+                while(joke[0].getId() == currentId){
+                    int index = random.nextInt(listCategory.size());
+                    joke[0] = listCategory.get(index);
+                }
+                currentId = joke[0].getId();
+
                 updateLike(joke[0]);
                 updateDislike(joke[0]);
                 updateJoke(joke[0]);
