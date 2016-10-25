@@ -1,29 +1,25 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.adapters;
 
 /**
  * Created by Fernando on 9/26/2016.
  */
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.harriague.curso.domain.Joke;
+import com.cordova.jokerapp.activities.InfoJokeActivity;
+import com.cordova.jokerapp.domain.Joke;
+import com.harriague.curso.myapplication.R;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 

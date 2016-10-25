@@ -1,4 +1,4 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.activities;
 
 import android.location.Location;
 import android.location.LocationListener;

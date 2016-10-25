@@ -1,9 +1,7 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,8 +15,10 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.harriague.curso.domain.Joke;
-import com.harriague.curso.util.RequestBuilder;
+import com.cordova.jokerapp.domain.Joke;
+import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.util.RequestBuilder;
+import com.cordova.jokerapp.util.Util;
 
 import java.text.SimpleDateFormat;
 

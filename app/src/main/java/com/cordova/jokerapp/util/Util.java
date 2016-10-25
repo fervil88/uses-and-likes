@@ -1,12 +1,10 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.util;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.harriague.curso.domain.Joke;
+import com.cordova.jokerapp.domain.Joke;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

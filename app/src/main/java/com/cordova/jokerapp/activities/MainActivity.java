@@ -1,4 +1,4 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-import com.harriague.curso.domain.Joke;
-import com.harriague.curso.util.RequestBuilder;
-import com.harriague.curso.util.VolleyCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import java.io.FileNotFoundException;
+import com.cordova.jokerapp.adapters.ExpandableListAdapter;
+import com.cordova.jokerapp.domain.Joke;
+import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.util.RequestBuilder;
+import com.cordova.jokerapp.util.Util;
+import com.cordova.jokerapp.util.VolleyCallback;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;

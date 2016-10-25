@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:appcompat="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.harriague.curso.myapplication.MainActivity">
+    tools:context="com.cordova.jokerapp.activities.MainActivity">
 
     <group android:checkableBehavior="all">
         <item android:id="@+id/option_dirty_joke"

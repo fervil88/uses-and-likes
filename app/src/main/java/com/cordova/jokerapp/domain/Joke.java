@@ -1,4 +1,4 @@
-package com.harriague.curso.domain;
+package com.cordova.jokerapp.domain;
 
 import java.io.Serializable;
 

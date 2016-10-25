@@ -1,4 +1,4 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import com.harriague.curso.domain.Joke;
-import com.harriague.curso.util.RequestBuilder;
-import com.harriague.curso.util.VolleyCallback;
+import com.cordova.jokerapp.domain.Joke;
+import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.util.RequestBuilder;
+import com.cordova.jokerapp.util.Util;
+import com.cordova.jokerapp.util.VolleyCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.io.ByteArrayOutputStream;

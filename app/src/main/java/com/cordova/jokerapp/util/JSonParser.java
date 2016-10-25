@@ -1,8 +1,8 @@
-package com.harriague.curso.util;
+package com.cordova.jokerapp.util;
 
 import android.content.Context;
 
-import com.harriague.curso.domain.Joke;
+import com.cordova.jokerapp.domain.Joke;
 import com.harriague.curso.myapplication.R;
 
 import org.json.JSONArray;
