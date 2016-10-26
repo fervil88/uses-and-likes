@@ -4,7 +4,8 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cordova.jokerapp.activities.SplashActivity">
+    tools:context="com.cordova.jokerapp.activities.SplashActivity"
+    android:background="@mipmap/joker_background">
     
     <ImageView
         android:layout_width="match_parent"

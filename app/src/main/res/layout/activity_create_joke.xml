@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.cordova.jokerapp.activities.CreateJokeActivity"
-    android:background="@color/color_for_background">
+    android:background="@mipmap/joker_background">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

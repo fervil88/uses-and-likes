@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="com.cordova.jokerapp.activities.InfoJokeActivity"
-    android:background="@color/color_for_background">
+    android:background="@mipmap/joker_background">
 
     <include layout="@layout/content_info_joke" />
 
