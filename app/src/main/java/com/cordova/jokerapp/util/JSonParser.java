@@ -3,7 +3,7 @@ package com.cordova.jokerapp.util;
 import android.content.Context;
 
 import com.cordova.jokerapp.domain.Joke;
-import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

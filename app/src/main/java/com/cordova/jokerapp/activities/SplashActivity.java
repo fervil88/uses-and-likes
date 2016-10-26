@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import com.cordova.jokerapp.domain.Joke;
-import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;

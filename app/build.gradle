@@ -5,7 +5,7 @@ android {
    buildToolsVersion "24.0.2"
 
    defaultConfig {
-       applicationId "com.harriague.curso.myapplication"
+       applicationId "com.cordoba.jokerapp"
        minSdkVersion 15
        targetSdkVersion 23
        versionCode 1

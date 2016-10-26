@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.harriague.curso.myapplication">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cordova.jokerapp"
+    android:versionCode="1"
+    android:versionName="RELEASE1"
+    tools:ignore="GradleOverrides">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,7 +39,7 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.harriague.jokerapp.activities.CreateJokeActivity"
+            android:name="com.cordova.jokerapp.activities.CreateJokeActivity"
             android:label="@string/title_activity_create_joke"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>

@@ -1,4 +1,4 @@
-package com.harriague.curso.myapplication;
+package com.cordova.jokerapp.myapplication;
 
 import org.junit.Test;
 

@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cordova.jokerapp.domain.Joke;
-import com.harriague.curso.myapplication.R;
+import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 
