@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Chistoso</string>
+    <string name="app_name">JokerApp</string>
     <string name="action_settings">Settings</string>
     <string name="search">Location</string>
     <string name="dirty_joke">Incluir Verdes</string>
-    <string name="about">Acerca de</string>
+    <string name="about">Acerca de </string>
     <string name="feedback">Calificar App</string>
     <string name="title_activity_info_joke">InfoJokeActivity</string>
     <string name="title_activity_create_joke">CreateJokeActivity</string>
@@ -13,4 +13,6 @@
     <string name="user">Usuario...</string>
     <string name="save_menu">Guardar</string>
     <string name="is_dirty">Es verde:</string>
+    <string name="problem_to_download_json">Tenemos un problema para descargar los chistes del server!, usaremos los locales</string>
+    <string name="give_us_a_feedback">Danos un feedback vieja!</string>
 </resources>

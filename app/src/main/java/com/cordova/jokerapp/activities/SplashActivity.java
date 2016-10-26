@@ -13,11 +13,12 @@ import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -32,6 +33,8 @@ import java.util.Map;
 public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DURATION = 5000;
+    private final String FILENAME = "local_jokes.json";
+    private final String COPY_LOCAL_FILE = "COPY_LOCAL_FILE";
     SharedPreferences sharedpreferences;
     private Map<String, List<Joke>> mapJokes;
     List<String> listDataHeader;
@@ -46,12 +49,20 @@ public class SplashActivity extends AppCompatActivity {
         listDataChild = new HashMap<String, List<Joke>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
 
+        sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedpreferences.getBoolean(COPY_LOCAL_FILE, true)){
+            copyFile();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean(COPY_LOCAL_FILE, false);
+            editor.commit();
+        }
+
         readJsonFromServer();
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
                 if(listDataHeader.size() == 0){
-                    Toast.makeText(getApplicationContext(),"Tenemos un problema para descargar los chistes del server!, usaremos los locales",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
                     readJsonFromFile();
                 }
                 new Util().includeTheBestJokes(10, mapJokes, listDataHeader, listDataChild, sharedpreferences);
@@ -66,21 +77,42 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DURATION);
     }
 
-    private void readJsonFromFile() {
+    private void copyFile(){
         InputStream inputStream =  getResources().openRawResource(R.raw.categories);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        int ctr;
         try {
-            ctr = inputStream.read();
+            int ctr = inputStream.read();
             while (ctr != -1) {
                 byteArrayOutputStream.write(ctr);
                 ctr = inputStream.read();
             }
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.write(byteArrayOutputStream.toString().getBytes());
+            fos.close();
             inputStream.close();
+        } catch (FileNotFoundException e) {
+            Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
         } catch (IOException e) {
             Log.e(Util.TAG, e.getMessage());
         }
-        readJson(byteArrayOutputStream.toString());
+    }
+
+    private void readJsonFromFile() {
+        try {
+            FileInputStream fos = openFileInput(FILENAME);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            int ctr = fos.read();
+            while (ctr != -1) {
+                byteArrayOutputStream.write(ctr);
+                ctr = fos.read();
+            }
+            fos.close();
+            readJson(byteArrayOutputStream.toString());
+        } catch (FileNotFoundException e) {
+            Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
+        }catch (IOException e) {
+            Log.e(Util.TAG, e.getMessage());
+        }
     }
 
 
@@ -89,7 +121,17 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 if(!readJson(result)){
-                    Toast.makeText(getApplicationContext(),"Tenemos un problema leyendo los chistes del server!, usaremos los locales",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                        fos.write(result.getBytes());
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
+                    } catch (IOException e) {
+                        Log.e(Util.TAG, "error trying to read the local json file: " + e.getMessage());
+                    }
                 }
             }
         });

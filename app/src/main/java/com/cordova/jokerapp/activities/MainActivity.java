@@ -149,10 +149,10 @@ public class MainActivity extends AppCompatActivity {
                 listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
-                Toast.makeText(getApplicationContext(),"Danos un feedback vieja!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.give_us_a_feedback),Toast.LENGTH_LONG).show();
                 return true;
             case R.id.option_about:
-                Toast.makeText(getApplicationContext(),"Acerca de chistoso",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getString(R.string.about) + getResources().getString(R.string.app_name),Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
