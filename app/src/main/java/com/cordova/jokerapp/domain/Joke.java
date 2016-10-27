@@ -15,9 +15,24 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
     private int dislikes;
     private boolean isDirtyJoke;
     private String creationDate;
+    private String tag;
 
     public Joke(){}
 
+    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate, String tag) {
+        this.id = id;
+        this.title = title;
+        this.category = category;
+        this.jokeText = jokeText;
+        this.user = user;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.isDirtyJoke = isDirtyJoke;
+        this.creationDate = creationDate;
+        this.tag = tag;
+    }
+
+    //TODO - remove this consturctor
     public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate) {
         this.id = id;
         this.title = title;
@@ -87,6 +102,34 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         this.creationDate = creationDate;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setJokeText(String jokeText) {
+        this.jokeText = jokeText;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public String toString() {
         return "Joke{" +
@@ -99,6 +142,7 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
                 ", dislikes=" + dislikes +
                 ", isDirtyJoke=" + isDirtyJoke +
                 ", creationDate='" + creationDate + '\'' +
+                ", tag='" + tag + '\'' +
                 '}';
     }
 

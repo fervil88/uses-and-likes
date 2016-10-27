@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final int SPLASH_DURATION = 5000;
+    private final int SPLASH_DURATION = 7000;
     private final String FILENAME = "local_jokes.json";
     private final String COPY_LOCAL_FILE = "COPY_LOCAL_FILE";
     SharedPreferences sharedpreferences;
@@ -117,7 +117,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void readJsonFromServer() {
-        RequestBuilder.requestGetAllJokes(this, new VolleyCallback() {
+        //TODO - Get the location
+        RequestBuilder.requestGetAllJokes(this, "ES", true, new VolleyCallback() {
             @Override
             public void onSuccess(String result) {
                 if(!readJson(result)){
@@ -166,7 +167,7 @@ public class SplashActivity extends AppCompatActivity {
                     int likes = jArray.getJSONObject(i).getInt("likes");
                     int dislikes = jArray.getJSONObject(i).getInt("dislikes");
                     String jokeCategory = jArray.getJSONObject(i).getString("category");
-                    jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
+                  //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
                     boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
                     String creationDate = jArray.getJSONObject(i).getString("creationDate");
                     Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);

@@ -81,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RequestBuilder.requestGetAllJokes(this, new VolleyCallback(){
-            @Override
-            public void onSuccess(String result){
-            }
-        });
     }
 
     @Override
