@@ -3,18 +3,21 @@ package com.cordova.jokerapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import com.cordova.jokerapp.domain.Joke;
+
 import com.cordova.jokerapp.R;
+import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +27,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
         listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<Joke>>();
+        listDataChild = new LinkedHashMap<String, List<Joke>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
 
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);

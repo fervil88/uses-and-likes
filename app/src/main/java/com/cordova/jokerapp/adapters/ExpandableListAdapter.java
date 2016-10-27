@@ -14,23 +14,24 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.activities.InfoJokeActivity;
 import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.R;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<Joke>> listDataChild;
+    private Map<String, List<Joke>> listDataChild;
     private SharedPreferences sharedpreferences;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<Joke>> listChildData) {
+                                 Map<String, List<Joke>> listChildData) {
 
         this.context = context;
         this.listDataHeader = listDataHeader;
@@ -73,7 +74,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
                 showJokeIntent.putExtra("joke", selectedJoke);
-                showJokeIntent.putExtra("listCategory", listDataChild );
+                showJokeIntent.putExtra("listCategory", (Serializable) listDataChild);
                 context.startActivity(showJokeIntent);
             }
         });
