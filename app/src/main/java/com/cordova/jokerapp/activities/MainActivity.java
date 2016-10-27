@@ -19,6 +19,8 @@ import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
 	   // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+                .build();
+        mAdView.loadAd(adRequest);
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         listAdapter.setSharedPreference(sharedpreferences);

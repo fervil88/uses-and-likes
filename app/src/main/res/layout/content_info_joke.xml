@@ -21,8 +21,9 @@
         <TextView
             android:id="@+id/title_joke"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            style="@style/CodeFont"/>
+            android:layout_height="50dp"
+            style="@style/CodeFont"
+            android:background="@drawable/input_style"/>
 
         <View
             android:layout_width="match_parent"
@@ -32,8 +33,9 @@
         <TextView
             android:id="@+id/category_joke"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            style="@style/CodeFont"/>
+            android:layout_height="50dp"
+            style="@style/CodeFont"
+            android:background="@drawable/input_style"/>
 
         <View
             android:layout_width="match_parent"
@@ -43,8 +45,7 @@
         <ScrollView
             android:id="@+id/ScrollView01"
             android:layout_width="match_parent"
-            android:layout_height="200sp"
-            style="@style/CodeFont">
+            android:layout_height="200sp">
 
             <TextView
                 android:id="@+id/joke_text"
@@ -62,7 +63,8 @@
         <TextView
             android:id="@+id/user_joke"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
+            android:background="@drawable/input_style"
             style="@style/CodeFont"/>
 
     </LinearLayout>

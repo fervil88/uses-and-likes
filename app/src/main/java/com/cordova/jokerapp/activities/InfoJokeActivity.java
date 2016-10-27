@@ -15,6 +15,9 @@ import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class InfoJokeActivity extends AppCompatActivity {
 
     private SharedPreferences sharedpreferences;
     private String currentId;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,18 @@ public class InfoJokeActivity extends AppCompatActivity {
 
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
 
         updateLike(joke[0]);
         updateDislike(joke[0]);
@@ -53,6 +69,10 @@ public class InfoJokeActivity extends AppCompatActivity {
                     joke[0] = listCategory.get(index);
                 }
                 currentId = joke[0].getId();
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
 
                 updateLike(joke[0]);
                 updateDislike(joke[0]);
@@ -73,6 +93,14 @@ public class InfoJokeActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(i,"Share via"));
             }
         });
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     private void updateDislike(final Joke joke) {

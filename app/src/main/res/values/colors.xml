@@ -2,6 +2,7 @@
 <resources>
     <color name="colorAccent">#FF4081</color>
     <color name="color_for_background">#ffce9a</color>
+    <color name="color_for_input">#3fb893</color>
     <color name="disable_floating_button">#9E9E9E</color>
     <color name="next_floating_button">#125688</color>
     <color name="color_for_area">#f9f297</color>
@@ -18,7 +19,7 @@
     <color name="light_button_green">#70D89A</color>
 
     <color name="colorPrimary">#125688</color>
-    <color name="colorPrimaryDark">#125688</color>
+    <color name="colorPrimaryDark">#2a638e</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
