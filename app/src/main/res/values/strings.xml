@@ -5,7 +5,7 @@
     <string name="dirty_joke">Incluir Verdes</string>
     <string name="about">Acerca de </string>
     <string name="feedback">Calificar App</string>
-    <string name="title_activity_info_joke">You're laughing...Ha</string>
+    <string name="title_activity_info_joke">You are laughing...Ha</string>
     <string name="title_activity_create_joke">CreateJokeActivity</string>
     <string name="title">Titulo</string>
     <string name="category">Categoria</string>
@@ -17,4 +17,5 @@
     <string name="give_us_a_feedback">Danos un feedback vieja!</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="close_message">¿Vas a parar de reir?</string>
 </resources>

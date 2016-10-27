@@ -1,6 +1,8 @@
 package com.cordova.jokerapp.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,26 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
-        FloatingActionButton addJokeButton = (FloatingActionButton) findViewById(R.id.add_joke);
-        assert addJokeButton != null;
-        addJokeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent createJokeIntent = new Intent(context, CreateJokeActivity.class);
-                String[] stockArr = new String[listDataHeader.size() - 1];
-                int index = 0;
-                for (String header: listDataHeader){
-                    if(Util.BEST_JOKES.equalsIgnoreCase(header) || Util.NEW_JOKES.equalsIgnoreCase(header)){
-                        continue;
-                    }
-                    stockArr[index] = header;
-                    index++;
-                }
-                createJokeIntent.putExtra(Util.CATEGORIES,stockArr);
-                startActivity(createJokeIntent);
-            }
-        });
-
     }
 
     @Override
@@ -182,5 +164,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(Util.TAG, "onDestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.close_message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+
     }
 }

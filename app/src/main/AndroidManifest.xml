@@ -29,13 +29,8 @@
         </activity>
         <activity
             android:name="com.cordova.jokerapp.activities.InfoJokeActivity"
-            android:label="@string/title_activity_info_joke"
+            android:label="@string/joke"
             android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.cordova.jokerapp.activities.CreateJokeActivity"
-            android:label="@string/title_activity_create_joke"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
     </application>
 

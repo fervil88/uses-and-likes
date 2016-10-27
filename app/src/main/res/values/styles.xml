@@ -18,7 +18,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">#410a0d</item>
+        <item name="android:textColor">#050000</item>
         <item name="android:typeface">monospace</item>
         <item name="android:padding">12dp</item>
         <item name="android:textSize">20sp</item>

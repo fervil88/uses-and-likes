@@ -11,11 +11,13 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/option_feedback"
-            android:title="@string/feedback" />
+            android:title="@string/feedback"
+            android:enabled="false"/>
 
         <item
             android:id="@+id/option_about"
-            android:title="@string/about" />
+            android:title="@string/about"
+            android:enabled="false"/>
     </group>
 
     <item

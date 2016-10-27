@@ -45,7 +45,8 @@
         <ScrollView
             android:id="@+id/ScrollView01"
             android:layout_width="match_parent"
-            android:layout_height="200sp">
+            android:layout_height="200sp"
+            style="@style/AreaStyle">
 
             <TextView
                 android:id="@+id/joke_text"

@@ -12,6 +12,9 @@
     <color name="green_dark">#159204</color>
     <color name="bright_green">#02D8B0</color>
     <color name="button_green">#10a54a</color>
+    <color name="bright_red">#d1484c</color>
+    <color name="dark_red">#913335</color>
+    <color name="bright_pink">#bd3972</color>
 
     <color name="light_green_temp">#7DC4A6</color>
     <color name="light_green_dark">#8BB7A4</color>
@@ -23,5 +26,6 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+
 
 </resources>
