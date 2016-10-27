@@ -11,16 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.R;
+import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class InfoJokeActivity extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class InfoJokeActivity extends AppCompatActivity {
 
         final Random random = new Random();
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
-        final HashMap<String, List<Joke>> hashCategory = (HashMap<String, List<Joke>>) i.getSerializableExtra("listCategory");
+        final Map<String, List<Joke>> hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
 
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);

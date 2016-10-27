@@ -16,15 +16,11 @@ import android.widget.Toast;
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.adapters.ExpandableListAdapter;
 import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<Joke>> listDataChild;
+    Map<String, List<Joke>> listDataChild;
     SharedPreferences sharedpreferences;
     public static final String TAG = "JOKEAPP";
     private MainActivity context;
@@ -46,12 +42,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<Joke>>();
-        mapJokes = new LinkedHashMap<String, List<Joke>>();
-
         listDataHeader = (List<String>) getIntent().getSerializableExtra("listDataHeader");
-        listDataChild = (HashMap<String, List<Joke>>) getIntent().getSerializableExtra("listDataChild");
+        listDataChild = (Map<String, List<Joke>>) getIntent().getSerializableExtra("listDataChild");
         mapJokes = (Map<String, List<Joke>>) getIntent().getSerializableExtra("mapJokes");
 
 	   // get the listview
@@ -89,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RequestBuilder.requestGetAllJokes(this, new VolleyCallback(){
-            @Override
-            public void onSuccess(String result){
-            }
-        });
     }
 
     @Override

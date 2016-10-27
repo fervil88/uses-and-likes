@@ -3,18 +3,21 @@ package com.cordova.jokerapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import com.cordova.jokerapp.domain.Joke;
+
 import com.cordova.jokerapp.R;
+import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.cordova.jokerapp.util.VolleyCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +27,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +34,7 @@ import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final int SPLASH_DURATION = 5000;
+    private final int SPLASH_DURATION = 7000;
     private final String FILENAME = "local_jokes.json";
     private final String COPY_LOCAL_FILE = "COPY_LOCAL_FILE";
     SharedPreferences sharedpreferences;
@@ -46,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
         listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<Joke>>();
+        listDataChild = new LinkedHashMap<String, List<Joke>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
 
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -117,7 +119,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void readJsonFromServer() {
-        RequestBuilder.requestGetAllJokes(this, new VolleyCallback() {
+        //TODO - Get the location
+        RequestBuilder.requestGetAllJokes(this, "ES", true, new VolleyCallback() {
             @Override
             public void onSuccess(String result) {
                 if(!readJson(result)){
@@ -166,7 +169,7 @@ public class SplashActivity extends AppCompatActivity {
                     int likes = jArray.getJSONObject(i).getInt("likes");
                     int dislikes = jArray.getJSONObject(i).getInt("dislikes");
                     String jokeCategory = jArray.getJSONObject(i).getString("category");
-                    jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
+                  //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
                     boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
                     String creationDate = jArray.getJSONObject(i).getString("creationDate");
                     Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
