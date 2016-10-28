@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "121246988300",
+    "project_id": "firebase-jokerapp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121246988300:android:2a1c5347711dff7b",
+        "android_client_info": {
+          "package_name": "com.cordova.jokerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121246988300-j1l3s9mh18269fj2ag143i5af5ms3bt6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cordova.jokerapp",
+            "certificate_hash": "645BC04CC8A7DCA143C66616F0EB8ECF299C2865"
+          }
+        },
+        {
+          "client_id": "121246988300-ir6berb551hv87ha14kmahpsmujmkedc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4hwTmdPPL6vncfQB7iclWmRsUJtIJ0_Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

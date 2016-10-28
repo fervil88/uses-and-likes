@@ -1,33 +1,27 @@
 {
   "project_info": {
-    "project_number": "121246988300",
-    "project_id": "firebase-jokerapp"
+    "project_number": "619617478751",
+    "firebase_url": "https://jokerapp-b90cc.firebaseio.com",
+    "project_id": "jokerapp-b90cc",
+    "storage_bucket": "jokerapp-b90cc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:121246988300:android:2a1c5347711dff7b",
+        "mobilesdk_app_id": "1:619617478751:android:2a1c5347711dff7b",
         "android_client_info": {
           "package_name": "com.cordova.jokerapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "121246988300-j1l3s9mh18269fj2ag143i5af5ms3bt6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cordova.jokerapp",
-            "certificate_hash": "645BC04CC8A7DCA143C66616F0EB8ECF299C2865"
-          }
-        },
-        {
-          "client_id": "121246988300-ir6berb551hv87ha14kmahpsmujmkedc.apps.googleusercontent.com",
+          "client_id": "619617478751-413numn8gbnfsblupbh7jm4cd7kugdv7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC4hwTmdPPL6vncfQB7iclWmRsUJtIJ0_Y"
+          "current_key": "AIzaSyBTlhhYWsWreboPWza4w5i2-ZJM6UQKG-M"
         }
       ],
       "services": {
@@ -39,7 +33,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

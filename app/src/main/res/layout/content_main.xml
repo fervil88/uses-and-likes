@@ -13,7 +13,9 @@
     tools:context="com.cordova.jokerapp.activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
+
     <LinearLayout
+        android:id="@+id/main_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,14 +23,20 @@
 
         <ExpandableListView
             android:id="@+id/likesList"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="0.9"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="0.1"/>
 
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+                //.addTestDevice("8C99CDFEA454732AF6210AD0E4153EBE")        // All emulators
                 .build();
         mAdView.loadAd(adRequest);
 

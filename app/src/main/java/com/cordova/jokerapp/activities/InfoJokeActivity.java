@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,6 +29,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private SharedPreferences sharedpreferences;
     private String currentId;
     InterstitialAd mInterstitialAd;
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-7583676595231228/7550773196");
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -85,12 +87,18 @@ public class InfoJokeActivity extends AppCompatActivity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                shareButton.setEnabled(false);
                 TextView jokeText = (TextView) findViewById(R.id.joke_text);
                 Intent i = new Intent(android.content.Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Joke by Chistoso");
-                i.putExtra(android.content.Intent.EXTRA_TEXT, jokeText.getText().toString() );
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokerApp:" + jokeText.getText().toString() );
                 startActivity(Intent.createChooser(i,"Share via"));
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                shareButton.setEnabled(true);
+                mLastClickTime = SystemClock.elapsedRealtime();
             }
         });
     }
@@ -106,7 +114,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private void updateDislike(final Joke joke) {
         final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
         assert dislikeButton != null;
-        String idDisliked = sharedpreferences.getString(joke.getId(), "");
+        String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
         if (idDisliked.equals("disliked")){
             dislikeButton.setEnabled(false);
             dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
@@ -119,7 +127,7 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId(), "disliked");
+                editor.putString(joke.getId()+"disliked", "disliked");
                 editor.commit();
                 dislikeButton.setEnabled(false);
                 dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
@@ -134,7 +142,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         final FloatingActionButton likeButton = (FloatingActionButton) findViewById(R.id.like);
         assert likeButton != null;
 
-        String idLiked = sharedpreferences.getString(joke.getId(), "");
+        String idLiked = sharedpreferences.getString(joke.getId()+"liked", "");
         if (idLiked.equals("liked")){
             likeButton.setEnabled(false);
             likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
@@ -147,7 +155,7 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId(), "liked");
+                editor.putString(joke.getId()+"liked", "liked");
                 editor.commit();
                 likeButton.setEnabled(false);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));

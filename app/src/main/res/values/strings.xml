@@ -16,6 +16,7 @@
     <string name="problem_to_download_json">Tenemos un problema para descargar los chistes del server!, usaremos los locales</string>
     <string name="give_us_a_feedback">Danos un feedback vieja!</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_idTest">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7583676595231228/7463374791</string>
     <string name="close_message">¿Vas a parar de reir?</string>
 </resources>
