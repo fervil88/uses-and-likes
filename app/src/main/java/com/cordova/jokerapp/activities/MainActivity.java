@@ -3,15 +3,12 @@ package com.cordova.jokerapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -19,7 +16,6 @@ import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.adapters.ExpandableListAdapter;
 import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.util.Util;
-import com.cordova.jokerapp.util.VolleyCallback;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("8C99CDFEA454732AF6210AD0E4153EBE")        // All emulators
                 .build();
         mAdView.loadAd(adRequest);
 

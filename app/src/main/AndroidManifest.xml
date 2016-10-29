@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cordova.jokerapp"
-    android:versionCode="1"
-    android:versionName="RELEASE1"
+    android:versionCode="2"
+    android:versionName="RELEASE2"
     tools:ignore="GradleOverrides">
 
     <uses-permission android:name="android.permission.INTERNET" />

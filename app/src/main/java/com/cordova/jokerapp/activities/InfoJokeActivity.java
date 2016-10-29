@@ -18,6 +18,7 @@ import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.List;
@@ -44,8 +45,12 @@ public class InfoJokeActivity extends AppCompatActivity {
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
+        AdView mAdView = (AdView) findViewById(R.id.adView_info);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-7583676595231228/7550773196");
+        mInterstitialAd.setAdUnitId(getString(R.string.ad_info_interstitial));
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
