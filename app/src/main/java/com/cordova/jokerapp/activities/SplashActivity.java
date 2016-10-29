@@ -1,12 +1,15 @@
 package com.cordova.jokerapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import com.cordova.jokerapp.R;
@@ -59,6 +62,13 @@ public class SplashActivity extends AppCompatActivity {
             editor.commit();
         }
 
+        final ProgressDialog progress = new ProgressDialog(this, R.style.MyTheme);
+        progress.setTitle(getResources().getString(R.string.loading_title));
+        progress.setMessage(getResources().getString(R.string.loading_message));
+        progress.setCancelable(false);
+        progress.getWindow().setGravity(Gravity.BOTTOM);
+       // progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        progress.show();
         readJsonFromServer();
 
         new Handler().postDelayed(new Runnable(){
@@ -68,6 +78,7 @@ public class SplashActivity extends AppCompatActivity {
                     readJsonFromFile();
                 }
                 new Util().includeTheBestJokes(10, mapJokes, listDataHeader, listDataChild, sharedpreferences);
+                progress.dismiss();
 
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 intent.putExtra("mapJokes", (Serializable) mapJokes);
