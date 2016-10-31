@@ -32,6 +32,7 @@
             android:label="@string/joke"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ListJokesActivity"></activity>
     </application>
 
 </manifest>
