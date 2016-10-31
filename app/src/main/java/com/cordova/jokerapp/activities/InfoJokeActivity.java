@@ -174,8 +174,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         //TODO Take JSon from server instead of file
         // Joke joke = new Joke(idStr, b.getString("title"), b.getString("category"), b.getString("joketext"), b.getString("user"), b.getInt("likes"), b.getInt("dislikes"), b.getBoolean("isdirtyjoke"), b.getString("creationdate"));
         if (joke != null) {
-            TextView title = (TextView) findViewById(R.id.title_joke);
-            title.setText(joke.getTitle());
+            this.setTitle(joke.getTitle());
             TextView category = (TextView) findViewById(R.id.category_joke);
             category.setText(joke.getCategory());
             TextView jokeText = (TextView) findViewById(R.id.joke_text);

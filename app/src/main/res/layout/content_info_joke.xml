@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,18 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title_joke"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            style="@style/CodeFont"
-            android:background="@drawable/input_style"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
 
         <TextView
             android:id="@+id/category_joke"
@@ -46,6 +35,7 @@
             android:id="@+id/ScrollView01"
             android:layout_width="match_parent"
             android:layout_height="200sp"
+            android:layout_weight="0.8"
             style="@style/AreaStyle">
 
             <TextView
@@ -68,6 +58,72 @@
             android:background="@drawable/input_style"
             style="@style/CodeFont"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/list_floating_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@mipmap/share" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/disable_floating_button"
+            android:src="@mipmap/like_white" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/disable_floating_button"
+            android:src="@mipmap/dislike_white" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/next_joke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/next_floating_button"
+            android:src="@mipmap/next" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/list_floating_buttons"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/ad_info_banner">
+        </com.google.android.gms.ads.AdView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            />
     </LinearLayout>
 
 </RelativeLayout>

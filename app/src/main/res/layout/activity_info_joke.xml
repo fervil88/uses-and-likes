@@ -4,65 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="com.cordova.jokerapp.activities.InfoJokeActivity"
     android:background="@mipmap/joker_background">
 
     <include layout="@layout/content_info_joke" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@mipmap/share" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/disable_floating_button"
-            android:src="@mipmap/like_white" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/dislike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/disable_floating_button"
-            android:src="@mipmap/dislike_white" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/next_joke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/next_floating_button"
-            android:src="@mipmap/next" />
-
-    </LinearLayout>
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_info_banner">
-    </com.google.android.gms.ads.AdView>
 
 
 </android.support.design.widget.CoordinatorLayout>
