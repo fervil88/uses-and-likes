@@ -54,6 +54,15 @@ public class SplashActivity extends AppCompatActivity {
         listDataChild = new LinkedHashMap<String, List<Joke>>();
         mapJokes = new LinkedHashMap<String, List<Joke>>();
 
+        final ProgressDialog progress = new ProgressDialog(this, R.style.MyTheme);
+        // progress.setTitle(getResources().getString(R.string.loading_title));
+        progress.setMessage(getResources().getString(R.string.loading_message));
+        progress.setCancelable(false);
+        progress.getWindow().setGravity(Gravity.BOTTOM);
+        // progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        progress.show();
+        readJsonFromServer();
+
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedpreferences.getBoolean(COPY_LOCAL_FILE, true)){
             copyFile();
@@ -62,14 +71,6 @@ public class SplashActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        final ProgressDialog progress = new ProgressDialog(this, R.style.MyTheme);
-        progress.setTitle(getResources().getString(R.string.loading_title));
-        progress.setMessage(getResources().getString(R.string.loading_message));
-        progress.setCancelable(false);
-        progress.getWindow().setGravity(Gravity.BOTTOM);
-       // progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-        progress.show();
-        readJsonFromServer();
 
         new Handler().postDelayed(new Runnable(){
             public void run(){

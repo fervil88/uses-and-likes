@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.domain.Joke;
@@ -21,6 +23,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -93,16 +96,18 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 shareButton.setEnabled(false);
+                new Handler().postDelayed(new Runnable(){
+                    public void run(){
+                        shareButton.setEnabled(true);
+                    };
+                }, 5000);
+
                 TextView jokeText = (TextView) findViewById(R.id.joke_text);
                 Intent i = new Intent(android.content.Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Joke by Chistoso");
                 i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokerApp:" + jokeText.getText().toString() );
                 startActivity(Intent.createChooser(i,"Share via"));
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
-                    return;
-                }
-                shareButton.setEnabled(true);
                 mLastClickTime = SystemClock.elapsedRealtime();
             }
         });
