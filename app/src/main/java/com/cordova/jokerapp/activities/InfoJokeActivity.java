@@ -74,7 +74,7 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 currentId = joke[0].getId();
-                while(joke[0].getId() == currentId){
+                while(listCategory.size() > 1 && joke[0].getId() == currentId){
                     int index = random.nextInt(listCategory.size());
                     joke[0] = listCategory.get(index);
                 }
