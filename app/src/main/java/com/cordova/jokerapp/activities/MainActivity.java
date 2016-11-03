@@ -208,10 +208,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
             boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+            boolean cleanList = false;
             if (json != null){
                 result = true;
                 JSONArray jArray = new JSONArray(json);
-                mapJokes.clear();
                 for (int i = 0; i < jArray.length(); i++) {
                     String id = jArray.getJSONObject(i).getString("id");
                     String user = jArray.getJSONObject(i).getString("user");
@@ -231,26 +231,32 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         jokes = mapJokes.get(jokeCategory);
                     }
-                    jokes.add(joke);
-                    mapJokes.put(jokeCategory, jokes);
-                }
-
-                listDataHeader.clear();
-                listDataChild.clear();
-
-                for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                    List<Joke> jokeList = entry.getValue();
-                    Collections.sort(jokeList);
-                    List<Joke> subCategoriesJokes = new LinkedList<>();
-                    for (Joke joke : jokeList) {
-                        if (!includeDirtyJokes && joke.isDirtyJoke()) {
-                            continue;
-                        }
-                        subCategoriesJokes.add(joke);
+                    if(!jokes.contains(joke)){
+                        jokes.add(joke);
+                        mapJokes.put(jokeCategory, jokes);
+                        cleanList = true;
                     }
-                    listDataHeader.add(entry.getKey());
-                    listDataChild.put(entry.getKey(), subCategoriesJokes);
                 }
+
+                if(cleanList){
+                    listDataHeader.clear();
+                    listDataChild.clear();
+
+                    for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                        List<Joke> jokeList = entry.getValue();
+                        Collections.sort(jokeList);
+                        List<Joke> subCategoriesJokes = new LinkedList<>();
+                        for (Joke joke : jokeList) {
+                            if (!includeDirtyJokes && joke.isDirtyJoke()) {
+                                continue;
+                            }
+                            subCategoriesJokes.add(joke);
+                        }
+                        listDataHeader.add(entry.getKey());
+                        listDataChild.put(entry.getKey(), subCategoriesJokes);
+                    }
+                }
+
             }
         } catch (Exception e) {
             Log.e(Util.TAG, "error trying to read the json file: " + e.getMessage());

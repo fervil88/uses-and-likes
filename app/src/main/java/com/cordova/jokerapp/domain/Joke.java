@@ -157,4 +157,29 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         //descending order
         return (Math.round(compareQuantityOfLikes) - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Joke)) {
+            return false;
+        }
+
+        Joke joke = (Joke) o;
+
+        return joke.getId().equals(id) &&
+                joke.getTitle().equals(title)
+                && joke.getCreationDate().equals(creationDate);
+    }
+
+    //Idea from effective Java : Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + creationDate.hashCode();
+        return result;
+    }
 }
