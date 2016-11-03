@@ -13,7 +13,7 @@
     <string name="user">Usuario...</string>
     <string name="save_menu">Guardar</string>
     <string name="is_dirty">Es verde:</string>
-    <string name="problem_to_download_json">Tenemos un problema para descargar los chistes del server!, usaremos los locales</string>
+    <string name="problem_to_download_json">Tenes problemas para actualizar los chistes, por favor verifica tu conexión a Internet</string>
     <string name="give_us_a_feedback">Danos un feedback vieja!</string>
     <string name="loading_title">Cargando chistes...</string>
     <string name="loading_message">La ansiedad no le debe ganar a tu sentido del humor!!!</string>
@@ -25,4 +25,5 @@
     <string name="ad_info_banner">ca-app-pub-7583676595231228/6765370799</string>
 
     <string name="ad_info_interstitial">ca-app-pub-7583676595231228/7550773196</string>
+    <string name="refresh">Actualizar</string>
 </resources>

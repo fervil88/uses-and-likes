@@ -46,6 +46,7 @@ public class RequestBuilder {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i(MainActivity.TAG, error.toString());
+                        callback.onError(error.getMessage());
                     }
                 }){
 

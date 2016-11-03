@@ -15,10 +15,20 @@ import android.widget.Toast;
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.adapters.ExpandableListAdapter;
 import com.cordova.jokerapp.domain.Joke;
+import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
+import com.cordova.jokerapp.util.VolleyCallback;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "JOKEAPP";
     private MainActivity context;
     private Map<String, List<Joke>> mapJokes;
+    private Menu optionsMenu;
 
 
     @Override
@@ -62,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -80,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case R.id.option_dirty_joke:
                 sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -126,9 +137,126 @@ public class MainActivity extends AppCompatActivity {
             case R.id.option_about:
                 Toast.makeText(getApplicationContext(),getString(R.string.about) + getResources().getString(R.string.app_name),Toast.LENGTH_LONG).show();
                 return true;
+            case R.id.action_refresh:
+                setRefreshActionButtonState(true);
+                readJsonFromServer();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setRefreshActionButtonState(final boolean refreshing) {
+        if (optionsMenu != null) {
+            final MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
+
+    private void readJsonFromServer() {
+        //TODO - Get the location
+        RequestBuilder.requestGetAllJokes(this, "ES", true, new VolleyCallback() {
+            @Override
+            public void onSuccess(String result) {
+                if(!readJson(result)){
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
+                } else {
+                    listAdapter.notifyDataSetChanged();
+                    try {
+                        FileOutputStream fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
+                        fos.write(result.getBytes());
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
+                    } catch (IOException e) {
+                        Log.e(Util.TAG, "error trying to read the local json file: " + e.getMessage());
+                    }
+                }
+                setRefreshActionButtonState(false);
+            }
+
+            @Override
+            public void onError(String error) {
+                setRefreshActionButtonState(false);
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private boolean readJson(String json){
+        boolean result = false;
+        try {
+            result = readJsonAndParserData(json);
+        } catch (FileNotFoundException e) {
+            Log.e(Util.TAG,"json file not found: "+ e.getMessage());
+        } catch (JSONException e) {
+            Log.e(Util.TAG,"error reading json: "+ e.getMessage());
+        }
+        return result;
+    }
+
+    private boolean readJsonAndParserData(String json) throws FileNotFoundException, JSONException {
+        boolean result = false;
+        try {
+            sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+            boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+            if (json != null){
+                result = true;
+                JSONArray jArray = new JSONArray(json);
+                mapJokes.clear();
+                for (int i = 0; i < jArray.length(); i++) {
+                    String id = jArray.getJSONObject(i).getString("id");
+                    String user = jArray.getJSONObject(i).getString("user");
+                    String jokeTitle = jArray.getJSONObject(i).getString("title");
+                    String jokeText = jArray.getJSONObject(i).getString("jokeText");
+                    int likes = jArray.getJSONObject(i).getInt("likes");
+                    int dislikes = jArray.getJSONObject(i).getInt("dislikes");
+                    String jokeCategory = jArray.getJSONObject(i).getString("category");
+                    //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
+                    boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
+                    String creationDate = jArray.getJSONObject(i).getString("creationDate");
+                    Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
+                    List<Joke> jokes;
+
+                    if (!mapJokes.containsKey(jokeCategory)) {
+                        jokes = new ArrayList<>();
+                    } else {
+                        jokes = mapJokes.get(jokeCategory);
+                    }
+                    jokes.add(joke);
+                    mapJokes.put(jokeCategory, jokes);
+                }
+
+                listDataHeader.clear();
+                listDataChild.clear();
+
+                for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                    List<Joke> jokeList = entry.getValue();
+                    Collections.sort(jokeList);
+                    List<Joke> subCategoriesJokes = new LinkedList<>();
+                    for (Joke joke : jokeList) {
+                        if (!includeDirtyJokes && joke.isDirtyJoke()) {
+                            continue;
+                        }
+                        subCategoriesJokes.add(joke);
+                    }
+                    listDataHeader.add(entry.getKey());
+                    listDataChild.put(entry.getKey(), subCategoriesJokes);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(Util.TAG, "error trying to read the json file: " + e.getMessage());
+            result = false;
+        }
+        return result;
     }
 
     @Override

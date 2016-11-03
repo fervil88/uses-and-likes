@@ -1,12 +1,11 @@
-[
-  {
+[{
   "id": "580d835921194c000390bf84",
   "title": "Tormenta se avecina",
   "category": "No es lo mismo",
   "jokeText": "No es lo mismo la tormenta se avecina, que la vecina se atormenta",
   "user": "admin",
-  "likes": 0,
-  "dislikes": 0,
+  "likes": 4,
+  "dislikes": 1,
   "creationDate": "2016/10/24",
   "dirtyJoke": false
 }, {
@@ -16,16 +15,16 @@
   "jokeText": "No es lo mismo los dolores de las piernas que las piernas de Dolores",
   "user": "admin",
   "likes": 0,
-  "dislikes": 0,
+  "dislikes": 1,
   "creationDate": "2016/10/23",
   "dirtyJoke": false
 }, {
   "id": "580d83f621194c000390bf86",
   "title": "El peor arquero",
   "category": "Deportes",
-  "jokeText": "Un arquero era tan malo que sus compañeros le había dicho si le metían más de diez goles, le iban a tirar mierda en la cara. Entonces, el día del partido le meten más de veinte goles. Al ver esto sus compañeros lo amarran a un poste para arrojarle mierda y le dicen que pida su último deseo, entonces el pobre pero no tan boludo arquero piensa. ¡Quiera una maldita barrera!",
+  "jokeText": "Un arquero era tan malo que sus compañeros le había dicho si le metían más de diez goles, le iban a tirar mierda en la cara. Entonces, el día del partido le meten más de veinte goles. Al ver esto sus compañeros lo amarran a un poste para arrojarle mierda y le dicen que pida su último deseo, entonces el pobre pero no tan boludo arquero piensa. ¡Quiero una maldita barrera!",
   "user": "admin",
-  "likes": 30,
+  "likes": 31,
   "dislikes": 3,
   "creationDate": "2016/10/18",
   "dirtyJoke": true
@@ -35,8 +34,8 @@
   "category": "Animales",
   "jokeText": "¿Por qué las gallinas quieren tanto a sus pollitos\n -Porque les costo un huevo tenerlos",
   "user": "admin",
-  "likes": 12,
-  "dislikes": 7,
+  "likes": 15,
+  "dislikes": 9,
   "creationDate": "2016/10/19",
   "dirtyJoke": false
 }, {
@@ -45,7 +44,7 @@
   "category": "Machistas",
   "jokeText": "¿En qué se parecen las mujeres a los huracanes?\n -En que llegan fuertes y salvajes y se van tu auto, tu casa y los pibes",
   "user": "admin",
-  "likes": 15,
+  "likes": 16,
   "dislikes": 2,
   "creationDate": "2016/10/17",
   "dirtyJoke": false
@@ -55,19 +54,59 @@
   "category": "Animales",
   "jokeText": "Un bebé cocodrilo le pregunta a su padré:\n -Papá, ¿algún día tendré mucho dinero?\n -Si, hijo.\n -¿Cuando papá?\n -¡Y con lo pelotudo que sos mañana cuando te cazen, te saquen toda la porquería que tenés en tu interior y te hagan cartera",
   "user": "admin",
-  "likes": 5,
-  "dislikes": 0,
+  "likes": 7,
+  "dislikes": 1,
   "creationDate": "2016/10/19",
   "dirtyJoke": true
 }, {
-  "id": "580d84a021194c000390bf8b",
+  "id": "580d846821194c000390bf8a",
   "title": "Los 3 goles",
   "category": "Deportes",
   "jokeText": "Llega el hijo después de jugar un partido de fútbol a su casa y le dice a su padre:\n -Papá, me jugué el mejor partido de mi vida, salí goleador con 3 goles\n - hijo mió que alegría! ¿cuánto salieron?\n -¡Perdimos 2 a 1!",
   "user": "admin",
-  "likes": 6,
-  "dislikes": 3,
+  "likes": 8,
+  "dislikes": 4,
   "creationDate": "2016/10/22",
+  "dirtyJoke": false
+}, {
+  "id": "5817cd9ca7254400037891e2",
+  "title": "Enano bajate",
+  "category": "Otros",
+  "jokeText": "Hoy en el colectivo, subió un enano y se sentó al lado mío.\nDespues de algunos minutos el colectivo frenó en una parada y el enano se resbaló del asiento. Entonces lo agarré del brazo y lo volví a sentar.\nUnos minutos más tarde el enano se resbaló de nuevo y conseguí ayudarlo otra vez. Al rato el enano pelotudo se resbala por tercera vez, lo agarré del brazo y le digo: \"agarrate bién enano pelotudo\" o te vas a estar resbalando todo el viaje!! Y el enano me dijo : \"hace 3 paradas que quiero bajarme y no me dejas la concha de tu madre\"",
+  "user": "admin",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": "2016/11/01",
+  "dirtyJoke": false
+}, {
+  "id": "5817d12ba7254400037891e3",
+  "title": "Hoyos",
+  "category": "No es lo mismo",
+  "jokeText": "No es lo mismo tres hoyos en el techo, que te echo tres en el hoyo",
+  "user": "admin",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": "2016/18/31",
+  "dirtyJoke": false
+}, {
+  "id": "5817d447a7254400037891e4",
+  "title": "Revolver",
+  "category": "No es lo mismo",
+  "jokeText": "No es lo mismo el culo del revólver que revolverte el culo",
+  "user": "admin",
+  "likes": 0,
+  "dislikes": 0,
+  "creationDate": "2016/10/31",
+  "dirtyJoke": false
+}, {
+  "id": "5818ad5ff82cb9000378150f",
+  "title": "Rompecabezas",
+  "category": "Machistas",
+  "jokeText": "Una rubia  lo llama al novio y le dice :- mi vida me siento muy triste y desanimada porque encontre un rompecabezas y no lo puedo armar!!! Ninguna pieza encaja bien es imposible! No se por donde empezar!! Entonces el novio le dice:-bueno mi vida pero debes tener la caja con un dibujo  no? -siii es un tigre pero es re complicado, las piezas son muy parecidas y no lo puedo armar!! -bueno tranqui mi vida, si es tan importante para vos ya voy para tu casa , te ayudo y entre los dos lo armamos, dale?  Cuando llega a la casa de la novia mira la caja, la mira a ella, ella lo mira a el, el mira las piezas, la vuelve a mirar y le dice:-mira mi amor, vamos a hacer una cosa, metemos las zucaritas en su caja y no le decimos nada a nadie, dale?",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 0,
+  "creationDate": "2016/11/01",
   "dirtyJoke": false
 }, {
   "id": "580d84b121194c000390bf8c",
@@ -75,8 +114,8 @@
   "category": "Profesionales",
   "jokeText": "¡Señorita Dominguez! ¿No sabe que está prohibido fumar durante durante el trabajo?\n - No se preocupe no estoy trabajando",
   "user": "admin",
-  "likes": 7,
-  "dislikes": 3,
+  "likes": 9,
+  "dislikes": 4,
   "creationDate": "2016/10/23",
   "dirtyJoke": false
 }, {
@@ -85,7 +124,7 @@
   "category": "Profesionales",
   "jokeText": "¿Qué es tu padre?\n - Es Banquero\n -Pues debe ganar mucho dinero\n -No creas, el negocio de los bancos de madera no va muy bien este año",
   "user": "admin",
-  "likes": 2,
+  "likes": 4,
   "dislikes": 34,
   "creationDate": "2016/10/23",
   "dirtyJoke": false
@@ -95,7 +134,7 @@
   "category": "Profesionales",
   "jokeText": "¿Qué significa Trabajo en equipo?\n - Oportunidad de echarle la culpa a los demás si sale mal",
   "user": "admin",
-  "likes": 12,
+  "likes": 14,
   "dislikes": 3,
   "creationDate": "2016/10/23",
   "dirtyJoke": false
@@ -105,8 +144,8 @@
   "category": "Feministas",
   "jokeText": "¿Por qué Dios hizo primero al hombre y después a la mujer?\n -Porque los experimentos primero se hacen con ratas y luego en seres humanos.",
   "user": "admin",
-  "likes": 30,
-  "dislikes": 0,
+  "likes": 34,
+  "dislikes": 2,
   "creationDate": "2016/10/22",
   "dirtyJoke": false
 }, {
@@ -115,8 +154,8 @@
   "category": "Machistas",
   "jokeText": "¿Que es lo último que se oyo en el Titanic?\n -¡¡¡NO LE DEJES EL TIMON A ELLA!!!",
   "user": "admin",
-  "likes": 2,
-  "dislikes": 40,
+  "likes": 3,
+  "dislikes": 42,
   "creationDate": "2016/10/18",
   "dirtyJoke": false
 }, {
@@ -125,7 +164,7 @@
   "category": "Machistas",
   "jokeText": "- ¿ Sabes cuál es la diferencia entre una niña y una mujer? \n - A la niña la llevas a la cama y le cuentas un cuento, a la mujer le cuentas un cuento y la llevas a la cama.",
   "user": "admin",
-  "likes": 6,
+  "likes": 8,
   "dislikes": 3,
   "creationDate": "2016/10/16",
   "dirtyJoke": false
@@ -145,8 +184,8 @@
   "category": "Feministas",
   "jokeText": "¿Por qué se dice que el perro es el mejor amigo del hombre?\n -Porque entre animales se entienden",
   "user": "admin",
-  "likes": 7,
-  "dislikes": 0,
+  "likes": 8,
+  "dislikes": 2,
   "creationDate": "2016/10/23",
   "dirtyJoke": false
 }, {
@@ -155,168 +194,68 @@
   "category": "Machistas",
   "jokeText": "¿Por qué las mujeres hablan más de lo que piensan y los hombres piensan más de lo que hablan?\n -Porque las mujeres tienen cuatro labios y los hombres dos cabezas.",
   "user": "admin",
-  "likes": 100,
+  "likes": 102,
   "dislikes": 0,
   "creationDate": "2016/10/20",
   "dirtyJoke": true
 }, {
-  "id": "580d835921194c000390bf84",
-  "title": "Tormenta se avecina",
-  "category": "Nuevos",
-  "jokeText": "No es lo mismo la tormenta se avecina, que la vecina se atormenta",
+  "id": "5818b2dcf82cb90003781510",
+  "title": "Catador",
+  "category": "Borrachos",
+  "jokeText": "En un almacén de vinos, el catador había fallecido y, el director, comenzó a buscar alguien que hiciera el trabajo.\nUn viejo borracho y sucio se presentó para solicitar la posición.\nEl director se preguntaba como podía deshacerse de él.\nLe dieron una copa de vino para que lo tomara.\nEl viejo lo probó y dijo,\n-Es un Moscatel de tres años, elaborado con uvas cosechadas en la parte norte de la región,madurado en un barril de acero. Es de baja calidad pero aceptable.\n-Correcto, dijo el jefe. Otra copa por favor.\n-Es un cabernet, de 8 años, cosechado en las montañas al sur de la región, madurado en barril de roble Americano a ocho grados de temperatura. Le falta aún tres años más para que alcance su más alta calidad.\n-Absolutamente correcto. Una tercera copa.\n-Es un champage elaborado con uvas pinot blanc de alta calidad y exclusivas, dijo calmadamente el borracho.\nEl director no lo podía creer, le hizo un guiño de ojos a su secretaria para sugerirle algo. Ella salió de la habitación y regresó con una copa de orina.\nEl alcohólico lo probó.\n-Es una rubia de 26 años de edad, está bien de salud, con tres meses de embarazo, hijos de puta y si no me dan el puesto,digo quien es el padre!!!",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 0,
+  "creationDate": "2016/11/01",
+  "dirtyJoke": false
+}, {
+  "id": "581a1abed5aade0003bfcf77",
+  "title": "Gato abandonado",
+  "category": "Animales",
+  "jokeText": "Un señor odia al gato de su mujer porqué no hace más que arañarle y decide hacerlo desaparecer. Lo mete en una bolsa y lo lleva en el coche a 20 kilómetros de su casa.\r\nCuando vuelve, el gato está sentado en el portal de la casa. Nervioso, el tipo repite la operación, pero ahora lo abandona a 40 kilómetros de su casa. Cuando vuelve, el gato otra vez está esperándolo en la puerta.\r\nEl hombre enojadisimo; agarra el gato, lo pone en el coche y recorre 93 kilómetros al este, 30 al norte, 27 al oeste y 25 hacia el sur... Suelta el gato y emprende el regreso a casa. \r\nAl cabo de un rato, llama a su mujer por el móvil y le dice:\r\n- Cariño, ¿el gato está por ahí?\r\n- Acaba de llegar, ¿por qué, querido? \r\n- Pon a ese desgraciado al teléfono, que me he perdido!!!",
   "user": "admin",
   "likes": 0,
   "dislikes": 0,
-  "creationDate": "2016/10/24",
+  "creationDate": "2016/11/02",
   "dirtyJoke": false
 }, {
-  "id": "580d83aa21194c000390bf85",
-  "title": "Dolores en las piernas",
+  "id": "5817cd9ca7254400037891e2",
+  "title": "Enano bajate",
   "category": "Nuevos",
-  "jokeText": "No es lo mismo los dolores de las piernas que las piernas de Dolores",
+  "jokeText": "Hoy en el colectivo, subió un enano y se sentó al lado mío.\nDespues de algunos minutos el colectivo frenó en una parada y el enano se resbaló del asiento. Entonces lo agarré del brazo y lo volví a sentar.\nUnos minutos más tarde el enano se resbaló de nuevo y conseguí ayudarlo otra vez. Al rato el enano pelotudo se resbala por tercera vez, lo agarré del brazo y le digo: \"agarrate bién enano pelotudo\" o te vas a estar resbalando todo el viaje!! Y el enano me dijo : \"hace 3 paradas que quiero bajarme y no me dejas la concha de tu madre\"",
   "user": "admin",
   "likes": 0,
   "dislikes": 0,
-  "creationDate": "2016/10/23",
+  "creationDate": "2016/11/01",
   "dirtyJoke": false
 }, {
-  "id": "580d83f621194c000390bf86",
-  "title": "El peor arquero",
+  "id": "5818ad5ff82cb9000378150f",
+  "title": "Rompecabezas",
   "category": "Nuevos",
-  "jokeText": "Un arquero era tan malo que sus compañeros le había dicho si le metían más de diez goles, le iban a tirar mierda en la cara. Entonces, el día del partido le meten más de veinte goles. Al ver esto sus compañeros lo amarran a un poste para arrojarle mierda y le dicen que pida su último deseo, entonces el pobre pero no tan boludo arquero piensa. ¡Quiera una maldita barrera!",
+  "jokeText": "Una rubia  lo llama al novio y le dice :- mi vida me siento muy triste y desanimada porque encontre un rompecabezas y no lo puedo armar!!! Ninguna pieza encaja bien es imposible! No se por donde empezar!! Entonces el novio le dice:-bueno mi vida pero debes tener la caja con un dibujo  no? -siii es un tigre pero es re complicado, las piezas son muy parecidas y no lo puedo armar!! -bueno tranqui mi vida, si es tan importante para vos ya voy para tu casa , te ayudo y entre los dos lo armamos, dale?  Cuando llega a la casa de la novia mira la caja, la mira a ella, ella lo mira a el, el mira las piezas, la vuelve a mirar y le dice:-mira mi amor, vamos a hacer una cosa, metemos las zucaritas en su caja y no le decimos nada a nadie, dale?",
   "user": "admin",
-  "likes": 30,
-  "dislikes": 3,
-  "creationDate": "2016/10/18",
-  "dirtyJoke": true
-}, {
-  "id": "580d841421194c000390bf87",
-  "title": "Gallina y pollitos",
-  "category": "Nuevos",
-  "jokeText": "¿Por qué las gallinas quieren tanto a sus pollitos\n -Porque les costo un huevo tenerlos",
-  "user": "admin",
-  "likes": 12,
-  "dislikes": 7,
-  "creationDate": "2016/10/19",
-  "dirtyJoke": false
-}, {
-  "id": "580d843621194c000390bf88",
-  "title": "Huracanes y mujeres",
-  "category": "Nuevos",
-  "jokeText": "¿En qué se parecen las mujeres a los huracanes?\n -En que llegan fuertes y salvajes y se van tu auto, tu casa y los pibes",
-  "user": "admin",
-  "likes": 15,
-  "dislikes": 2,
-  "creationDate": "2016/10/17",
-  "dirtyJoke": false
-}, {
-  "id": "580d844f21194c000390bf89",
-  "title": "Bebe cocodrilo",
-  "category": "Nuevos",
-  "jokeText": "Un bebé cocodrilo le pregunta a su padré:\n -Papá, ¿algún día tendré mucho dinero?\n -Si, hijo.\n -¿Cuando papá?\n -¡Y con lo pelotudo que sos mañana cuando te cazen, te saquen toda la porquería que tenés en tu interior y te hagan cartera",
-  "user": "admin",
-  "likes": 5,
+  "likes": 1,
   "dislikes": 0,
-  "creationDate": "2016/10/19",
-  "dirtyJoke": true
-}, {
-  "id": "580d84a021194c000390bf8b",
-  "title": "Los 3 goles",
-  "category": "Nuevos",
-  "jokeText": "Llega el hijo después de jugar un partido de fútbol a su casa y le dice a su padre:\n -Papá, me jugué el mejor partido de mi vida, salí goleador con 3 goles\n - hijo mió que alegría! ¿cuánto salieron?\n -¡Perdimos 2 a 1!",
-  "user": "admin",
-  "likes": 6,
-  "dislikes": 3,
-  "creationDate": "2016/10/22",
+  "creationDate": "2016/11/01",
   "dirtyJoke": false
 }, {
-  "id": "580d84b121194c000390bf8c",
-  "title": "La vaga",
+  "id": "5818b2dcf82cb90003781510",
+  "title": "Catador",
   "category": "Nuevos",
-  "jokeText": "¡Señorita Dominguez! ¿No sabe que está prohibido fumar durante durante el trabajo?\n - No se preocupe no estoy trabajando",
+  "jokeText": "En un almacén de vinos, el catador había fallecido y, el director, comenzó a buscar alguien que hiciera el trabajo.\nUn viejo borracho y sucio se presentó para solicitar la posición.\nEl director se preguntaba como podía deshacerse de él.\nLe dieron una copa de vino para que lo tomara.\nEl viejo lo probó y dijo,\n-Es un Moscatel de tres años, elaborado con uvas cosechadas en la parte norte de la región,madurado en un barril de acero. Es de baja calidad pero aceptable.\n-Correcto, dijo el jefe. Otra copa por favor.\n-Es un cabernet, de 8 años, cosechado en las montañas al sur de la región, madurado en barril de roble Americano a ocho grados de temperatura. Le falta aún tres años más para que alcance su más alta calidad.\n-Absolutamente correcto. Una tercera copa.\n-Es un champage elaborado con uvas pinot blanc de alta calidad y exclusivas, dijo calmadamente el borracho.\nEl director no lo podía creer, le hizo un guiño de ojos a su secretaria para sugerirle algo. Ella salió de la habitación y regresó con una copa de orina.\nEl alcohólico lo probó.\n-Es una rubia de 26 años de edad, está bien de salud, con tres meses de embarazo, hijos de puta y si no me dan el puesto,digo quien es el padre!!!",
   "user": "admin",
-  "likes": 7,
-  "dislikes": 3,
-  "creationDate": "2016/10/23",
-  "dirtyJoke": false
-}, {
-  "id": "580d84c121194c000390bf8d",
-  "title": "Banquero",
-  "category": "Nuevos",
-  "jokeText": "¿Qué es tu padre?\n - Es Banquero\n -Pues debe ganar mucho dinero\n -No creas, el negocio de los bancos de madera no va muy bien este año",
-  "user": "admin",
-  "likes": 2,
-  "dislikes": 34,
-  "creationDate": "2016/10/23",
-  "dirtyJoke": false
-}, {
-  "id": "580d84d021194c000390bf8e",
-  "title": "Trabajo en equipo",
-  "category": "Nuevos",
-  "jokeText": "¿Qué significa Trabajo en equipo?\n - Oportunidad de echarle la culpa a los demás si sale mal",
-  "user": "admin",
-  "likes": 12,
-  "dislikes": 3,
-  "creationDate": "2016/10/23",
-  "dirtyJoke": false
-}, {
-  "id": "580d84e321194c000390bf8f",
-  "title": "Creación de Dios",
-  "category": "Nuevos",
-  "jokeText": "¿Por qué Dios hizo primero al hombre y después a la mujer?\n -Porque los experimentos primero se hacen con ratas y luego en seres humanos.",
-  "user": "admin",
-  "likes": 30,
+  "likes": 1,
   "dislikes": 0,
-  "creationDate": "2016/10/22",
+  "creationDate": "2016/11/01",
   "dirtyJoke": false
 }, {
-  "id": "580d84f521194c000390bf90",
-  "title": "Timon Titanic",
+  "id": "581a1abed5aade0003bfcf77",
+  "title": "Gato abandonado",
   "category": "Nuevos",
-  "jokeText": "¿Que es lo último que se oyo en el Titanic?\n -¡¡¡NO LE DEJES EL TIMON A ELLA!!!",
+  "jokeText": "Un señor odia al gato de su mujer porqué no hace más que arañarle y decide hacerlo desaparecer. Lo mete en una bolsa y lo lleva en el coche a 20 kilómetros de su casa.\r\nCuando vuelve, el gato está sentado en el portal de la casa. Nervioso, el tipo repite la operación, pero ahora lo abandona a 40 kilómetros de su casa. Cuando vuelve, el gato otra vez está esperándolo en la puerta.\r\nEl hombre enojadisimo; agarra el gato, lo pone en el coche y recorre 93 kilómetros al este, 30 al norte, 27 al oeste y 25 hacia el sur... Suelta el gato y emprende el regreso a casa. \r\nAl cabo de un rato, llama a su mujer por el móvil y le dice:\r\n- Cariño, ¿el gato está por ahí?\r\n- Acaba de llegar, ¿por qué, querido? \r\n- Pon a ese desgraciado al teléfono, que me he perdido!!!",
   "user": "admin",
-  "likes": 2,
-  "dislikes": 40,
-  "creationDate": "2016/10/18",
-  "dirtyJoke": false
-}, {
-  "id": "580d851021194c000390bf91",
-  "title": "Mujer y Niña",
-  "category": "Nuevos",
-  "jokeText": "- ¿ Sabes cuál es la diferencia entre una niña y una mujer? \n - A la niña la llevas a la cama y le cuentas un cuento, a la mujer le cuentas un cuento y la llevas a la cama.",
-  "user": "admin",
-  "likes": 6,
-  "dislikes": 3,
-  "creationDate": "2016/10/16",
-  "dirtyJoke": false
-}, {
-  "id": "580d852221194c000390bf92",
-  "title": "Único dominio del hombre",
-  "category": "Nuevos",
-  "jokeText": "¿Por qué a los hombres les gusta tanto los autos y motos?\n -Porque son lo único que pueden manejar",
-  "user": "admin",
-  "likes": 10,
-  "dislikes": 2,
-  "creationDate": "2016/10/23",
-  "dirtyJoke": false
-}, {
-  "id": "580d853221194c000390bf93",
-  "title": "Perros y hombres",
-  "category": "Nuevos",
-  "jokeText": "¿Por qué se dice que el perro es el mejor amigo del hombre?\n -Porque entre animales se entienden",
-  "user": "admin",
-  "likes": 7,
+  "likes": 0,
   "dislikes": 0,
-  "creationDate": "2016/10/23",
+  "creationDate": "2016/11/02",
   "dirtyJoke": false
-}, {
-  "id": "580d854321194c000390bf94",
-  "title": "Mujeres hablan",
-  "category": "Nuevos",
-  "jokeText": "¿Por qué las mujeres hablan más de lo que piensan y los hombres piensan más de lo que hablan?\n -Porque las mujeres tienen cuatro labios y los hombres dos cabezas.",
-  "user": "admin",
-  "likes": 100,
-  "dislikes": 0,
-  "creationDate": "2016/10/20",
-  "dirtyJoke": true
 }]

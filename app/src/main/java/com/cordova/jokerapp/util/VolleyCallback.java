@@ -6,4 +6,5 @@ package com.cordova.jokerapp.util;
 
 public interface VolleyCallback {
     void onSuccess(String result);
+    void onError(String error);
 }

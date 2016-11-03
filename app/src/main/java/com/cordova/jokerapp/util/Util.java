@@ -20,6 +20,7 @@ public class Util {
     public static final String CATEGORIES = "categories";
     public static final String MY_PREFERENCES = "MyPreference";
     public static final String MY_ENABLED_HEAVY_JOKE = "ENABLED_HEAVY_JOKE";
+    public static final String FILENAME = "local_jokes.json";
 
 
     public void includeTheBestJokes(int top, Map<String, List<Joke>> mapJokes, List<String> listDataHeader, Map<String, List<Joke>> listDataChild, SharedPreferences sharedpreferences){

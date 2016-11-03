@@ -4,19 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.Toast;
 
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.RequestBuilder;
 import com.cordova.jokerapp.util.Util;
-import com.cordova.jokerapp.util.VolleyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +34,6 @@ import java.util.Map;
 public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DURATION = 7000;
-    private final String FILENAME = "local_jokes.json";
     private final String COPY_LOCAL_FILE = "COPY_LOCAL_FILE";
     SharedPreferences sharedpreferences;
     private Map<String, List<Joke>> mapJokes;
@@ -61,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
         progress.getWindow().setGravity(Gravity.BOTTOM);
         // progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         progress.show();
-        readJsonFromServer();
+       // readJsonFromServer();
 
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedpreferences.getBoolean(COPY_LOCAL_FILE, true)){
@@ -71,13 +66,9 @@ public class SplashActivity extends AppCompatActivity {
             editor.commit();
         }
 
-
+        readJsonFromFile();
         new Handler().postDelayed(new Runnable(){
             public void run(){
-                if(listDataHeader.size() == 0){
-                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
-                    readJsonFromFile();
-                }
                 new Util().includeTheBestJokes(10, mapJokes, listDataHeader, listDataChild, sharedpreferences);
                 progress.dismiss();
 
@@ -100,7 +91,7 @@ public class SplashActivity extends AppCompatActivity {
                 byteArrayOutputStream.write(ctr);
                 ctr = inputStream.read();
             }
-            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
             fos.write(byteArrayOutputStream.toString().getBytes());
             fos.close();
             inputStream.close();
@@ -113,7 +104,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void readJsonFromFile() {
         try {
-            FileInputStream fos = openFileInput(FILENAME);
+            FileInputStream fos = openFileInput(Util.FILENAME);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             int ctr = fos.read();
             while (ctr != -1) {
@@ -127,29 +118,6 @@ public class SplashActivity extends AppCompatActivity {
         }catch (IOException e) {
             Log.e(Util.TAG, e.getMessage());
         }
-    }
-
-
-    private void readJsonFromServer() {
-        //TODO - Get the location
-        RequestBuilder.requestGetAllJokes(this, "ES", true, new VolleyCallback() {
-            @Override
-            public void onSuccess(String result) {
-                if(!readJson(result)){
-                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
-                } else {
-                    try {
-                        FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                        fos.write(result.getBytes());
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
-                    } catch (IOException e) {
-                        Log.e(Util.TAG, "error trying to read the local json file: " + e.getMessage());
-                    }
-                }
-            }
-        });
     }
 
     private boolean readJson(String json){
