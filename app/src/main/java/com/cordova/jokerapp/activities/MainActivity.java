@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
                 if(!readJson(result)){
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
                 } else {
-                    listAdapter.notifyDataSetChanged();
                     try {
                         FileOutputStream fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
                         fos.write(result.getBytes());
@@ -255,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);
                     }
+                    listAdapter.notifyDataSetChanged();
                 }
 
             }

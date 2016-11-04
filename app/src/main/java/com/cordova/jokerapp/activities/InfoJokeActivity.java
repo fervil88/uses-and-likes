@@ -23,7 +23,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -34,6 +33,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private String currentId;
     InterstitialAd mInterstitialAd;
     private long mLastClickTime = 0;
+    private Map<String, List<Joke>> hashCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class InfoJokeActivity extends AppCompatActivity {
 
         final Random random = new Random();
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
-        final Map<String, List<Joke>> hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
+        hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
 
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -65,7 +65,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         requestNewInterstitial();
 
         updateLike(joke[0]);
-        updateDislike(joke[0]);
+        updateDislike(joke[0], listCategory);
         updateJoke(joke[0]);
 
         final FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.next_joke);
@@ -85,7 +85,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                 }
 
                 updateLike(joke[0]);
-                updateDislike(joke[0]);
+                updateDislike(joke[0], listCategory);
                 updateJoke(joke[0]);
             }
         });
@@ -121,29 +121,36 @@ public class InfoJokeActivity extends AppCompatActivity {
         mInterstitialAd.loadAd(adRequest);
     }
 
-    private void updateDislike(final Joke joke) {
+    private void updateDislike(final Joke joke, final List<Joke> listCategory) {
         final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
         assert dislikeButton != null;
         String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
-        if (idDisliked.equals("disliked")){
-            dislikeButton.setEnabled(false);
-            dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
+        if (idDisliked.equals("disliked")){ //Dislike button was pressed
+          //  dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
+            RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
+            dislikeButton.setImageResource(R.mipmap.red_trash);
+            dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
         } else {
-            dislikeButton.setEnabled(true);
+            dislikeButton.setImageResource(R.mipmap.dislike_white);
             dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9E9E9E")));
         }
 
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId()+"disliked", "disliked");
-                editor.commit();
-                dislikeButton.setEnabled(false);
-                dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
-
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
-                //TODO Update dislikes on existing list
+                String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
+                if (idDisliked.equals("disliked")){
+                    Toast.makeText(getApplicationContext(),getString(R.string.about) + getResources().getString(R.string.app_name),Toast.LENGTH_LONG).show();
+                    listCategory.remove(joke);
+                } else {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(joke.getId()+"disliked", "disliked");
+                    editor.commit();
+                    RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
+                    dislikeButton.setImageResource(R.mipmap.red_trash);
+                    dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
+                    //TODO Update dislikes on existing list
+                }
             }
         });
     }
