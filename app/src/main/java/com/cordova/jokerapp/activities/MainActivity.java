@@ -3,6 +3,7 @@ package com.cordova.jokerapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private MainActivity context;
     private Map<String, List<Joke>> mapJokes;
     private Menu optionsMenu;
+    private Map<String, List<Joke>> mapJokeToDelete;
 
 
     @Override
@@ -299,15 +301,50 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.close_message)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MainActivity.super.onBackPressed();
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(R.string.no, null)
                 .show();
+    }
 
+   @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Util.SHOW_JOKES) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                mapJokeToDelete = (Map<String, List<Joke>>) data.getSerializableExtra("jokesToDelete");
+                if(mapJokeToDelete.size() > 0){
+                    for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
+                        List<Joke> jokes;
+                        switch(entry.getKey()){
+                            case Util.NEW_JOKES:
+                            case Util.BEST_JOKES:
+                            default:
+                                for (Joke joke :entry.getValue()){
+                                    jokes = mapJokes.get(joke.getCategory());
+                                    if(jokes != null) jokes.remove(joke);
+                                    jokes = mapJokes.get(Util.NEW_JOKES);
+                                    if(jokes != null) jokes.remove(joke);
+                                    jokes = mapJokes.get(Util.BEST_JOKES);
+                                    if(jokes != null) jokes.remove(joke);
 
+                                    jokes = listDataChild.get(joke.getCategory());
+                                    if(jokes != null) jokes.remove(joke);
+                                    jokes = listDataChild.get(Util.NEW_JOKES);
+                                    if(jokes != null) jokes.remove(joke);
+                                    jokes = listDataChild.get(Util.BEST_JOKES);
+                                    if(jokes != null) jokes.remove(joke);
+                                }
+                        }
+                    }
+                    listAdapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }

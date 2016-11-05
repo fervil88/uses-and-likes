@@ -4,6 +4,7 @@ package com.cordova.jokerapp.adapters;
  * Created by Fernando on 9/26/2016.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.cordova.jokerapp.R;
 import com.cordova.jokerapp.activities.InfoJokeActivity;
 import com.cordova.jokerapp.domain.Joke;
+import com.cordova.jokerapp.util.Util;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,13 +26,14 @@ import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
+    private Activity context;
     private List<String> listDataHeader; // header titles
     // child data in format of header title, child title
     private Map<String, List<Joke>> listDataChild;
     private SharedPreferences sharedpreferences;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
+
+    public ExpandableListAdapter(Activity context, List<String> listDataHeader,
                                  Map<String, List<Joke>> listChildData) {
 
         this.context = context;
@@ -75,7 +78,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
                 showJokeIntent.putExtra("joke", selectedJoke);
                 showJokeIntent.putExtra("listCategory", (Serializable) listDataChild);
-                context.startActivity(showJokeIntent);
+                context.startActivityForResult(showJokeIntent, Util.SHOW_JOKES);
             }
         });
         return convertView;
@@ -134,4 +137,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.sharedpreferences = sharedpreferences;
     }
 
+    public List<String> getListDataHeader() {
+        return listDataHeader;
+    }
+
+    public void setListDataHeader(List<String> listDataHeader) {
+        this.listDataHeader = listDataHeader;
+    }
+
+    public Map<String, List<Joke>> getListDataChild() {
+        return listDataChild;
+    }
+
+    public void setListDataChild(Map<String, List<Joke>> listDataChild) {
+        this.listDataChild = listDataChild;
+    }
 }

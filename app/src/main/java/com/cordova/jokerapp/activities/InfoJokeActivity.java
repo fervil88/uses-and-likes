@@ -1,6 +1,8 @@
 package com.cordova.jokerapp.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -23,6 +25,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -34,11 +39,14 @@ public class InfoJokeActivity extends AppCompatActivity {
     InterstitialAd mInterstitialAd;
     private long mLastClickTime = 0;
     private Map<String, List<Joke>> hashCategory;
+    private Map<String, List<Joke>> mapJokeToDelete = new HashMap<String, List<Joke>>();
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_joke);
+        mapJokeToDelete.clear();
         Intent i = getIntent();
 
         final Random random = new Random();
@@ -139,9 +147,31 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
-                if (idDisliked.equals("disliked")){
-                    Toast.makeText(getApplicationContext(),getString(R.string.about) + getResources().getString(R.string.app_name),Toast.LENGTH_LONG).show();
-                    listCategory.remove(joke);
+                if (idDisliked.equals("disliked")) {
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    // set dialog message
+                    alertDialogBuilder.setMessage(R.string.message_delete_joke)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    listCategory.remove(joke);
+                                    List<Joke> jokes;
+                                    if (!mapJokeToDelete.containsKey(joke.getCategory())) {
+                                        jokes = new ArrayList<>();
+                                    } else {
+                                        jokes = mapJokeToDelete.get(joke.getCategory());
+                                    }
+                                    jokes.add(joke);
+                                    mapJokeToDelete.put(joke.getCategory(), jokes);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                   dialog.cancel();
+                                }
+                            });
+                    alertDialogBuilder.create().show();
                 } else {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(joke.getId()+"disliked", "disliked");
@@ -194,5 +224,14 @@ public class InfoJokeActivity extends AppCompatActivity {
             TextView user = (TextView) findViewById(R.id.user_joke);
             user.setText(joke.getUser());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("jokesToDelete", (Serializable) mapJokeToDelete);
+        setResult(MainActivity.RESULT_OK,returnIntent);
+        finish();
+        super.onDestroy();
     }
 }
