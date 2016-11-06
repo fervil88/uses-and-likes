@@ -16,6 +16,7 @@ import com.cordova.jokerapp.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -142,17 +143,12 @@ public class SplashActivity extends AppCompatActivity {
                 result = true;
                 JSONArray jArray = new JSONArray(json);
                 for (int i = 0; i < jArray.length(); i++) {
-                    String id = jArray.getJSONObject(i).getString("id");
-                    String user = jArray.getJSONObject(i).getString("user");
-                    String jokeTitle = jArray.getJSONObject(i).getString("title");
-                    String jokeText = jArray.getJSONObject(i).getString("jokeText");
-                    int likes = jArray.getJSONObject(i).getInt("likes");
-                    int dislikes = jArray.getJSONObject(i).getInt("dislikes");
-                    String jokeCategory = jArray.getJSONObject(i).getString("category");
+                    JSONObject o = jArray.getJSONObject(i);
+                    String jokeCategory = jArray.getJSONObject(i).getString(Util.PARAM_CATEGORY);
                   //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
-                    boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
-                    String creationDate = jArray.getJSONObject(i).getString("creationDate");
-                    Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
+                    Joke joke = new Joke(o.getString(Util.PARAM_ID), o.getString(Util.PARAM_TITLE), jokeCategory, o.getString(Util.PARAM_JOKE_TEXT),
+                            o.getString(Util.PARAM_USER), o.getInt(Util.PARAM_LIKES), o.getInt(Util.PARAM_DISLIKES), o.getBoolean(Util.PARAM_DIRTY_JOKE),
+                            o.getString(Util.PARAM_CREATION_DATE),o.getString(Util.PARAM_TAG),o.getLong(Util.PARAM_CHUNK));
                     List<Joke> jokes;
 
                     if (!mapJokes.containsKey(jokeCategory)) {

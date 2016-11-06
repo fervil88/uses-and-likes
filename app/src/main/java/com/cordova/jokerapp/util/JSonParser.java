@@ -44,13 +44,12 @@ public class JSonParser {
             for (int i = 0; i < jArray.length(); i++) {
                 currentId = jArray.getJSONObject(i).getString("id");
                 if (currentId.equalsIgnoreCase(id)) {
-                    String title = jArray.getJSONObject(i).getString("name");
-                    String category = jArray.getJSONObject(i).getString("category");
-                    String jokeText = jArray.getJSONObject(i).getString("joke");
-                    String user = jArray.getJSONObject(i).getString("user");
-                    //String likes = jArray.getJSONObject(i).getString("likes");
-                    //String dislikes = jArray.getJSONObject(i).getString("dislikes");
-                    Joke joke = new Joke(id, title, category, jokeText, user, Integer.parseInt("30"), Integer.parseInt("30"), false, new SimpleDateFormat("yyyy/mm/dd").toString());
+                    JSONObject o = jArray.getJSONObject(i);
+                    String jokeCategory = jArray.getJSONObject(i).getString(Util.PARAM_CATEGORY);
+                    //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
+                    Joke joke = new Joke(o.getString(Util.PARAM_ID), o.getString(Util.PARAM_TITLE), jokeCategory, o.getString(Util.PARAM_JOKE_TEXT),
+                            o.getString(Util.PARAM_USER), o.getInt(Util.PARAM_LIKES), o.getInt(Util.PARAM_DISLIKES), o.getBoolean(Util.PARAM_DIRTY_JOKE),
+                            o.getString(Util.PARAM_CREATION_DATE),o.getString(Util.PARAM_TAG),o.getLong(Util.PARAM_CHUNK));
                     return joke;
                 }
             }

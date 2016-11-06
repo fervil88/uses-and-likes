@@ -217,17 +217,12 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
                 JSONArray jArray = new JSONArray(json);
                 for (int i = 0; i < jArray.length(); i++) {
-                    String id = jArray.getJSONObject(i).getString("id");
-                    String user = jArray.getJSONObject(i).getString("user");
-                    String jokeTitle = jArray.getJSONObject(i).getString("title");
-                    String jokeText = jArray.getJSONObject(i).getString("jokeText");
-                    int likes = jArray.getJSONObject(i).getInt("likes");
-                    int dislikes = jArray.getJSONObject(i).getInt("dislikes");
-                    String jokeCategory = jArray.getJSONObject(i).getString("category");
+                    JSONObject o = jArray.getJSONObject(i);
+                    String jokeCategory = jArray.getJSONObject(i).getString(Util.PARAM_CATEGORY);
                     //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
-                    boolean isDirtyJoke = jArray.getJSONObject(i).getBoolean("dirtyJoke");
-                    String creationDate = jArray.getJSONObject(i).getString("creationDate");
-                    Joke joke = new Joke(id, jokeTitle, jokeCategory, jokeText, user, likes, dislikes, isDirtyJoke, creationDate);
+                    Joke joke = new Joke(o.getString(Util.PARAM_ID), o.getString(Util.PARAM_TITLE), jokeCategory, o.getString(Util.PARAM_JOKE_TEXT),
+                            o.getString(Util.PARAM_USER), o.getInt(Util.PARAM_LIKES), o.getInt(Util.PARAM_DISLIKES), o.getBoolean(Util.PARAM_DIRTY_JOKE),
+                            o.getString(Util.PARAM_CREATION_DATE),o.getString(Util.PARAM_TAG),o.getLong(Util.PARAM_CHUNK));
                     List<Joke> jokes;
 
                     if (!mapJokes.containsKey(jokeCategory)) {
@@ -390,15 +385,17 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < jArray.length(); i++) {
                             JSONObject obj = jArray.getJSONObject(i);
                             if(joke.getId().equals(obj.getString("id"))){
-                                obj.remove("id");
-                                obj.remove("user");
-                                obj.remove("title");
-                                obj.remove("jokeText");
-                                obj.remove("likes");
-                                obj.remove("dislikes");
-                                obj.remove("category");
-                                obj.remove("dirtyJoke");
-                                obj.remove("creationDate");
+                                obj.remove(Util.PARAM_ID);
+                                obj.remove(Util.PARAM_USER);
+                                obj.remove(Util.PARAM_TITLE);
+                                obj.remove(Util.PARAM_JOKE_TEXT);
+                                obj.remove(Util.PARAM_LIKES);
+                                obj.remove(Util.PARAM_DISLIKES);
+                                obj.remove(Util.PARAM_CATEGORY);
+                                obj.remove(Util.PARAM_DIRTY_JOKE);
+                                obj.remove(Util.PARAM_CREATION_DATE);
+                                obj.remove(Util.PARAM_TAG);
+                                obj.remove(Util.PARAM_CHUNK);
                                 isAJsonRemoved = true;
                             }
                         }

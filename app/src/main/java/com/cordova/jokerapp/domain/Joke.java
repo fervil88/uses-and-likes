@@ -16,10 +16,11 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
     private boolean isDirtyJoke;
     private String creationDate;
     private String tag;
+    private long chunk;
 
     public Joke(){}
 
-    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate, String tag) {
+    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate, String tag, long chunk) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -30,19 +31,7 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         this.isDirtyJoke = isDirtyJoke;
         this.creationDate = creationDate;
         this.tag = tag;
-    }
-
-    //TODO - remove this consturctor
-    public Joke(String id, String title, String category, String jokeText, String user, int likes, int dislikes, boolean isDirtyJoke, String creationDate) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.jokeText = jokeText;
-        this.user = user;
-        this.likes = likes;
-        this.dislikes = dislikes;
-        this.isDirtyJoke = isDirtyJoke;
-        this.creationDate = creationDate;
+        this.chunk = chunk;
     }
 
     public String getId() {
@@ -130,6 +119,14 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         this.tag = tag;
     }
 
+    public long getChunk() {
+        return chunk;
+    }
+
+    public void setChunk(long chunk) {
+        this.chunk = chunk;
+    }
+
     @Override
     public String toString() {
         return "Joke{" +
@@ -143,6 +140,7 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
                 ", isDirtyJoke=" + isDirtyJoke +
                 ", creationDate='" + creationDate + '\'' +
                 ", tag='" + tag + '\'' +
+                ", chunk=" + chunk +
                 '}';
     }
 

@@ -23,6 +23,17 @@ public class Util {
     public static final String FILENAME = "local_jokes.json";
     public static final int SHOW_JOKES = 1;
 
+    public static final String PARAM_ID = "id";
+    public static final String PARAM_USER = "user";
+    public static final String PARAM_TITLE = "title";
+    public static final String PARAM_JOKE_TEXT = "jokeText";
+    public static final String PARAM_LIKES = "likes";
+    public static final String PARAM_DISLIKES = "dislikes";
+    public static final String PARAM_CATEGORY = "category";
+    public static final String PARAM_DIRTY_JOKE= "dirtyJoke";
+    public static final String PARAM_CREATION_DATE = "creationDate";
+    public static final String PARAM_TAG = "tag";
+    public static final String PARAM_CHUNK = "chunk";
 
     public void includeTheBestJokes(int top, Map<String, List<Joke>> mapJokes, List<String> listDataHeader, Map<String, List<Joke>> listDataChild, SharedPreferences sharedpreferences){
         List<Joke> jokes = getTheBestJokes(top, mapJokes, sharedpreferences);

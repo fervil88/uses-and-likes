@@ -5,8 +5,10 @@
   "jokeText": "No es lo mismo la tormenta se avecina, que la vecina se atormenta",
   "user": "admin",
   "likes": 4,
-  "dislikes": 1,
+  "dislikes": 4,
   "creationDate": "2016/10/24",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d83aa21194c000390bf85",
@@ -15,8 +17,10 @@
   "jokeText": "No es lo mismo los dolores de las piernas que las piernas de Dolores",
   "user": "admin",
   "likes": 0,
-  "dislikes": 1,
+  "dislikes": 2,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d83f621194c000390bf86",
@@ -25,8 +29,10 @@
   "jokeText": "Un arquero era tan malo que sus compañeros le había dicho si le metían más de diez goles, le iban a tirar mierda en la cara. Entonces, el día del partido le meten más de veinte goles. Al ver esto sus compañeros lo amarran a un poste para arrojarle mierda y le dicen que pida su último deseo, entonces el pobre pero no tan boludo arquero piensa. ¡Quiero una maldita barrera!",
   "user": "admin",
   "likes": 31,
-  "dislikes": 3,
+  "dislikes": 4,
   "creationDate": "2016/10/18",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": true
 }, {
   "id": "580d841421194c000390bf87",
@@ -35,8 +41,10 @@
   "jokeText": "¿Por qué las gallinas quieren tanto a sus pollitos\n -Porque les costo un huevo tenerlos",
   "user": "admin",
   "likes": 15,
-  "dislikes": 9,
+  "dislikes": 17,
   "creationDate": "2016/10/19",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d843621194c000390bf88",
@@ -45,8 +53,10 @@
   "jokeText": "¿En qué se parecen las mujeres a los huracanes?\n -En que llegan fuertes y salvajes y se van tu auto, tu casa y los pibes",
   "user": "admin",
   "likes": 16,
-  "dislikes": 2,
+  "dislikes": 11,
   "creationDate": "2016/10/17",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d844f21194c000390bf89",
@@ -55,8 +65,10 @@
   "jokeText": "Un bebé cocodrilo le pregunta a su padré:\n -Papá, ¿algún día tendré mucho dinero?\n -Si, hijo.\n -¿Cuando papá?\n -¡Y con lo pelotudo que sos mañana cuando te cazen, te saquen toda la porquería que tenés en tu interior y te hagan cartera",
   "user": "admin",
   "likes": 7,
-  "dislikes": 1,
+  "dislikes": 2,
   "creationDate": "2016/10/19",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": true
 }, {
   "id": "580d846821194c000390bf8a",
@@ -65,8 +77,10 @@
   "jokeText": "Llega el hijo después de jugar un partido de fútbol a su casa y le dice a su padre:\n -Papá, me jugué el mejor partido de mi vida, salí goleador con 3 goles\n - hijo mió que alegría! ¿cuánto salieron?\n -¡Perdimos 2 a 1!",
   "user": "admin",
   "likes": 8,
-  "dislikes": 4,
+  "dislikes": 9,
   "creationDate": "2016/10/22",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5817cd9ca7254400037891e2",
@@ -75,8 +89,10 @@
   "jokeText": "Hoy en el colectivo, subió un enano y se sentó al lado mío.\nDespues de algunos minutos el colectivo frenó en una parada y el enano se resbaló del asiento. Entonces lo agarré del brazo y lo volví a sentar.\nUnos minutos más tarde el enano se resbaló de nuevo y conseguí ayudarlo otra vez. Al rato el enano pelotudo se resbala por tercera vez, lo agarré del brazo y le digo: \"agarrate bién enano pelotudo\" o te vas a estar resbalando todo el viaje!! Y el enano me dijo : \"hace 3 paradas que quiero bajarme y no me dejas la concha de tu madre\"",
   "user": "admin",
   "likes": 0,
-  "dislikes": 0,
+  "dislikes": 2,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5817d12ba7254400037891e3",
@@ -87,6 +103,8 @@
   "likes": 0,
   "dislikes": 0,
   "creationDate": "2016/18/31",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5817d447a7254400037891e4",
@@ -97,6 +115,8 @@
   "likes": 0,
   "dislikes": 0,
   "creationDate": "2016/10/31",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5818ad5ff82cb9000378150f",
@@ -107,6 +127,8 @@
   "likes": 1,
   "dislikes": 0,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d84b121194c000390bf8c",
@@ -117,6 +139,8 @@
   "likes": 9,
   "dislikes": 4,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d84c121194c000390bf8d",
@@ -127,6 +151,8 @@
   "likes": 4,
   "dislikes": 34,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d84d021194c000390bf8e",
@@ -135,8 +161,10 @@
   "jokeText": "¿Qué significa Trabajo en equipo?\n - Oportunidad de echarle la culpa a los demás si sale mal",
   "user": "admin",
   "likes": 14,
-  "dislikes": 3,
+  "dislikes": 15,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d84e321194c000390bf8f",
@@ -147,6 +175,8 @@
   "likes": 34,
   "dislikes": 2,
   "creationDate": "2016/10/22",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d84f521194c000390bf90",
@@ -157,6 +187,8 @@
   "likes": 3,
   "dislikes": 42,
   "creationDate": "2016/10/18",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d851021194c000390bf91",
@@ -167,6 +199,8 @@
   "likes": 8,
   "dislikes": 3,
   "creationDate": "2016/10/16",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d852221194c000390bf92",
@@ -177,6 +211,8 @@
   "likes": 10,
   "dislikes": 2,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d853221194c000390bf93",
@@ -187,6 +223,8 @@
   "likes": 8,
   "dislikes": 2,
   "creationDate": "2016/10/23",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "580d854321194c000390bf94",
@@ -194,9 +232,11 @@
   "category": "Machistas",
   "jokeText": "¿Por qué las mujeres hablan más de lo que piensan y los hombres piensan más de lo que hablan?\n -Porque las mujeres tienen cuatro labios y los hombres dos cabezas.",
   "user": "admin",
-  "likes": 102,
+  "likes": 103,
   "dislikes": 0,
   "creationDate": "2016/10/20",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": true
 }, {
   "id": "5818b2dcf82cb90003781510",
@@ -207,6 +247,32 @@
   "likes": 1,
   "dislikes": 0,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
+  "dirtyJoke": false
+}, {
+  "id": "581b36c7b0439d000303dcc9",
+  "title": "Conferencia de alcohol",
+  "category": "Borrachos",
+  "jokeText": "Un borracho es detenido por un policía a las tres de la mañana. El policía le pregunta:\n- ¿A dónde va vd.?\nEl borracho le responde:\n- Voy a una conferencia sobre el abuso del alcohol y sus efectos letales en el organismo, el mal ejemplo para los hijos y las consecuencias nefastas para la familia, el problema que causa en la economía familiar y la irresponsabilidad absoluta...\nEl policía lo mira incrédulo y le dice:\n- ¿En serio?, y ¿quién va a dar esa conferencia a esta hora?\n- ¿Quién va a ser?... ¡¡¡Mi mujer cuando llegue a casa!!!",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 20,
+  "creationDate": "2016/11/03",
+  "tag": null,
+  "chunk": 0,
+  "dirtyJoke": false
+}, {
+  "id": "581c98a4d73bc10003a54b24",
+  "title": "Como cruzar?",
+  "category": "Feministas",
+  "jokeText": "Están tres hombres perdidos en un bosque. El primer hombre encuentra un río bastante grande y del otro lado del río ve la ciudad. El hombre no sabe como pasar entonces le empieza a rezar a Dios que le dé la inteligencia para cruzar. Dios le da la inteligencia para que nade al otro lado del río. Después de un rato llega el segundo hombre y ve el mismo río y le pide a Dios que lo haga más inteligente que el primero para cruzar. Dios lo hace más inteligente que el primero y el segundo hace una canoa y cruza el río. Entonces llega el tercer hombre y le pide a Dios que lo haga más inteligente que el primero y el segundo y Dios lo convierte en una mujer y la mujer cruza el puente!!!",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 0,
+  "creationDate": "2016/11/04",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "581a1abed5aade0003bfcf77",
@@ -214,9 +280,11 @@
   "category": "Animales",
   "jokeText": "Un señor odia al gato de su mujer porqué no hace más que arañarle y decide hacerlo desaparecer. Lo mete en una bolsa y lo lleva en el coche a 20 kilómetros de su casa.\r\nCuando vuelve, el gato está sentado en el portal de la casa. Nervioso, el tipo repite la operación, pero ahora lo abandona a 40 kilómetros de su casa. Cuando vuelve, el gato otra vez está esperándolo en la puerta.\r\nEl hombre enojadisimo; agarra el gato, lo pone en el coche y recorre 93 kilómetros al este, 30 al norte, 27 al oeste y 25 hacia el sur... Suelta el gato y emprende el regreso a casa. \r\nAl cabo de un rato, llama a su mujer por el móvil y le dice:\r\n- Cariño, ¿el gato está por ahí?\r\n- Acaba de llegar, ¿por qué, querido? \r\n- Pon a ese desgraciado al teléfono, que me he perdido!!!",
   "user": "admin",
-  "likes": 0,
-  "dislikes": 0,
+  "likes": 1,
+  "dislikes": 4,
   "creationDate": "2016/11/02",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5817cd9ca7254400037891e2",
@@ -225,8 +293,10 @@
   "jokeText": "Hoy en el colectivo, subió un enano y se sentó al lado mío.\nDespues de algunos minutos el colectivo frenó en una parada y el enano se resbaló del asiento. Entonces lo agarré del brazo y lo volví a sentar.\nUnos minutos más tarde el enano se resbaló de nuevo y conseguí ayudarlo otra vez. Al rato el enano pelotudo se resbala por tercera vez, lo agarré del brazo y le digo: \"agarrate bién enano pelotudo\" o te vas a estar resbalando todo el viaje!! Y el enano me dijo : \"hace 3 paradas que quiero bajarme y no me dejas la concha de tu madre\"",
   "user": "admin",
   "likes": 0,
-  "dislikes": 0,
+  "dislikes": 2,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5818ad5ff82cb9000378150f",
@@ -237,6 +307,8 @@
   "likes": 1,
   "dislikes": 0,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "5818b2dcf82cb90003781510",
@@ -247,6 +319,32 @@
   "likes": 1,
   "dislikes": 0,
   "creationDate": "2016/11/01",
+  "tag": null,
+  "chunk": 0,
+  "dirtyJoke": false
+}, {
+  "id": "581b36c7b0439d000303dcc9",
+  "title": "Conferencia de alcohol",
+  "category": "Nuevos",
+  "jokeText": "Un borracho es detenido por un policía a las tres de la mañana. El policía le pregunta:\n- ¿A dónde va vd.?\nEl borracho le responde:\n- Voy a una conferencia sobre el abuso del alcohol y sus efectos letales en el organismo, el mal ejemplo para los hijos y las consecuencias nefastas para la familia, el problema que causa en la economía familiar y la irresponsabilidad absoluta...\nEl policía lo mira incrédulo y le dice:\n- ¿En serio?, y ¿quién va a dar esa conferencia a esta hora?\n- ¿Quién va a ser?... ¡¡¡Mi mujer cuando llegue a casa!!!",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 20,
+  "creationDate": "2016/11/03",
+  "tag": null,
+  "chunk": 0,
+  "dirtyJoke": false
+}, {
+  "id": "581c98a4d73bc10003a54b24",
+  "title": "Como cruzar?",
+  "category": "Nuevos",
+  "jokeText": "Están tres hombres perdidos en un bosque. El primer hombre encuentra un río bastante grande y del otro lado del río ve la ciudad. El hombre no sabe como pasar entonces le empieza a rezar a Dios que le dé la inteligencia para cruzar. Dios le da la inteligencia para que nade al otro lado del río. Después de un rato llega el segundo hombre y ve el mismo río y le pide a Dios que lo haga más inteligente que el primero para cruzar. Dios lo hace más inteligente que el primero y el segundo hace una canoa y cruza el río. Entonces llega el tercer hombre y le pide a Dios que lo haga más inteligente que el primero y el segundo y Dios lo convierte en una mujer y la mujer cruza el puente!!!",
+  "user": "admin",
+  "likes": 1,
+  "dislikes": 0,
+  "creationDate": "2016/11/04",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }, {
   "id": "581a1abed5aade0003bfcf77",
@@ -254,8 +352,10 @@
   "category": "Nuevos",
   "jokeText": "Un señor odia al gato de su mujer porqué no hace más que arañarle y decide hacerlo desaparecer. Lo mete en una bolsa y lo lleva en el coche a 20 kilómetros de su casa.\r\nCuando vuelve, el gato está sentado en el portal de la casa. Nervioso, el tipo repite la operación, pero ahora lo abandona a 40 kilómetros de su casa. Cuando vuelve, el gato otra vez está esperándolo en la puerta.\r\nEl hombre enojadisimo; agarra el gato, lo pone en el coche y recorre 93 kilómetros al este, 30 al norte, 27 al oeste y 25 hacia el sur... Suelta el gato y emprende el regreso a casa. \r\nAl cabo de un rato, llama a su mujer por el móvil y le dice:\r\n- Cariño, ¿el gato está por ahí?\r\n- Acaba de llegar, ¿por qué, querido? \r\n- Pon a ese desgraciado al teléfono, que me he perdido!!!",
   "user": "admin",
-  "likes": 0,
-  "dislikes": 0,
+  "likes": 1,
+  "dislikes": 4,
   "creationDate": "2016/11/02",
+  "tag": null,
+  "chunk": 0,
   "dirtyJoke": false
 }]
