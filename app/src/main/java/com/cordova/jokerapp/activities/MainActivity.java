@@ -24,7 +24,10 @@ import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -318,33 +321,116 @@ public class MainActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 mapJokeToDelete = (Map<String, List<Joke>>) data.getSerializableExtra("jokesToDelete");
+                List<Joke> listJokesToDelete = new ArrayList<Joke>();
                 if(mapJokeToDelete.size() > 0){
                     for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
                         List<Joke> jokes;
-                        switch(entry.getKey()){
-                            case Util.NEW_JOKES:
-                            case Util.BEST_JOKES:
-                            default:
-                                for (Joke joke :entry.getValue()){
+                        for (Joke joke :entry.getValue()){
+                            listJokesToDelete.add(joke);
+                            jokes = mapJokes.get(Util.NEW_JOKES);
+                            if(jokes != null) jokes.remove(joke);
+                            jokes = mapJokes.get(Util.BEST_JOKES);
+                            if(jokes != null) jokes.remove(joke);
+
+                            jokes = listDataChild.get(Util.NEW_JOKES);
+                            if(jokes != null) jokes.remove(joke);
+                            jokes = listDataChild.get(Util.BEST_JOKES);
+                            if(jokes != null) jokes.remove(joke);
+
+                            switch(entry.getKey()){
+                                case Util.NEW_JOKES:
+                                case Util.BEST_JOKES:
+                                    String categoryToDelte = "";
+                                    for (Map.Entry<String, List<Joke>> key : mapJokes.entrySet()) {
+                                        if(key.getValue() != null){
+                                            if(key.getValue().remove(joke)){
+                                                categoryToDelte = key.getKey();
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (listDataChild.get(categoryToDelte) != null){
+                                        listDataChild.get(categoryToDelte).remove(joke);
+                                    }
+                                    break;
+                                default:
                                     jokes = mapJokes.get(joke.getCategory());
-                                    if(jokes != null) jokes.remove(joke);
-                                    jokes = mapJokes.get(Util.NEW_JOKES);
-                                    if(jokes != null) jokes.remove(joke);
-                                    jokes = mapJokes.get(Util.BEST_JOKES);
                                     if(jokes != null) jokes.remove(joke);
 
                                     jokes = listDataChild.get(joke.getCategory());
                                     if(jokes != null) jokes.remove(joke);
-                                    jokes = listDataChild.get(Util.NEW_JOKES);
-                                    if(jokes != null) jokes.remove(joke);
-                                    jokes = listDataChild.get(Util.BEST_JOKES);
-                                    if(jokes != null) jokes.remove(joke);
-                                }
+                                    break;
+                            }
                         }
                     }
                     listAdapter.notifyDataSetChanged();
+                    removeJokeInJson(listJokesToDelete);
                 }
             }
+        }
+    }
+
+    public void removeJokeInJson(List<Joke> listJokesToDelete){
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            fis = openFileInput(Util.FILENAME);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            int ctr = fis.read();
+            while (ctr != -1) {
+                byteArrayOutputStream.write(ctr);
+                ctr = fis.read();
+            }
+            String json = byteArrayOutputStream.toString();
+            try {
+                if (json != null) {
+                    boolean isAJsonRemoved = false;
+                    JSONArray jArray = new JSONArray(json);
+                    for(Joke joke: listJokesToDelete){
+                        for (int i = 0; i < jArray.length(); i++) {
+                            JSONObject obj = jArray.getJSONObject(i);
+                            if(joke.getId().equals(obj.getString("id"))){
+                                obj.remove("id");
+                                obj.remove("user");
+                                obj.remove("title");
+                                obj.remove("jokeText");
+                                obj.remove("likes");
+                                obj.remove("dislikes");
+                                obj.remove("category");
+                                obj.remove("dirtyJoke");
+                                obj.remove("creationDate");
+                                isAJsonRemoved = true;
+                            }
+                        }
+                    }
+                    if(isAJsonRemoved){
+                        fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
+                        fos.write(jArray.toString().replaceAll("(\\{\\},)","").getBytes());
+                    }
+               }
+            } catch (Exception e) {
+                    Log.e(Util.TAG, "error trying to read the json file: " + e.getMessage());
+            }
+
+        } catch (FileNotFoundException e) {
+                Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
+        }catch (IOException e) {
+                Log.e(Util.TAG, e.getMessage());
+        } finally {
+           if(fis != null){
+               try {
+                   fis.close();
+               } catch (IOException e) {
+                   Log.e(Util.TAG, "Error trying to close the file: " + e.getMessage());
+               }
+           }
+           if(fos != null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    Log.e(Util.TAG, "Error trying to close the file: " + e.getMessage());
+                }
+           }
         }
     }
 }

@@ -227,11 +227,22 @@ public class InfoJokeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        returnJokesToDelete();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
+        returnJokesToDelete();
+        finish();
+        super.onDestroy();
+
+    }
+
+    private void returnJokesToDelete(){
         Intent returnIntent = new Intent();
         returnIntent.putExtra("jokesToDelete", (Serializable) mapJokeToDelete);
         setResult(MainActivity.RESULT_OK,returnIntent);
-        finish();
-        super.onDestroy();
     }
 }

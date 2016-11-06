@@ -1,6 +1,7 @@
 package com.cordova.jokerapp.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cordova.jokerapp.domain.Joke;
 import com.cordova.jokerapp.R;
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +22,7 @@ import java.text.SimpleDateFormat;
  */
 public class JSonParser {
 
-    public static Joke readJson(Context context, String id) throws FileNotFoundException, JSONException {
+    public Joke readJson(Context context, String id) throws FileNotFoundException, JSONException {
         InputStream inputStream = context.getResources().openRawResource(R.raw.jokes);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -41,7 +43,7 @@ public class JSonParser {
             String currentId;
             for (int i = 0; i < jArray.length(); i++) {
                 currentId = jArray.getJSONObject(i).getString("id");
-                if (currentId.equalsIgnoreCase(id)){
+                if (currentId.equalsIgnoreCase(id)) {
                     String title = jArray.getJSONObject(i).getString("name");
                     String category = jArray.getJSONObject(i).getString("category");
                     String jokeText = jArray.getJSONObject(i).getString("joke");
@@ -57,4 +59,5 @@ public class JSonParser {
         }
         return null;
     }
+
 }
