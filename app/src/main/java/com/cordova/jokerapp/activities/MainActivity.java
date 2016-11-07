@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                             if (joke.isDirtyJoke()){
                                 continue;
                             }
-                            //TODO replace the string by object
                             subCategoriesJokes.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
@@ -125,8 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                         List<Joke> subCategories = new LinkedList<>();
                         for (Joke joke: entry.getValue()){
-                            //TODO replace the string by object
-                            subCategories.add(joke);
+                              subCategories.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategories);
@@ -143,8 +142,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),getString(R.string.about) + getResources().getString(R.string.app_name),Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_refresh:
-                setRefreshActionButtonState(true);
-                readJsonFromServer();
+                long currentTime = Calendar.getInstance().getTimeInMillis();
+                sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+                if(currentTime >= sharedpreferences.getLong("enableRefreshTime", currentTime)){
+                    setRefreshActionButtonState(true);
+                    readJsonFromServer();
+                } else {
+                    Toast.makeText(getApplicationContext(),getString(R.string.last_version),Toast.LENGTH_LONG).show();
+                }
+
+
                 return true;
 
             default:
@@ -174,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
                 if(!readJson(result)){
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.problem_to_download_json),Toast.LENGTH_LONG).show();
                 } else {
+                    SharedPreferences.Editor edit = sharedpreferences.edit();
+                    edit.putLong("enableRefreshTime", Calendar.getInstance().getTimeInMillis() + (7*24*60*60*1000));
+                    edit.commit();
                     try {
                         FileOutputStream fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
                         fos.write(result.getBytes());
