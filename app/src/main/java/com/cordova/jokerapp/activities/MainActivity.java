@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     setRefreshActionButtonState(true);
                     readJsonFromServer();
                 } else {
-                    Toast.makeText(getApplicationContext(),getString(R.string.last_version),Toast.LENGTH_LONG).show();
+                     Toast.makeText(getApplicationContext(),getString(R.string.last_version),Toast.LENGTH_LONG).show();
                 }
 
 
@@ -174,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void readJsonFromServer() {
+        sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+        Long chunk = sharedpreferences.getLong("currentChunk", 0);
         //TODO - Get the location
-        RequestBuilder.requestGetAllJokes(this, "ES", true, new VolleyCallback() {
+        RequestBuilder.requestGetJokesByChunk(this, "ES", (chunk + 1), new VolleyCallback() {
             @Override
             public void onSuccess(String result) {
                 if(!readJson(result)){
@@ -184,15 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor edit = sharedpreferences.edit();
                     edit.putLong("enableRefreshTime", Calendar.getInstance().getTimeInMillis() + (7*24*60*60*1000));
                     edit.commit();
-                    try {
-                        FileOutputStream fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
-                        fos.write(result.getBytes());
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
-                    } catch (IOException e) {
-                        Log.e(Util.TAG, "error trying to read the local json file: " + e.getMessage());
-                    }
+                    copyFile(result);
                 }
                 setRefreshActionButtonState(false);
             }
@@ -204,6 +199,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void copyFile(String newJokes){
+        newJokes = newJokes.replace("[",",");
+        InputStream inputStream = null;
+        FileOutputStream fos = null;
+        try {
+            inputStream = openFileInput(Util.FILENAME);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            int ctr = inputStream.read();
+            while (ctr != -1) {
+                byteArrayOutputStream.write(ctr);
+                ctr = inputStream.read();
+            }
+            String oldJson = byteArrayOutputStream.toString().replace("]","");
+            newJokes = oldJson + newJokes;
+            fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
+            fos.write (newJokes.getBytes());
+        } catch (FileNotFoundException e) {
+            Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
+        } catch (IOException e) {
+            Log.e(Util.TAG, e.getMessage());
+        } finally {
+            if(fos != null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    Log.e(Util.TAG, "Error closing file: " + e.getMessage());
+                }
+            }
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    Log.e(Util.TAG, "Error closing file: " + e.getMessage());
+                }
+            }
+        }
+    }
+
 
     private boolean readJson(String json){
         boolean result = false;
@@ -222,10 +256,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
             boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
-            boolean cleanList = false;
-            if (json != null){
+            if (json != null && json.length() > 10){
+                long maxChuck = 0;
                 result = true;
                 JSONArray jArray = new JSONArray(json);
+                mapJokes.remove(Util.NEW_JOKES);
                 for (int i = 0; i < jArray.length(); i++) {
                     JSONObject o = jArray.getJSONObject(i);
                     String jokeCategory = jArray.getJSONObject(i).getString(Util.PARAM_CATEGORY);
@@ -233,40 +268,42 @@ public class MainActivity extends AppCompatActivity {
                     Joke joke = new Joke(o.getString(Util.PARAM_ID), o.getString(Util.PARAM_TITLE), jokeCategory, o.getString(Util.PARAM_JOKE_TEXT),
                             o.getString(Util.PARAM_USER), o.getInt(Util.PARAM_LIKES), o.getInt(Util.PARAM_DISLIKES), o.getBoolean(Util.PARAM_DIRTY_JOKE),
                             o.getString(Util.PARAM_CREATION_DATE),o.getString(Util.PARAM_TAG),o.getLong(Util.PARAM_CHUNK));
+                    if(joke.getChunk() > maxChuck){
+                        maxChuck = joke.getChunk();
+                    }
+
                     List<Joke> jokes;
+                    List<Joke> newJokes;
+
+                    if (!mapJokes.containsKey(Util.NEW_JOKES)) {
+                        newJokes = new ArrayList<>();
+                        listDataHeader.add(Util.NEW_JOKES);
+                    } else {
+                        newJokes = mapJokes.get(Util.NEW_JOKES);
+                    }
 
                     if (!mapJokes.containsKey(jokeCategory)) {
                         jokes = new ArrayList<>();
+                        listDataHeader.add(jokeCategory);
                     } else {
                         jokes = mapJokes.get(jokeCategory);
                     }
-                    if(!jokes.contains(joke)){
-                        jokes.add(joke);
-                        mapJokes.put(jokeCategory, jokes);
-                        cleanList = true;
+                    jokes.add(joke);
+                    newJokes.add(joke);
+                    mapJokes.put(jokeCategory, jokes);
+                    mapJokes.put(Util.NEW_JOKES, newJokes);
+                    if (!(!includeDirtyJokes && joke.isDirtyJoke())) {
+                        listDataChild.put(jokeCategory, jokes);
+                        listDataChild.put(Util.NEW_JOKES, newJokes);
                     }
                 }
-
-                if(cleanList){
-                    listDataHeader.clear();
-                    listDataChild.clear();
-
-                    for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        List<Joke> jokeList = entry.getValue();
-                        Collections.sort(jokeList);
-                        List<Joke> subCategoriesJokes = new LinkedList<>();
-                        for (Joke joke : jokeList) {
-                            if (!includeDirtyJokes && joke.isDirtyJoke()) {
-                                continue;
-                            }
-                            subCategoriesJokes.add(joke);
-                        }
-                        listDataHeader.add(entry.getKey());
-                        listDataChild.put(entry.getKey(), subCategoriesJokes);
-                    }
-                    listAdapter.notifyDataSetChanged();
-                }
-
+                Collections.sort(listDataChild.get(Util.NEW_JOKES));
+                Collections.sort(mapJokes.get(Util.NEW_JOKES));
+                listAdapter.notifyDataSetChanged();
+                sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putLong("currentChunk", maxChuck);
+                editor.commit();
             }
         } catch (Exception e) {
             Log.e(Util.TAG, "error trying to read the json file: " + e.getMessage());

@@ -25,6 +25,7 @@ public class RequestBuilder {
 
     public final static String URL_MAIN_JSON = "https://jokes-server.herokuapp.com/jokes";
     public final static String URL_ALL_JOKES = URL_MAIN_JSON + "/all/";
+    public final static String URL_JOKE_CHUNK = URL_MAIN_JSON + "/chunk/";
     public final static String URL_JOKE_LIKE = URL_MAIN_JSON + "/like/";
     public final static String URL_JOKE_DISLIKE = URL_MAIN_JSON + "/dislike/";
 
@@ -32,6 +33,41 @@ public class RequestBuilder {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         final String url = includeLatest ? (URL_ALL_JOKES + tag): URL_MAIN_JSON;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i(MainActivity.TAG, url);
+                        Log.i(MainActivity.TAG, response.toString());
+                        callback.onSuccess(response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i(MainActivity.TAG, error.toString());
+                        callback.onError(error.getMessage());
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(
+                        "Authorization",
+                        String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", "admin", "admin6699123").getBytes(), Base64.DEFAULT)));
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public static void requestGetJokesByChunk (Context context, final String tag, long chunk, final VolleyCallback callback) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        final String url = URL_JOKE_CHUNK + tag + "/" + chunk;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
