@@ -158,12 +158,8 @@ public class InfoJokeActivity extends AppCompatActivity {
                     // set dialog message
                     alertDialogBuilder.setMessage(R.string.message_delete_joke)
                             .setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.yes_deletion, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-
-                                    Log.i("Antes",listCategory.size() + "");
-                                    Log.i("Se borro?",listCategory.remove(joke) + "");
-                                    Log.i("Antes",listCategory.size() + "");
                                     List<Joke> jokes;
                                     if (!mapJokeToDelete.containsKey(joke.getCategory())) {
                                         jokes = new ArrayList<>();
@@ -175,7 +171,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                                     onBackPressed();
                                 }
                             })
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.no_deletion, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                    dialog.cancel();
                                 }

@@ -368,13 +368,13 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.close_message)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes_exit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MainActivity.super.onBackPressed();
                     }
                 })
-                .setNegativeButton(R.string.no, null)
+                .setNegativeButton(R.string.no_exit, null)
                 .show();
     }
 

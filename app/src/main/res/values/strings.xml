@@ -37,6 +37,8 @@
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
     <string name="message_delete_joke">¿Realmente queres borrar este chiste?</string>
-    <string name="yes">Y bue...</string>
-    <string name="no">No da</string>
+    <string name="yes_exit">Si, me voy</string>
+    <string name="no_exit">Me quedo</string>
+    <string name="yes_deletion">Si, borralo</string>
+    <string name="no_deletion">No, no lo borres</string>
 </resources>
