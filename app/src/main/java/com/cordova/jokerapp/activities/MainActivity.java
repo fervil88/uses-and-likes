@@ -259,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
                     result = true;
                     JSONArray jArray = new JSONArray(json);
                     StringBuilder contentNewJokes = new StringBuilder();
-                    contentNewJokes.append("[");
                     mapJokes.remove(Util.NEW_JOKES);
                     for (int i = 0; i < jArray.length(); i++) {
                         JSONObject o = jArray.getJSONObject(i);
@@ -302,11 +301,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     contentNewJokes.delete(contentNewJokes.length() - 1, contentNewJokes.length());
-                    contentNewJokes.append("]");
                     FileOutputStream fos = null;
                     try {
                         fos = openFileOutput(Util.NEW_FILENAME, Context.MODE_PRIVATE);
-                        fos.write(contentNewJokes.toString().replaceAll("\\[\\[", "[").replaceAll("\\]\\]", "]").getBytes());
+                        String contentFile = "[" + contentNewJokes.toString().replaceAll("\\[", "").replaceAll("\\]", "") + "]";
+                        fos.write(contentFile.getBytes());
                     } catch (FileNotFoundException e) {
                         Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
                     } catch (IOException e) {
