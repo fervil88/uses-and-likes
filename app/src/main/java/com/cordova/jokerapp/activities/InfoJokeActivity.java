@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private Map<String, List<Joke>> hashCategory;
     private Map<String, List<Joke>> mapJokeToDelete = new HashMap<String, List<Joke>>();
     final Context context = this;
+    private final Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,6 @@ public class InfoJokeActivity extends AppCompatActivity {
         mapJokeToDelete.clear();
         Intent i = getIntent();
 
-        final Random random = new Random();
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
         hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
 
@@ -81,20 +82,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentId = joke[0].getId();
-                while(listCategory.size() > 1 && joke[0].getId() == currentId){
-                    int index = random.nextInt(listCategory.size());
-                    joke[0] = listCategory.get(index);
-                }
-                currentId = joke[0].getId();
-
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                }
-
-                updateLike(joke[0]);
-                updateDislike(joke[0], listCategory);
-                updateJoke(joke[0]);
+                clickOnNext(joke, listCategory, random);
             }
         });
 
@@ -119,6 +107,23 @@ public class InfoJokeActivity extends AppCompatActivity {
                 mLastClickTime = SystemClock.elapsedRealtime();
             }
         });
+    }
+
+    private void clickOnNext(Joke[] joke, List<Joke> listCategory, Random random) {
+        currentId = joke[0].getId();
+        while(listCategory.size() > 1 && joke[0].getId() == currentId){
+            int index = random.nextInt(listCategory.size());
+            joke[0] = listCategory.get(index);
+        }
+        currentId = joke[0].getId();
+
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+
+        updateLike(joke[0]);
+        updateDislike(joke[0], listCategory);
+        updateJoke(joke[0]);
     }
 
     private void requestNewInterstitial() {
@@ -155,7 +160,10 @@ public class InfoJokeActivity extends AppCompatActivity {
                             .setCancelable(false)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    listCategory.remove(joke);
+
+                                    Log.i("Antes",listCategory.size() + "");
+                                    Log.i("Se borro?",listCategory.remove(joke) + "");
+                                    Log.i("Antes",listCategory.size() + "");
                                     List<Joke> jokes;
                                     if (!mapJokeToDelete.containsKey(joke.getCategory())) {
                                         jokes = new ArrayList<>();
@@ -164,6 +172,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                                     }
                                     jokes.add(joke);
                                     mapJokeToDelete.put(joke.getCategory(), jokes);
+                                    onBackPressed();
                                 }
                             })
                             .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -229,6 +238,9 @@ public class InfoJokeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         returnJokesToDelete();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
         super.onBackPressed();
     }
 

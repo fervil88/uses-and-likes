@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);

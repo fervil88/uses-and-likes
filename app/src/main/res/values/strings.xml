@@ -21,22 +21,21 @@
     <string name="close_message">¿Vas a parar de reir?</string>
 
     <string name="banner_ad_unit_idTest">ca-app-pub-3940256099942544/6300978111</string>
-
     <string name="ad_main_banner">ca-app-pub-7583676595231228/7463374791</string>
     <string name="ad_info_banner">ca-app-pub-7583676595231228/6765370799</string>
-
     <string name="ad_info_interstitial">ca-app-pub-7583676595231228/7550773196</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
+
     <string name="refresh">Actualizar</string>
     <string name="title_activity_main_grid_joker">MainGridJoker</string>
 
-    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
     <string name="start_level">Level 1</string>
     <string name="next_level">Next Level</string>
     <!-- -
         This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="message_delete_joke">¿Realmente queres borrar este chiste?</string>
     <string name="yes">Y bue...</string>
     <string name="no">No da</string>
