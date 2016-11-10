@@ -129,19 +129,17 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
 
     @Override
     public String toString() {
-        return "Joke{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", jokeText='" + jokeText + '\'' +
-                ", user='" + user + '\'' +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                ", isDirtyJoke=" + isDirtyJoke +
-                ", creationDate='" + creationDate + '\'' +
-                ", tag='" + tag + '\'' +
-                ", chunk=" + chunk +
-                '}';
+        return "{\"id\":\"" + id + "\"," +
+                "\"title\":\"" + title + "\"," +
+                "\"category\":\"" + category + "\"," +
+                "\"jokeText\":\"" + jokeText + "\"," +
+                "\"user\":\"" + user + "\"," +
+                "\"likes\":" + likes + "," +
+                "\"dislikes\":" + dislikes + "," +
+                "\"creationDate\":\"" + creationDate + "\"," +
+                "\"tag\":\"" + tag + "\"," +
+                "\"chunk\":" + chunk + "," +
+                "\"dirtyJoke\":" + isDirtyJoke + "}";
     }
 
     @Override
