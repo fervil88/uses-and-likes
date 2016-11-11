@@ -114,7 +114,6 @@ public class SplashActivity extends AppCompatActivity {
             }
             fos.close();
             readJson(byteArrayOutputStream.toString(), false);
-
             fos = openFileInput(Util.NEW_FILENAME);
             byteArrayOutputStream = new ByteArrayOutputStream();
             ctr = fos.read();
@@ -131,10 +130,10 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private boolean readJson(String json, boolean updateMap){
+    private boolean readJson(String json, boolean isNew){
         boolean result = false;
         try {
-            result = readJsonAndParserData(json, updateMap);
+            result = readJsonAndParserData(json, isNew);
         } catch (FileNotFoundException e) {
             Log.e(Util.TAG,"json file not found: "+ e.getMessage());
         } catch (JSONException e) {
@@ -144,7 +143,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    private boolean readJsonAndParserData(String json, boolean updateMap) throws FileNotFoundException, JSONException {
+    private boolean readJsonAndParserData(String json, boolean isNew) throws FileNotFoundException, JSONException {
         boolean result = false;
         try {
             sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -170,7 +169,7 @@ public class SplashActivity extends AppCompatActivity {
                     mapJokes.put(jokeCategory, jokes);
                 }
 
-                if(updateMap){
+                if(!isNew){
                     for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                         List<Joke> jokeList = entry.getValue();
                         Collections.sort(jokeList);
@@ -184,6 +183,18 @@ public class SplashActivity extends AppCompatActivity {
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategoriesJokes);
                     }
+                } else {
+                    List<Joke> jokeList = mapJokes.get(Util.NEW_JOKES);
+                    Collections.sort(jokeList);
+                    List<Joke> subCategoriesJokes = new LinkedList<>();
+                    for (Joke joke : jokeList) {
+                        if (!includeDirtyJokes && joke.isDirtyJoke()) {
+                            continue;
+                        }
+                        subCategoriesJokes.add(joke);
+                    }
+                    listDataHeader.add(Util.NEW_JOKES);
+                    listDataChild.put(Util.NEW_JOKES, subCategoriesJokes);
                 }
             }
         } catch (Exception e) {

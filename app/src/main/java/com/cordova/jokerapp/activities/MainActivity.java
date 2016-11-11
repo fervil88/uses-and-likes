@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                     long maxChuck = 0;
                     result = true;
                     JSONArray jArray = new JSONArray(json);
-                    StringBuilder contentNewJokes = new StringBuilder();
+                    String contentFile = "[";
                     mapJokes.remove(Util.NEW_JOKES);
                     for (int i = 0; i < jArray.length(); i++) {
                         JSONObject o = jArray.getJSONObject(i);
@@ -290,8 +290,10 @@ public class MainActivity extends AppCompatActivity {
                         Joke newJoke = (Joke) joke.clone();
                         newJoke.setCategory(Util.NEW_JOKES);
                         newJokes.add(newJoke);
-                        contentNewJokes.append(newJokes.toString());
-                        contentNewJokes.append(",");
+                        contentFile = contentFile + newJokes.toString();
+                        if(i < jArray.length() - 2){
+                            contentFile = contentFile + ",";
+                        }
                         mapJokes.put(jokeCategory, jokes);
                         mapJokes.put(Util.NEW_JOKES, newJokes);
                         if (!(!includeDirtyJokes && joke.isDirtyJoke())) {
@@ -299,11 +301,10 @@ public class MainActivity extends AppCompatActivity {
                             listDataChild.put(Util.NEW_JOKES, newJokes);
                         }
                     }
-                    contentNewJokes.delete(contentNewJokes.length() - 1, contentNewJokes.length());
                     FileOutputStream fos = null;
                     try {
                         fos = openFileOutput(Util.NEW_FILENAME, Context.MODE_PRIVATE);
-                        String contentFile = "[" + contentNewJokes.toString().replaceAll("\\[", "").replaceAll("\\]", "") + "]";
+                        contentFile = contentFile + "]";
                         fos.write(contentFile.getBytes());
                     } catch (FileNotFoundException e) {
                         Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
