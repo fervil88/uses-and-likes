@@ -290,8 +290,8 @@ public class MainActivity extends AppCompatActivity {
                         Joke newJoke = (Joke) joke.clone();
                         newJoke.setCategory(Util.NEW_JOKES);
                         newJokes.add(newJoke);
-                        contentFile = contentFile + newJokes.toString();
-                        if(i < jArray.length() - 2){
+                        contentFile = contentFile + newJoke.toString() + "\"jokeText\":\"" + newJoke.getJokeText().replace("\n",".").replace("\r"," ").replaceAll("\"","'") + "\"}";
+                        if(i < jArray.length() - 1){
                             contentFile = contentFile + ",";
                         }
                         mapJokes.put(jokeCategory, jokes);

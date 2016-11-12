@@ -132,14 +132,13 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         return "{\"id\":\"" + id + "\"," +
                 "\"title\":\"" + title + "\"," +
                 "\"category\":\"" + category + "\"," +
-                "\"jokeText\":\"" + jokeText + "\"," +
                 "\"user\":\"" + user + "\"," +
                 "\"likes\":" + likes + "," +
                 "\"dislikes\":" + dislikes + "," +
                 "\"creationDate\":\"" + creationDate + "\"," +
                 "\"tag\":\"" + tag + "\"," +
                 "\"chunk\":" + chunk + "," +
-                "\"dirtyJoke\":" + isDirtyJoke + "}";
+                "\"dirtyJoke\":" + isDirtyJoke + ",";
     }
 
     @Override
