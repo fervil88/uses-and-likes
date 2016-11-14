@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.activities;
+package com.cordova.jokesapp.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,12 +13,12 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.adapters.ExpandableListAdapter;
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.RequestBuilder;
-import com.cordova.jokerapp.util.Util;
-import com.cordova.jokerapp.util.VolleyCallback;
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.adapters.ExpandableListAdapter;
+import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.util.RequestBuilder;
+import com.cordova.jokesapp.util.Util;
+import com.cordova.jokesapp.util.VolleyCallback;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 

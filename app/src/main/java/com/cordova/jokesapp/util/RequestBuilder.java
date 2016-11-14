@@ -1,19 +1,16 @@
-package com.cordova.jokerapp.util;
+package com.cordova.jokesapp.util;
 
 import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.activities.MainActivity;
+import com.cordova.jokesapp.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;

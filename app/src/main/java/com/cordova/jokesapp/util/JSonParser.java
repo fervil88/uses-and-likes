@@ -1,21 +1,18 @@
-package com.cordova.jokerapp.util;
+package com.cordova.jokesapp.util;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.R;
+import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Fernando on 10/10/2016.

@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.activities;
+package com.cordova.jokesapp.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.adapters.JokeTextArrayAdapter;
-import com.cordova.jokerapp.domain.Joke;
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.adapters.JokeTextArrayAdapter;
+import com.cordova.jokesapp.domain.Joke;
 
 import java.io.Serializable;
 import java.util.ArrayList;

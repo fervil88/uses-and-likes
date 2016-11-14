@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.util;
+package com.cordova.jokesapp.util;
 
 /**
  * Created by Emi on 19/10/2016.

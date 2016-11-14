@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.activities;
+package com.cordova.jokesapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.Util;
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;

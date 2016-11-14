@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.adapters;
+package com.cordova.jokesapp.adapters;
 
 /**
  * Created by Fernando on 9/26/2016.
@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.activities.InfoJokeActivity;
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.Util;
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.activities.InfoJokeActivity;
+import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.util.Util;
 
 import java.io.Serializable;
 import java.util.List;

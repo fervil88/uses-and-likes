@@ -1,9 +1,9 @@
-package com.cordova.jokerapp.util;
+package com.cordova.jokesapp.util;
 
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.cordova.jokerapp.domain.Joke;
+import com.cordova.jokesapp.domain.Joke;
 
 import java.util.Collections;
 import java.util.LinkedList;

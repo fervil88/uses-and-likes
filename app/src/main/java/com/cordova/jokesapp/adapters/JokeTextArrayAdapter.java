@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.adapters;
+package com.cordova.jokesapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,8 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.domain.Joke;
+
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.domain.Joke;
 
 import java.util.List;
 

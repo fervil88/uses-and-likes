@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.activities;
+package com.cordova.jokesapp.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,15 +12,13 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cordova.jokerapp.R;
-import com.cordova.jokerapp.domain.Joke;
-import com.cordova.jokerapp.util.RequestBuilder;
-import com.cordova.jokerapp.util.Util;
+import com.cordova.jokesapp.R;
+import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.util.RequestBuilder;
+import com.cordova.jokesapp.util.Util;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -102,7 +100,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                 Intent i = new Intent(android.content.Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Joke by Chistoso");
-                i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokerApp:" + jokeText.getText().toString() );
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokesApp:" + jokeText.getText().toString() );
                 startActivity(Intent.createChooser(i,"Share via"));
                 mLastClickTime = SystemClock.elapsedRealtime();
             }

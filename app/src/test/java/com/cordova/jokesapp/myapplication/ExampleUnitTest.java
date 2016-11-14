@@ -1,4 +1,4 @@
-package com.cordova.jokerapp.myapplication;
+package com.cordova.jokesapp.myapplication;
 
 import org.junit.Test;
 

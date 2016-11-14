@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "619617478751",
-    "firebase_url": "https://jokerapp-b90cc.firebaseio.com",
-    "project_id": "jokerapp-b90cc",
-    "storage_bucket": "jokerapp-b90cc.appspot.com"
+    "project_number": "567606264712",
+    "firebase_url": "https://jokesapp-29fbb.firebaseio.com",
+    "project_id": "jokesapp-29fbb",
+    "storage_bucket": "jokesapp-29fbb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:619617478751:android:2a1c5347711dff7b",
+        "mobilesdk_app_id": "1:567606264712:android:5fb9580deda63eb4",
         "android_client_info": {
-          "package_name": "com.cordova.jokerapp"
+          "package_name": "com.cordova.jokesapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "619617478751-413numn8gbnfsblupbh7jm4cd7kugdv7.apps.googleusercontent.com",
+          "client_id": "567606264712-jr198npmirm4v2us4p6dda37utbqv0pn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cordova.jokesapp",
+            "certificate_hash": "7C2CAA6F0C4FFF91741D41CEE8AEBD4D4F7CC29B"
+          }
+        },
+        {
+          "client_id": "567606264712-saqtkrrr8dg2lqjithri7j0huunstfr1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBTlhhYWsWreboPWza4w5i2-ZJM6UQKG-M"
+          "current_key": "AIzaSyCWqMH7W91PLaz0fgvOE6_4ongGEVW2VBs"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567606264712-saqtkrrr8dg2lqjithri7j0huunstfr1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
