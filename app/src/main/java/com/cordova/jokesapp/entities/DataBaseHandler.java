@@ -176,7 +176,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     // Adding new Joke
     private void addJokes(List<Joke> jokes, String table) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.close();
         for (Joke joke: jokes){
             ContentValues values = new ContentValues();
             values.put(Joke.JokeTable._ID, joke.getId());
