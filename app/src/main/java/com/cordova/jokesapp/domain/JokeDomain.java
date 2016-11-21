@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Created by Fernando on 10/10/2016.
  */
-public class Joke implements Comparable<Joke>, Cloneable, Serializable{
-    private String id;
+public class JokeDomain{
+/*    private String id;
     private String title;
     private String category;
     private String jokeText;
@@ -177,4 +177,5 @@ public class Joke implements Comparable<Joke>, Cloneable, Serializable{
         result = 31 * result + creationDate.hashCode();
         return result;
     }
+    */
 }

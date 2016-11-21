@@ -15,12 +15,14 @@ import android.widget.Toast;
 
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.adapters.ExpandableListAdapter;
-import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.util.RequestBuilder;
 import com.cordova.jokesapp.util.Util;
 import com.cordova.jokesapp.util.VolleyCallback;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 listDataHeader.clear();
                 listDataChild.clear();
+                List<Joke> newCategory = new LinkedList<>();
                 if (item.isChecked()) {
                     item.setChecked(false);
                     editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
@@ -111,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                         for (Joke joke : entry.getValue()) {
                             if (joke.isDirtyJoke()) {
                                 continue;
+                            }
+                            if (new Util().isFromCurrentMonth(joke)) {
+                                newCategory.add(joke);
                             }
                             subCategoriesJokes.add(joke);
                         }
@@ -124,13 +130,21 @@ public class MainActivity extends AppCompatActivity {
                         List<Joke> subCategories = new LinkedList<>();
                         for (Joke joke : entry.getValue()) {
                             subCategories.add(joke);
+                            if (new Util().isFromCurrentMonth(joke)) {
+                                newCategory.add(joke);
+                            }
                         }
                         listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), subCategories);
                     }
                 }
                 editor.commit();
-                new Util().includeTheBestJokes(10, mapJokes, listDataHeader, listDataChild, sharedpreferences);
+
+                listDataHeader.add(Util.NEW_JOKES);
+                listDataChild.put(Util.NEW_JOKES, newCategory);
+                List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
+                listDataHeader.add(Util.BEST_JOKES);
+                listDataChild.put(Util.BEST_JOKES, listBestJoke);
                 listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
@@ -235,13 +249,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean readJson(String json) {
         boolean result = false;
-        try {
-            result = readJsonAndParserData(json);
-        } catch (FileNotFoundException e) {
-            Log.e(Util.TAG, "json file not found: " + e.getMessage());
-        } catch (JSONException e) {
-            Log.e(Util.TAG, "error reading json: " + e.getMessage());
-        }
+        Gson gson = new GsonBuilder().create();
+        List<Joke> list = (List<Joke>) gson.fromJson(json, Joke.class);
+        Log.i("[jokes from server]:", list.size() + "" );
         return result;
     }
 
@@ -395,11 +405,6 @@ public class MainActivity extends AppCompatActivity {
                             jokes = mapJokes.get(Util.NEW_JOKES);
                             if (jokes != null) jokes.remove(joke);
                             jokes = mapJokes.get(Util.BEST_JOKES);
-                            if (jokes != null) jokes.remove(joke);
-
-                            jokes = listDataChild.get(Util.NEW_JOKES);
-                            if (jokes != null) jokes.remove(joke);
-                            jokes = listDataChild.get(Util.BEST_JOKES);
                             if (jokes != null) jokes.remove(joke);
 
                             switch (entry.getKey()) {

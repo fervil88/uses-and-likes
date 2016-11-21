@@ -3,9 +3,14 @@ package com.cordova.jokesapp.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.entities.Joke;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,17 +41,8 @@ public class Util {
     public static final String PARAM_TAG = "tag";
     public static final String PARAM_CHUNK = "chunk";
 
-    public void includeTheBestJokes(int top, Map<String, List<Joke>> mapJokes, List<String> listDataHeader, Map<String, List<Joke>> listDataChild, SharedPreferences sharedpreferences){
-        List<Joke> jokes = getTheBestJokes(top, mapJokes, sharedpreferences);
-        List<Joke> subCategoriesJokes = new LinkedList<>();
-        for (Joke joke: jokes){
-            subCategoriesJokes.add(joke);
-        }
-        listDataHeader.add(Util.BEST_JOKES);
-        listDataChild.put(Util.BEST_JOKES, subCategoriesJokes);
-    }
 
-    private List<Joke> getTheBestJokes(int top, Map<String, List<Joke>> mapJokes, SharedPreferences sharedpreferences){
+    public List<Joke> getTheBestJokes(int top, Map<String, List<Joke>> mapJokes, SharedPreferences sharedpreferences){
         List<Joke> jokes = new LinkedList<>();
         float minAdded = 0;
         boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
@@ -81,6 +77,26 @@ public class Util {
         }
         Collections.sort(jokes);
         return jokes;
+    }
+
+    public boolean isFromCurrentMonth (Joke joke) {
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd"); //actual date
+
+        try {
+            Date jokeDate = jokeDate = simpleDateFormat.parse(joke.getCreationDate());
+            Calendar cal = Calendar.getInstance();
+            int currentMonth = cal.get(Calendar.MONTH);
+            int currentYear = cal.get(Calendar.YEAR);
+            cal.setTime(jokeDate);
+            int jokeMonth = cal.get(Calendar.MONTH);
+            int jokeYear = cal.get(Calendar.YEAR);
+            if (currentYear == jokeYear && currentMonth == jokeMonth) {
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

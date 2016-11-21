@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.adapters.JokeTextArrayAdapter;
-import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.entities.Joke;
 
 import java.io.Serializable;
 import java.util.ArrayList;

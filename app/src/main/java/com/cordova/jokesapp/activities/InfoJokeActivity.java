@@ -16,8 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cordova.jokesapp.R;
-import com.cordova.jokesapp.domain.Joke;
-import com.cordova.jokesapp.util.RequestBuilder;
+import com.cordova.jokesapp.entities.DataBaseHandler;
+import com.cordova.jokesapp.entities.Joke;
+import com.cordova.jokesapp.entities.JokerDBOperation;
 import com.cordova.jokesapp.util.Util;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -41,6 +42,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private Map<String, List<Joke>> mapJokeToDelete = new HashMap<String, List<Joke>>();
     final Context context = this;
     private final Random random = new Random();
+    private JokerDBOperation JDBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,9 @@ public class InfoJokeActivity extends AppCompatActivity {
         mapJokeToDelete.clear();
         Intent i = getIntent();
 
+        JDBO = DataBaseHandler.getInstance(getApplicationContext());
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
+
         hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
 
         final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
@@ -99,8 +103,8 @@ public class InfoJokeActivity extends AppCompatActivity {
                 TextView jokeText = (TextView) findViewById(R.id.joke_text);
                 Intent i = new Intent(android.content.Intent.ACTION_SEND);
                 i.setType("text/plain");
-                i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Joke by Chistoso");
-                i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokesApp:" + jokeText.getText().toString() );
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT,"By JokerApp:");
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "By JokerApp:" + jokeText.getText().toString() );
                 startActivity(Intent.createChooser(i,"Share via"));
                 mLastClickTime = SystemClock.elapsedRealtime();
             }
@@ -137,8 +141,6 @@ public class InfoJokeActivity extends AppCompatActivity {
         assert dislikeButton != null;
         String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
         if (idDisliked.equals("disliked")){ //Dislike button was pressed
-          //  dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E53935")));
-            RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
             dislikeButton.setImageResource(R.mipmap.red_trash);
             dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
         } else {
@@ -151,9 +153,7 @@ public class InfoJokeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
                 if (idDisliked.equals("disliked")) {
-
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    // set dialog message
                     alertDialogBuilder.setMessage(R.string.message_delete_joke)
                             .setCancelable(false)
                             .setPositiveButton(R.string.yes_deletion, new DialogInterface.OnClickListener() {
@@ -179,10 +179,10 @@ public class InfoJokeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(joke.getId()+"disliked", "disliked");
                     editor.commit();
-                    RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_DISLIKE + joke.getId());
                     dislikeButton.setImageResource(R.mipmap.red_trash);
                     dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
-                    //TODO Update dislikes on existing list
+                    JDBO.updateJokePlusDislike(joke.getId(), joke.getCategory());
+                    JDBO.updateFeelingDislike(joke.getId());
                 }
             }
         });
@@ -200,7 +200,6 @@ public class InfoJokeActivity extends AppCompatActivity {
             likeButton.setEnabled(true);
             likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9E9E9E")));
         }
-
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,8 +208,8 @@ public class InfoJokeActivity extends AppCompatActivity {
                 editor.commit();
                 likeButton.setEnabled(false);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
-                RequestBuilder.requestUpdateLike(getBaseContext(), RequestBuilder.URL_JOKE_LIKE + joke.getId());
-                //TODO Update likes on existing list
+                JDBO.updateJokePlusLike(joke.getId(), joke.getCategory());
+                JDBO.updateFeelingLike(joke.getId());
             }
         });
     }
@@ -243,7 +242,6 @@ public class InfoJokeActivity extends AppCompatActivity {
         returnJokesToDelete();
         finish();
         super.onDestroy();
-
     }
 
     private void returnJokesToDelete(){

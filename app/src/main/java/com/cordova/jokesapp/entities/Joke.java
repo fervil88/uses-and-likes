@@ -1,11 +1,14 @@
 package com.cordova.jokesapp.entities;
 
 import android.provider.BaseColumns;
+
+import java.io.Serializable;
+
 /**
  * Created by Emi on 12/11/2016.
  */
 
-public class Joke implements Entity{
+public class Joke implements Entity, Comparable<Joke>, Cloneable, Serializable {
     private String id;
     private String title;
     private String category;
@@ -17,6 +20,23 @@ public class Joke implements Entity{
     private String creationDate;
     private String tag;
     private long chunk;
+
+    @Override
+    public String toString() {
+        return "Joke{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", jokeText='" + jokeText + '\'' +
+                ", user='" + user + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", isDirtyJoke=" + isDirtyJoke +
+                ", creationDate='" + creationDate + '\'' +
+                ", tag='" + tag + '\'' +
+                ", chunk=" + chunk +
+                '}';
+    }
 
     public Joke() {}
 
@@ -124,9 +144,47 @@ public class Joke implements Entity{
         this.chunk = chunk;
     }
 
+    @Override
+    public int compareTo(Joke anotherJoke) {
+
+        float compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() / (((Joke) anotherJoke).getDislikes() != 0 ? ((Joke) anotherJoke).getDislikes() : 1);
+        return (Math.round(compareQuantityOfLikes) - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Joke)) {
+            return false;
+        }
+
+        Joke joke = (Joke) o;
+
+        return joke.getId().equals(id) &&
+                joke.getTitle().equals(title)
+                && joke.getCreationDate().equals(creationDate);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    //Idea from effective Java : Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + creationDate.hashCode();
+        return result;
+    }
+
     /* Inner class that defines the table contents for Jokes */
     public static abstract class JokeTable implements BaseColumns {
         public static final String TABLE_NAME = "Joke";
+        public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_USER = "user";

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.cordova.jokesapp.activities.SplashActivity"
+            android:name="com.cordova.jokesapp.activities.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +24,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.cordova.jokesapp.activities.SplashActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name="com.cordova.jokesapp.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name="com.cordova.jokesapp.activities.InfoJokeActivity"
             android:label="@string/joke"

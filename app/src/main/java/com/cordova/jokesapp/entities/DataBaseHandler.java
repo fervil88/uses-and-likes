@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.SyncStateContract;
-import android.util.Log;
+
+import com.cordova.jokesapp.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Emi on 12/11/2016.
  */
 
-public class DataBaseHandler extends SQLiteOpenHelper {
+public class DataBaseHandler extends SQLiteOpenHelper implements JokerDBOperation {
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Jokes.db";
@@ -36,6 +36,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String SQL_CREATE_JOKES =
             "CREATE TABLE IF NOT EXISTS " + Joke.JokeTable.TABLE_NAME + " (" +
                     Joke.JokeTable._ID + " TEXT PRIMARY KEY," +
+                    Joke.JokeTable.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_CATEGORY + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_TEXT + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_USER + TEXT_TYPE + COMMA_SEP +
@@ -49,6 +50,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String SQL_CREATE_NEW_JOKES =
             "CREATE TABLE IF NOT EXISTS " + Joke.NewJokeTable.TABLE_NAME + " (" +
                     Joke.JokeTable._ID + " TEXT PRIMARY KEY," +
+                    Joke.JokeTable.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_CATEGORY + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_TEXT + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_USER + TEXT_TYPE + COMMA_SEP +
@@ -62,6 +64,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String SQL_CREATE_BEST_JOKES =
             "CREATE TABLE IF NOT EXISTS " + Joke.BestJokeTable.TABLE_NAME + " (" +
                     Joke.JokeTable._ID + " TEXT PRIMARY KEY," +
+                    Joke.JokeTable.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_CATEGORY + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_TEXT + TEXT_TYPE + COMMA_SEP +
                     Joke.JokeTable.COLUMN_USER + TEXT_TYPE + COMMA_SEP +
@@ -86,6 +89,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     private final String[] allJokesField = {
             Joke.JokeTable._ID,
+            Joke.JokeTable.COLUMN_TITLE,
             Joke.JokeTable.COLUMN_CATEGORY,
             Joke.JokeTable.COLUMN_TEXT,
             Joke.JokeTable.COLUMN_USER,
@@ -95,6 +99,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             Joke.JokeTable.COLUMN_CREATION_DATE,
             Joke.JokeTable.COLUMN_TAG,
             Joke.JokeTable.COLUMN_CHUNK
+    };
+
+    private final String[] allFeelingField = {
+            Joke.JokeTable._ID,
+            Joke.JokeTable.COLUMN_LIKE,
+            Joke.JokeTable.COLUMN_DISLIKE
     };
 
 
@@ -179,6 +189,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         for (Joke joke: jokes){
             ContentValues values = new ContentValues();
             values.put(Joke.JokeTable._ID, joke.getId());
+            values.put(Joke.JokeTable.COLUMN_TITLE, joke.getTitle());
             values.put(Joke.JokeTable.COLUMN_CATEGORY, joke.getCategory());
             values.put(Joke.JokeTable.COLUMN_TEXT, joke.getJokeText());
             values.put(Joke.JokeTable.COLUMN_USER, joke.getUser());
@@ -202,6 +213,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addJoke(Joke joke) {
         ContentValues values = new ContentValues();
         values.put(Joke.JokeTable._ID, joke.getId());
+        values.put(Joke.JokeTable.COLUMN_TITLE, joke.getTitle());
         values.put(Joke.JokeTable.COLUMN_CATEGORY, joke.getCategory());
         values.put(Joke.JokeTable.COLUMN_TEXT, joke.getJokeText());
         values.put(Joke.JokeTable.COLUMN_USER, joke.getUser());
@@ -233,15 +245,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             do {
                 Joke joke = new Joke();
                 joke.setId(cursor.getString(0));
-                joke.setCategory(cursor.getString(1));
-                joke.setJokeText(cursor.getString(2));
-                joke.setUser(cursor.getString(3));
-                joke.setLikes(cursor.getInt(4));
-                joke.setDislikes(cursor.getInt(5));
-                joke.setDirtyJoke(convertIntToBoolean(cursor.getInt(6)));
-                joke.setCreationDate(cursor.getString(7));
-                joke.setTag(cursor.getString(8));
-                joke.setChunk(cursor.getLong(9));
+                joke.setTitle(cursor.getString(1));
+                joke.setCategory(cursor.getString(2));
+                joke.setJokeText(cursor.getString(3));
+                joke.setUser(cursor.getString(4));
+                joke.setLikes(cursor.getInt(5));
+                joke.setDislikes(cursor.getInt(6));
+                joke.setDirtyJoke(convertIntToBoolean(cursor.getInt(7)));
+                joke.setCreationDate(cursor.getString(8));
+                joke.setTag(cursor.getString(9));
+                joke.setChunk(cursor.getLong(10));
                 jokeList.add(joke);
             } while (cursor.moveToNext());
         }
@@ -249,6 +262,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return jokeList;
     }
 
+    private Feeling getFeeling(Cursor cursor) {
+        if (cursor.getCount() == 0)
+            return null;
+
+        cursor.moveToFirst();
+        Feeling feeling = new Feeling();
+        feeling.setId(cursor.getString(0));
+        feeling.setLikes(cursor.getInt(1));
+        feeling.setDislikes(cursor.getInt(2));
+        return feeling;
+    }
 
     private Joke getJoke(Cursor cursor) {
         if (cursor.getCount() == 0)
@@ -281,6 +305,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return joke;
     }
 
+    // Getting Feeling
+    public Feeling getFeelingById(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(Feeling.FeelingTable.TABLE_NAME, allFeelingField, Joke.JokeTable._ID + " = ?",
+                new String[]{id}, null, null, null, null);
+        Feeling feeling = getFeeling(cursor);
+        db.close();
+        return feeling;
+    }
+
     public void deleteJoke(Joke joke) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Joke.JokeTable.TABLE_NAME, Joke.JokeTable._ID + " = ?",
@@ -307,31 +342,93 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return categoryList;
     }
 
-    private int updateJokeFeeling(String id, int likes, int dislikes, String table) {
+    public int updateFeelingLike(String id) {
+        Feeling feeling = getFeelingById(id);
         SQLiteDatabase db = this.getWritableDatabase();
+        if (feeling != null) {
+            ContentValues values = new ContentValues();
+            values.put(Feeling.FeelingTable.COLUMN_LIKE, 1);
 
-        ContentValues values = new ContentValues();
-        values.put(Joke.JokeTable.COLUMN_LIKE, likes);
-        values.put(Joke.JokeTable.COLUMN_DISLIKE, dislikes);
+            int count = db.update(Feeling.FeelingTable.TABLE_NAME,values, Feeling.FeelingTable._ID + " = ?", new String[] { id });
+            db.close();
+            return count;
+        }
+        addFeeling(new Feeling(id, 1, 0));
+        return 1;
+    }
 
-        int count = db.update(table,
-                values, Joke.JokeTable._ID + " = ?", new String[] { id });
+    public int updateFeelingDislike(String id) {
+        Feeling feeling = getFeelingById(id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (feeling != null) {
+            ContentValues values = new ContentValues();
+            values.put(Feeling.FeelingTable.COLUMN_DISLIKE, 1);
+
+            int count = db.update(Feeling.FeelingTable.TABLE_NAME,values, Feeling.FeelingTable._ID + " = ?", new String[] { id });
+            db.close();
+            return count;
+        }
+        addFeeling(new Feeling(id, 0, 1));
+        return 1;
+    }
+
+    public int updateJokePlusLike(String id, String category) {
+        Joke joke = getJokeById(id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = Joke.JokeTable.TABLE_NAME;
+        if( category.equals(Util.BEST_JOKES)) {
+            table = Joke.BestJokeTable.TABLE_NAME;
+        }else if( category.equals(Util.NEW_JOKES)) {
+            table = Joke.NewJokeTable.TABLE_NAME;
+        }
+        ContentValues values = new  ContentValues();
+        values.put(Joke.JokeTable.COLUMN_LIKE, joke.getLikes() + 1);
+
+        int count = db.update(table,values, Joke.JokeTable._ID + " = ?", new String[] { id });
         db.close();
         return count;
     }
 
-    public int updateJokeFeeling(String id, int likes, int dislikes) {
-        return updateJokeFeeling(id, likes, dislikes, Joke.JokeTable.TABLE_NAME);
+    public int updateJokePlusDislike(String id, String category) {
+        Joke joke = getJokeById(id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = Joke.JokeTable.TABLE_NAME;
+        if( category.equals(Util.BEST_JOKES)) {
+            table = Joke.BestJokeTable.TABLE_NAME;
+        }else if( category.equals(Util.NEW_JOKES)) {
+            table = Joke.NewJokeTable.TABLE_NAME;
+        }
+        ContentValues values = new  ContentValues();
+        values.put(Joke.JokeTable.COLUMN_DISLIKE, joke.getDislikes() + 1);
+
+        int count = db.update(table,values, Joke.JokeTable._ID + " = ?", new String[] { id });
+        db.close();
+        return count;
     }
 
-    public int updateNewJokeFeeling(String id, int likes, int dislikes) {
-        return updateJokeFeeling(id, likes, dislikes, Joke.NewJokeTable.TABLE_NAME);
+    private int updateJokeFeel(String id, int likes, int dislikes, String table) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new  ContentValues();
+        values.put(Joke.JokeTable.COLUMN_LIKE, likes);
+        values.put(Joke.JokeTable.COLUMN_DISLIKE, dislikes);
+
+        int count = db.update(table,values, Joke.JokeTable._ID + " = ?", new String[] { id });
+        db.close();
+        return count;
     }
 
-    public int updateBestJokeFeeling(String id, int likes, int dislikes) {
-        return updateJokeFeeling(id, likes, dislikes, Joke.BestJokeTable.TABLE_NAME);
+    public int updateJokeFromServer(String id, int likes, int dislikes) {
+        return updateJokeFeel(id, likes, dislikes, Feeling.FeelingTable.TABLE_NAME);
     }
 
+    public int updateNewJokeFromServer(String id, int likes, int dislikes) {
+        return updateJokeFeel(id, likes, dislikes, Joke.NewJokeTable.TABLE_NAME);
+    }
+
+    public int updateBestJokeFromServer(String id, int likes, int dislikes) {
+        return updateJokeFeel(id, likes, dislikes, Joke.BestJokeTable.TABLE_NAME);
+    }
 
     // Adding new Joke
     public void addNewJokes(List<Joke> jokes) {
@@ -411,7 +508,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteAllNewJokes() {
+    public void deleteNewJokes() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Joke.NewJokeTable.TABLE_NAME, null, null);
         db.close();
@@ -424,7 +521,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteBestNewJokes() {
+    public void deleteBestJokes() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Joke.BestJokeTable.TABLE_NAME, null, null);
         db.close();

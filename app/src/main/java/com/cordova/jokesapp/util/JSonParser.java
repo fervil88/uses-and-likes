@@ -2,7 +2,7 @@ package com.cordova.jokesapp.util;
 
 import android.content.Context;
 
-import com.cordova.jokesapp.domain.Joke;
+import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.R;
 
 import org.json.JSONArray;
