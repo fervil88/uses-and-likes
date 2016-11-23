@@ -14,6 +14,7 @@
     <string name="save_menu">Guardar</string>
     <string name="is_dirty">Es verde:</string>
     <string name="problem_to_download_json">Tenes problemas para actualizar los chistes, por favor verifica tu conexión a Internet</string>
+    <string name="error_loading_app">Error cargando JokerApp</string>
     <string name="last_version">Ya tienes la última versión, proba otro día si han surgido nuevos chistes!</string>
     <string name="give_us_a_feedback">Danos un feedback vieja!</string>
     <string name="loading_title">Cargando chistes...</string>
