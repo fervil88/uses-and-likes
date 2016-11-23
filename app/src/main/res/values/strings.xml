@@ -66,4 +66,5 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="success_to_download_json">Has descargado exitosamente nuevos chistes y bromas</string>
 </resources>

@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,8 +35,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -195,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor edit = sharedpreferences.edit();
                     edit.putLong("enableRefreshTime", Calendar.getInstance().getTimeInMillis() + (7 * 24 * 60 * 60 * 1000));
                     edit.commit();
-                    copyFile(result);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.success_to_download_json), Toast.LENGTH_LONG).show();
+                    //TODO store the jokes into the database, maybe into the readJsonAndParserData method
                 }
                 setRefreshActionButtonState(false);
             }
@@ -248,85 +253,62 @@ public class MainActivity extends AppCompatActivity {
 
 
     private boolean readJson(String json) {
-        boolean result = false;
         Gson gson = new GsonBuilder().create();
-        List<Joke> list = (List<Joke>) gson.fromJson(json, Joke.class);
-        Log.i("[jokes from server]:", list.size() + "" );
-        return result;
+        Type collectionType = new TypeToken<Collection<Joke>>(){}.getType();
+        Collection<Joke> enums = gson.fromJson(json, collectionType);
+        List listJoke = new ArrayList<Joke>(enums);
+        try {
+            return readJsonAndParserData(listJoke);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    private boolean readJsonAndParserData(String json) throws FileNotFoundException, JSONException {
+    private boolean readJsonAndParserData(List<Joke> listJoke) throws FileNotFoundException, JSONException {
         boolean result = false;
         try {
             sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
             boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
-            if (json != null) {
-                if (json.length() < 10) {
+            if (listJoke != null) {
+                if (listJoke.size() == 0) {
                     Toast.makeText(getApplicationContext(), getString(R.string.last_version), Toast.LENGTH_LONG).show();
                 } else {
                     long maxChuck = 0;
                     result = true;
-                    JSONArray jArray = new JSONArray(json);
-                    String contentFile = "[";
                     mapJokes.remove(Util.NEW_JOKES);
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject o = jArray.getJSONObject(i);
-                        String jokeCategory = jArray.getJSONObject(i).getString(Util.PARAM_CATEGORY);
-                        //  jokeCategory = jokeCategory != null ? jokeCategory.toUpperCase() : "";
-                        Joke joke = new Joke(o.getString(Util.PARAM_ID), o.getString(Util.PARAM_TITLE), jokeCategory, o.getString(Util.PARAM_JOKE_TEXT),
-                                o.getString(Util.PARAM_USER), o.getInt(Util.PARAM_LIKES), o.getInt(Util.PARAM_DISLIKES), o.getBoolean(Util.PARAM_DIRTY_JOKE),
-                                o.getString(Util.PARAM_CREATION_DATE), o.getString(Util.PARAM_TAG), o.getLong(Util.PARAM_CHUNK));
+                    for (Joke joke : listJoke) {
                         if (joke.getChunk() > maxChuck) {
                             maxChuck = joke.getChunk();
                         }
-
                         List<Joke> jokes;
                         List<Joke> newJokes;
-
                         if (!mapJokes.containsKey(Util.NEW_JOKES)) {
                             newJokes = new ArrayList<>();
-                            listDataHeader.add(Util.NEW_JOKES);
+                            mapJokes.put(Util.NEW_JOKES, newJokes);
                         } else {
                             newJokes = mapJokes.get(Util.NEW_JOKES);
                         }
-
-                        if (!mapJokes.containsKey(jokeCategory)) {
+                        if (!mapJokes.containsKey(joke.getCategory())) {
                             jokes = new ArrayList<>();
-                            listDataHeader.add(jokeCategory);
+                            mapJokes.put(joke.getCategory(), jokes);
                         } else {
-                            jokes = mapJokes.get(jokeCategory);
+                            jokes = mapJokes.get(joke.getCategory());
                         }
                         jokes.add(joke);
                         Joke newJoke = (Joke) joke.clone();
                         newJoke.setCategory(Util.NEW_JOKES);
                         newJokes.add(newJoke);
-                        contentFile = contentFile + newJoke.toString() + "\"jokeText\":\"" + newJoke.getJokeText().replace("\n",".").replace("\r"," ").replaceAll("\"","'") + "\"}";
-                        if(i < jArray.length() - 1){
-                            contentFile = contentFile + ",";
+
+                        if (!listDataHeader.contains(joke.getCategory())) {
+                            listDataHeader.add(joke.getCategory());
                         }
-                        mapJokes.put(jokeCategory, jokes);
-                        mapJokes.put(Util.NEW_JOKES, newJokes);
                         if (!(!includeDirtyJokes && joke.isDirtyJoke())) {
-                            listDataChild.put(jokeCategory, jokes);
+                            listDataChild.put(joke.getCategory(), jokes);
                             listDataChild.put(Util.NEW_JOKES, newJokes);
-                        }
-                    }
-                    FileOutputStream fos = null;
-                    try {
-                        fos = openFileOutput(Util.NEW_FILENAME, Context.MODE_PRIVATE);
-                        contentFile = contentFile + "]";
-                        fos.write(contentFile.getBytes());
-                    } catch (FileNotFoundException e) {
-                        Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
-                    } catch (IOException e) {
-                        Log.e(Util.TAG, e.getMessage());
-                    } finally {
-                        if (fos != null) {
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                Log.e(Util.TAG, "Error closing file: " + e.getMessage());
-                            }
                         }
                     }
                     Collections.sort(listDataChild.get(Util.NEW_JOKES));
