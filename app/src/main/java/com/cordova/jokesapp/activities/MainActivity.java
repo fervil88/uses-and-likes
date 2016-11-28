@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.adapters.ExpandableListAdapter;
+import com.cordova.jokesapp.entities.Feeling;
 import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.util.RequestBuilder;
 import com.cordova.jokesapp.util.Util;
@@ -25,19 +27,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private MainActivity context;
     private Map<String, List<Joke>> mapJokes;
     private Menu optionsMenu;
-    private Map<String, List<Joke>> mapJokeToDelete;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(false);
                     editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
                     for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        List<Joke> subCategoriesJokes = new LinkedList<>();
+                        List<Joke> listJokes = new LinkedList<>();
                         for (Joke joke : entry.getValue()) {
                             if (joke.isDirtyJoke()) {
                                 continue;
@@ -122,34 +118,36 @@ public class MainActivity extends AppCompatActivity {
                             if (new Util().isFromCurrentMonth(joke)) {
                                 newCategory.add(joke);
                             }
-                            subCategoriesJokes.add(joke);
+                            listJokes.add(joke);
                         }
                         listDataHeader.add(entry.getKey());
-                        listDataChild.put(entry.getKey(), subCategoriesJokes);
+                        listDataChild.put(entry.getKey(), listJokes);
                     }
                 } else {
                     item.setChecked(true);
                     editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
                     for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        List<Joke> subCategories = new LinkedList<>();
+                        List<Joke> listJokes = new LinkedList<>();
                         for (Joke joke : entry.getValue()) {
-                            subCategories.add(joke);
+                            listJokes.add(joke);
                             if (new Util().isFromCurrentMonth(joke)) {
                                 newCategory.add(joke);
                             }
                         }
                         listDataHeader.add(entry.getKey());
-                        listDataChild.put(entry.getKey(), subCategories);
+                        listDataChild.put(entry.getKey(), listJokes);
                     }
                 }
                 editor.commit();
 
+                Collections.sort(newCategory);
                 listDataHeader.add(Util.NEW_JOKES);
                 listDataChild.put(Util.NEW_JOKES, newCategory);
                 List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
                 listDataHeader.add(Util.BEST_JOKES);
                 listDataChild.put(Util.BEST_JOKES, listBestJoke);
                 listAdapter.notifyDataSetChanged();
+                //new UpdateDirtyJokes().execute(item);
                 return true;
             case R.id.option_feedback:
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.give_us_a_feedback), Toast.LENGTH_LONG).show();
@@ -260,12 +258,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             return readJsonAndParserData(listJoke);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+            Log.e(Util.TAG, "File not found: " + e.getMessage());
         } catch (JSONException e) {
-            e.printStackTrace();
-            return false;
+            Log.e(Util.TAG, "Error parsing json: " + e.getMessage());
         }
+        return false;
     }
 
     private boolean readJsonAndParserData(List<Joke> listJoke) throws FileNotFoundException, JSONException {
@@ -299,9 +296,9 @@ public class MainActivity extends AppCompatActivity {
                             jokes = mapJokes.get(joke.getCategory());
                         }
                         jokes.add(joke);
-                        Joke newJoke = (Joke) joke.clone();
-                        newJoke.setCategory(Util.NEW_JOKES);
-                        newJokes.add(newJoke);
+                      //  Joke newJoke = (Joke) joke.clone();
+                       // newJoke.setCategory(Util.NEW_JOKES);
+                        newJokes.add(joke);
 
                         if (!listDataHeader.contains(joke.getCategory())) {
                             listDataHeader.add(joke.getCategory());
@@ -377,114 +374,71 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == Util.SHOW_JOKES) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                mapJokeToDelete = (Map<String, List<Joke>>) data.getSerializableExtra("jokesToDelete");
-                List<Joke> listJokesToDelete = new ArrayList<Joke>();
-                if (mapJokeToDelete.size() > 0) {
-                    for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
-                        List<Joke> jokes;
-                        for (Joke joke : entry.getValue()) {
-                            listJokesToDelete.add(joke);
-                            jokes = mapJokes.get(Util.NEW_JOKES);
-                            if (jokes != null) jokes.remove(joke);
-                            jokes = mapJokes.get(Util.BEST_JOKES);
-                            if (jokes != null) jokes.remove(joke);
-
-                            switch (entry.getKey()) {
-                                case Util.NEW_JOKES:
-                                case Util.BEST_JOKES:
-                                    String categoryToDelte = "";
-                                    for (Map.Entry<String, List<Joke>> key : mapJokes.entrySet()) {
-                                        if (key.getValue() != null) {
-                                            if (key.getValue().remove(joke)) {
-                                                categoryToDelte = key.getKey();
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (listDataChild.get(categoryToDelte) != null) {
-                                        listDataChild.get(categoryToDelte).remove(joke);
-                                    }
-                                    break;
-                                default:
-                                    jokes = mapJokes.get(joke.getCategory());
-                                    if (jokes != null) jokes.remove(joke);
-
-                                    jokes = listDataChild.get(joke.getCategory());
-                                    if (jokes != null) jokes.remove(joke);
-                                    break;
-                            }
-                        }
-                    }
-                    listAdapter.notifyDataSetChanged();
-                    removeJokeInJson(listJokesToDelete);
-                }
+                new UpdateListFromInfoJoke().execute(data);
             }
         }
     }
 
-    public void removeJokeInJson(List<Joke> listJokesToDelete) {
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        try {
-            fis = openFileInput(Util.FILENAME);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            int ctr = fis.read();
-            while (ctr != -1) {
-                byteArrayOutputStream.write(ctr);
-                ctr = fis.read();
+    private class UpdateListFromInfoJoke extends AsyncTask<Intent, Integer, Void> {
+        @Override
+        protected Void doInBackground(Intent... data) {
+            Map<String, List<Joke>> mapJokeToDelete = (Map<String, List<Joke>>) data[0].getSerializableExtra("jokesToDelete");
+            List<Feeling> listFeeling = (List<Feeling>) data[0].getSerializableExtra("listFeeling");
+            if (mapJokeToDelete.size() > 0) {
+                for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
+                    List<Joke> jokes;
+                    for (Joke joke : entry.getValue()) {
+                        jokes = mapJokes.get(joke.getCategory());
+                        if (jokes != null) jokes.remove(joke);
+                        jokes = listDataChild.get(joke.getCategory());
+                        if (jokes != null) jokes.remove(joke);
+
+                        jokes = mapJokes.get(Util.NEW_JOKES);
+                        if (jokes != null) jokes.remove(joke);
+                        jokes = listDataChild.get(Util.NEW_JOKES);
+                        if (jokes != null) jokes.remove(joke);
+
+                        jokes = mapJokes.get(Util.BEST_JOKES);
+                        if (jokes != null) jokes.remove(joke);
+                        jokes = listDataChild.get(Util.BEST_JOKES);
+                        if (jokes != null) jokes.remove(joke);
+                    }
+                }
+                listAdapter.notifyDataSetChanged();
             }
-            String json = byteArrayOutputStream.toString();
-            try {
-                if (json != null) {
-                    boolean isAJsonRemoved = false;
-                    JSONArray jArray = new JSONArray(json);
-                    for (Joke joke : listJokesToDelete) {
-                        for (int i = 0; i < jArray.length(); i++) {
-                            JSONObject obj = jArray.getJSONObject(i);
-                            if (joke.getId().equals(obj.getString("id"))) {
-                                obj.remove(Util.PARAM_ID);
-                                obj.remove(Util.PARAM_USER);
-                                obj.remove(Util.PARAM_TITLE);
-                                obj.remove(Util.PARAM_JOKE_TEXT);
-                                obj.remove(Util.PARAM_LIKES);
-                                obj.remove(Util.PARAM_DISLIKES);
-                                obj.remove(Util.PARAM_CATEGORY);
-                                obj.remove(Util.PARAM_DIRTY_JOKE);
-                                obj.remove(Util.PARAM_CREATION_DATE);
-                                obj.remove(Util.PARAM_TAG);
-                                obj.remove(Util.PARAM_CHUNK);
-                                isAJsonRemoved = true;
+            if (listFeeling.size() > 0) {
+                sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+                boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+                for (Feeling f : listFeeling) {
+                    boolean wasUpdatedInItsCategory = false;
+                    titleTag: for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                        if ((!Util.BEST_JOKES.equals(entry.getKey()) && !Util.NEW_JOKES.equals(entry.getKey())) && wasUpdatedInItsCategory)
+                            continue titleTag;
+                        for (Joke joke : entry.getValue()) {
+                            if (!includeDirtyJokes && joke.isDirtyJoke()) {
+                                continue;
+                            }
+                            if (f.getId().equals(joke.getId())) {
+                                joke.setLikes(f.getLikes());
+                                joke.setDislikes(f.getDislikes());
+                                for (Joke jokeItem : listDataChild.get(entry.getKey())) {
+                                    if (f.getId().equals(jokeItem.getId())) {
+                                        jokeItem.setLikes(f.getLikes());
+                                        jokeItem.setDislikes(f.getDislikes());
+                                        if (!(Util.BEST_JOKES.equals(entry.getKey()) || Util.NEW_JOKES.equals(entry.getKey()))) {
+                                            wasUpdatedInItsCategory = true;
+                                        }
+                                        Collections.sort(listDataChild.get(entry.getKey()));
+                                        continue titleTag;
+                                    }
+                                }
                             }
                         }
                     }
-                    if (isAJsonRemoved) {
-                        fos = openFileOutput(Util.FILENAME, Context.MODE_PRIVATE);
-                        fos.write(jArray.toString().replaceAll("(\\{\\},)", "").getBytes());
-                    }
                 }
-            } catch (Exception e) {
-                Log.e(Util.TAG, "error trying to read the json file: " + e.getMessage());
+                listAdapter.notifyDataSetChanged();
             }
-
-        } catch (FileNotFoundException e) {
-            Log.e(Util.TAG, "error trying to found the local json file: " + e.getMessage());
-        } catch (IOException e) {
-            Log.e(Util.TAG, e.getMessage());
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    Log.e(Util.TAG, "Error trying to close the file: " + e.getMessage());
-                }
-            }
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    Log.e(Util.TAG, "Error trying to close the file: " + e.getMessage());
-                }
-            }
+            return null;
         }
     }
 }

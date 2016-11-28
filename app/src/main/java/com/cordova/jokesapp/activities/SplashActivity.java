@@ -11,16 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
-
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.entities.DataBaseHandler;
 import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.util.Util;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,7 +25,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +48,8 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
         listDataHeader = new ArrayList<String>();
-        listDataChild = new LinkedHashMap<String, List<Joke>>();
-        mapJokes = new LinkedHashMap<String, List<Joke>>();
+        listDataChild = new TreeMap<String, List<Joke>>();
+        mapJokes = new TreeMap<String, List<Joke>>();
         progress = new ProgressDialog(this, R.style.MyTheme);
 
         new PopulateDataBase().execute(R.raw.categories);
@@ -115,7 +113,9 @@ public class SplashActivity extends AppCompatActivity {
 
             listDataHeader = dbh.getAllCategoriesFromJokes();
             for (String key: listDataHeader) {
-                mapJokes.put(key, dbh.getAllJokesByCategory(key));
+                List<Joke> listJokes = dbh.getAllJokesByCategory(key);
+                Collections.sort(listJokes);
+                mapJokes.put(key, listJokes);
             }
             publishProgress(30);
 
@@ -134,8 +134,10 @@ public class SplashActivity extends AppCompatActivity {
                 listDataChild.put(entry.getKey(), listJokes);
             }
             dbh.deleteNewJokes();
+            Collections.sort(newCategory);
             listDataHeader.add(Util.NEW_JOKES);
             listDataChild.put(Util.NEW_JOKES, newCategory);
+            mapJokes.put(Util.NEW_JOKES, newCategory);
             dbh.addNewJokes(newCategory);
             publishProgress(40);
 
@@ -143,6 +145,7 @@ public class SplashActivity extends AppCompatActivity {
             List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
             listDataHeader.add(Util.BEST_JOKES);
             listDataChild.put(Util.BEST_JOKES, listBestJoke);
+            mapJokes.put(Util.BEST_JOKES, listBestJoke);
             dbh.addBestJokes(listBestJoke);
             publishProgress(60);
             return true;

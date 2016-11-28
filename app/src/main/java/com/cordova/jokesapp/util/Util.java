@@ -28,7 +28,6 @@ public class Util {
     public static final String FILENAME = "local_jokes.json";
     public static final String NEW_FILENAME = "new_jokes.json";
     public static final int SHOW_JOKES = 1;
-
     public static final String PARAM_ID = "id";
     public static final String PARAM_USER = "user";
     public static final String PARAM_TITLE = "title";
@@ -40,7 +39,6 @@ public class Util {
     public static final String PARAM_CREATION_DATE = "creationDate";
     public static final String PARAM_TAG = "tag";
     public static final String PARAM_CHUNK = "chunk";
-
 
     public List<Joke> getTheBestJokes(int top, Map<String, List<Joke>> mapJokes, SharedPreferences sharedpreferences){
         List<Joke> jokes = new LinkedList<>();
@@ -55,24 +53,24 @@ public class Util {
                 if (!includeDirtyJokes && joke.isDirtyJoke()){
                     continue;
                 }
-                try {
-                    Joke newJoke = (Joke) joke.clone();
-                    newJoke.setCategory(Util.BEST_JOKES);
+               // try {
+                  //  Joke newJoke = (Joke) joke.clone();
+                  //  newJoke.setCategory(Util.BEST_JOKES);
                     if (jokes.size() < top) {
-                        jokes.add(newJoke);
+                        jokes.add(joke); // jokes.add(newJoke);
                         Collections.sort(jokes);
                         minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
                     } else if (minAdded <= (joke.getLikes() / (joke.getDislikes() != 0 ? joke.getDislikes() : 1))) {
                         jokes.remove(jokes.size() - 1);
-                        jokes.add(newJoke);
+                        jokes.add(joke); //jokes.add(newJoke);
                         Collections.sort(jokes);
                         minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
                     } else {
                         break;
                     }
-                } catch (CloneNotSupportedException e) {
+             /*   } catch (CloneNotSupportedException e) {
                     Log.e(Util.TAG, "Error clone joke: " + e.getMessage());
-                }
+                }*/
             }
         }
         Collections.sort(jokes);
@@ -94,7 +92,7 @@ public class Util {
                 return true;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(Util.TAG, "Error parsing date: " + e.getMessage());
         }
         return false;
     }

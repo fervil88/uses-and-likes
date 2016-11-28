@@ -1,12 +1,15 @@
 package com.cordova.jokesapp.entities;
 
 import android.provider.BaseColumns;
+
+import java.io.Serializable;
+
 /**
  * Created by Emi on 12/11/2016.
  */
 
 /*Table used to store pending likes and/or dislike to send to the server*/
-public class Feeling implements Entity{
+public class Feeling implements Entity, Serializable{
     private String id;
     private int likes;
     private int dislikes;
@@ -44,6 +47,24 @@ public class Feeling implements Entity{
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Feeling)) {
+            return false;
+        }
+        return ((Feeling) o).getId().equals(id);
+    }
+
+    //Idea from effective Java : Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + id.hashCode();
+        return result;
+    }
+
 
     /* Inner class that defines the table contents */
     public static abstract class FeelingTable implements BaseColumns {

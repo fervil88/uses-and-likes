@@ -14,9 +14,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.entities.DataBaseHandler;
+import com.cordova.jokesapp.entities.Feeling;
 import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.entities.JokerDBOperation;
 import com.cordova.jokesapp.util.Util;
@@ -24,10 +24,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -39,10 +40,11 @@ public class InfoJokeActivity extends AppCompatActivity {
     InterstitialAd mInterstitialAd;
     private long mLastClickTime = 0;
     private Map<String, List<Joke>> hashCategory;
-    private Map<String, List<Joke>> mapJokeToDelete = new HashMap<String, List<Joke>>();
+    private Map<String, List<Joke>> mapJokeToDelete = new TreeMap<String, List<Joke>>();
+    private List<Feeling> listFeeling = new ArrayList<Feeling>();
     final Context context = this;
     private final Random random = new Random();
-    private JokerDBOperation JDBO;
+    private JokerDBOperation jdbc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,12 @@ public class InfoJokeActivity extends AppCompatActivity {
         mapJokeToDelete.clear();
         Intent i = getIntent();
 
-        JDBO = DataBaseHandler.getInstance(getApplicationContext());
+        jdbc = DataBaseHandler.getInstance(getApplicationContext());
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
+        final String category = i.getStringExtra("category");
 
         hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
-
-        final List<Joke> listCategory = hashCategory.get(joke[0].getCategory());
+        final List<Joke> listCategory = hashCategory.get(category);
         this.sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
 
         AdView mAdView = (AdView) findViewById(R.id.adView_info);
@@ -139,8 +141,8 @@ public class InfoJokeActivity extends AppCompatActivity {
     private void updateDislike(final Joke joke, final List<Joke> listCategory) {
         final FloatingActionButton dislikeButton = (FloatingActionButton) findViewById(R.id.dislike);
         assert dislikeButton != null;
-        String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
-        if (idDisliked.equals("disliked")){ //Dislike button was pressed
+        Set<String> set = sharedpreferences.getStringSet(joke.getId(), new HashSet<String>());
+        if (set.contains("disliked")){ //Dislike button was pressed
             dislikeButton.setImageResource(R.mipmap.red_trash);
             dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
         } else {
@@ -151,8 +153,8 @@ public class InfoJokeActivity extends AppCompatActivity {
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String idDisliked = sharedpreferences.getString(joke.getId()+"disliked", "");
-                if (idDisliked.equals("disliked")) {
+                Set<String> set = sharedpreferences.getStringSet(joke.getId(), new HashSet<String>());
+                if (set.contains("disliked")){ //Dislike button was pressed
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setMessage(R.string.message_delete_joke)
                             .setCancelable(false)
@@ -166,23 +168,40 @@ public class InfoJokeActivity extends AppCompatActivity {
                                     }
                                     jokes.add(joke);
                                     mapJokeToDelete.put(joke.getCategory(), jokes);
+                                    jdbc.deleteJoke(joke);
+                                    jdbc.deleteNewJoke(joke);
+                                    jdbc.deleteBestJoke(joke);
+                                    Feeling f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes() + 1);
+                                    listFeeling.remove(f);
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.remove(joke.getId());
+                                    editor.commit();
                                     onBackPressed();
                                 }
                             })
                             .setNegativeButton(R.string.no_deletion, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                   dialog.cancel();
+                                    dialog.cancel();
                                 }
                             });
                     alertDialogBuilder.create().show();
                 } else {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(joke.getId()+"disliked", "disliked");
+                    set.add("disliked");
+                    editor.putStringSet(joke.getId(), set);
                     editor.commit();
                     dislikeButton.setImageResource(R.mipmap.red_trash);
                     dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
-                    JDBO.updateJokePlusDislike(joke.getId(), joke.getCategory());
-                    JDBO.updateFeelingDislike(joke.getId());
+                    jdbc.updateJokePlusDislike(joke.getId(), joke.getCategory());
+                    jdbc.updateFeelingDislike(joke.getId());
+                    Feeling f;
+                    if (set.contains("liked")){
+                        f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes() + 1);
+                        listFeeling.remove(f);
+                    } else {
+                        f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes() + 1);
+                    }
+                    listFeeling.add(f);
                 }
             }
         });
@@ -192,8 +211,8 @@ public class InfoJokeActivity extends AppCompatActivity {
         final FloatingActionButton likeButton = (FloatingActionButton) findViewById(R.id.like);
         assert likeButton != null;
 
-        String idLiked = sharedpreferences.getString(joke.getId()+"liked", "");
-        if (idLiked.equals("liked")){
+        Set<String> set = sharedpreferences.getStringSet(joke.getId(), new HashSet<String>());
+        if (set.contains("liked")){
             likeButton.setEnabled(false);
             likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
         } else {
@@ -204,12 +223,22 @@ public class InfoJokeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(joke.getId()+"liked", "liked");
+                Set<String> set = sharedpreferences.getStringSet(joke.getId(), new HashSet<String>());
+                set.add("liked");
+                editor.putStringSet(joke.getId(), set);
                 editor.commit();
                 likeButton.setEnabled(false);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
-                JDBO.updateJokePlusLike(joke.getId(), joke.getCategory());
-                JDBO.updateFeelingLike(joke.getId());
+                jdbc.updateJokePlusLike(joke.getId(), joke.getCategory());
+                jdbc.updateFeelingLike(joke.getId());
+                Feeling f;
+                if (set.contains("disliked")){
+                    f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes() + 1);
+                    listFeeling.remove(f);
+                } else {
+                    f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes());
+                }
+                listFeeling.add(f);
             }
         });
     }
@@ -247,6 +276,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private void returnJokesToDelete(){
         Intent returnIntent = new Intent();
         returnIntent.putExtra("jokesToDelete", (Serializable) mapJokeToDelete);
+        returnIntent.putExtra("listFeeling",(Serializable) listFeeling);
         setResult(MainActivity.RESULT_OK,returnIntent);
     }
 }
