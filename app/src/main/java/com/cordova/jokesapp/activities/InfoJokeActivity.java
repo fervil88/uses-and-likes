@@ -41,7 +41,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     private long mLastClickTime = 0;
     private Map<String, List<Joke>> hashCategory;
     private Map<String, List<Joke>> mapJokeToDelete = new TreeMap<String, List<Joke>>();
-    private List<Feeling> listFeeling = new ArrayList<Feeling>();
+    private List<Feeling> listFeeling = new ArrayList<Feeling>();;
     final Context context = this;
     private final Random random = new Random();
     private JokerDBOperation jdbc;
@@ -50,8 +50,10 @@ public class InfoJokeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_joke);
-        mapJokeToDelete.clear();
         Intent i = getIntent();
+
+        mapJokeToDelete.clear();
+        listFeeling.clear();
 
         jdbc = DataBaseHandler.getInstance(getApplicationContext());
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
@@ -171,7 +173,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                                     jdbc.deleteJoke(joke);
                                     jdbc.deleteNewJoke(joke);
                                     jdbc.deleteBestJoke(joke);
-                                    Feeling f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes() + 1);
+                                    Feeling f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes());
                                     listFeeling.remove(f);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.remove(joke.getId());
@@ -194,14 +196,15 @@ public class InfoJokeActivity extends AppCompatActivity {
                     dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
                     jdbc.updateJokePlusDislike(joke.getId(), joke.getCategory());
                     jdbc.updateFeelingDislike(joke.getId());
-                    Feeling f;
-                    if (set.contains("liked")){
-                        f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes() + 1);
-                        listFeeling.remove(f);
+                    Feeling f = new Feeling();
+                    f.setId(joke.getId());
+                    int feelingIndex = listFeeling.indexOf(joke);
+                    if(feelingIndex > -1){
+                        f = listFeeling.get(feelingIndex);
                     } else {
-                        f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes() + 1);
+                        listFeeling.add(f);
                     }
-                    listFeeling.add(f);
+                    f.setDislikes(1);
                 }
             }
         });
@@ -231,14 +234,15 @@ public class InfoJokeActivity extends AppCompatActivity {
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
                 jdbc.updateJokePlusLike(joke.getId(), joke.getCategory());
                 jdbc.updateFeelingLike(joke.getId());
-                Feeling f;
-                if (set.contains("disliked")){
-                    f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes() + 1);
-                    listFeeling.remove(f);
+                Feeling f = new Feeling();
+                f.setId(joke.getId());
+                int feelingIndex = listFeeling.indexOf(joke);
+                if(feelingIndex > -1){
+                    f = listFeeling.get(feelingIndex);
                 } else {
-                    f = new Feeling(joke.getId(), (joke.getLikes() + 1), joke.getDislikes());
+                    listFeeling.add(f);
                 }
-                listFeeling.add(f);
+                f.setLikes(1);
             }
         });
     }
