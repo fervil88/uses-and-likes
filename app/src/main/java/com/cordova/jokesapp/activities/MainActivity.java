@@ -13,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.adapters.ExpandableListAdapter;
+import com.cordova.jokesapp.entities.DataBaseHandler;
 import com.cordova.jokesapp.entities.Feeling;
 import com.cordova.jokesapp.entities.Joke;
 import com.cordova.jokesapp.util.RequestBuilder;
@@ -26,9 +26,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -103,12 +101,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.option_dirty_joke:
                 sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                listDataHeader.clear();
+               // listDataHeader.clear();
                 listDataChild.clear();
                 List<Joke> newCategory = new LinkedList<>();
                 if (item.isChecked()) {
                     item.setChecked(false);
                     editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+                    editor.commit();
                     for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                         if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
                             continue;
@@ -122,34 +121,21 @@ public class MainActivity extends AppCompatActivity {
                             }
                             listJokes.add(joke);
                         }
-                        listDataHeader.add(entry.getKey());
                         listDataChild.put(entry.getKey(), listJokes);
                     }
+                    Collections.sort(newCategory);
+                    listDataChild.put(Util.NEW_JOKES, newCategory);
+                    listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
+
                 } else {
                     item.setChecked(true);
                     editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
+                    editor.commit();
                     for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
-                            continue;
-                        List<Joke> listJokes = new LinkedList<>();
-                        for (Joke joke : entry.getValue()) {
-                            listJokes.add(joke);
-                            if (new Util().isFromCurrentMonth(joke)) {
-                                newCategory.add(joke);
-                            }
-                        }
-                        listDataHeader.add(entry.getKey());
-                        listDataChild.put(entry.getKey(), listJokes);
+                        Collections.sort(entry.getValue());
+                        listDataChild.put(entry.getKey(), entry.getValue());
                     }
                 }
-                editor.commit();
-
-                Collections.sort(newCategory);
-                listDataHeader.add(Util.NEW_JOKES);
-                listDataChild.put(Util.NEW_JOKES, newCategory);
-                List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
-                listDataHeader.add(Util.BEST_JOKES);
-                listDataChild.put(Util.BEST_JOKES, listBestJoke);
                 listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.option_feedback:
@@ -299,8 +285,6 @@ public class MainActivity extends AppCompatActivity {
                             jokes = mapJokes.get(joke.getCategory());
                         }
                         jokes.add(joke);
-                      //  Joke newJoke = (Joke) joke.clone();
-                       // newJoke.setCategory(Util.NEW_JOKES);
                         newJokes.add(joke);
 
                         if (!listDataHeader.contains(joke.getCategory())) {
@@ -386,6 +370,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateListFromInfoJoke(Intent data){
         Map<String, List<Joke>> mapJokeToDelete = (Map<String, List<Joke>>) data.getSerializableExtra("jokesToDelete");
         List<Feeling> listFeeling = (List<Feeling>) data.getSerializableExtra("listFeeling");
+        DataBaseHandler dbh = DataBaseHandler.getInstance(getApplicationContext());
         if (mapJokeToDelete.size() > 0) {
             boolean wasABestJokeRemoved = false;
             for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
@@ -408,45 +393,51 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if (wasABestJokeRemoved){
-                List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
-                listDataChild.put(Util.BEST_JOKES, listBestJoke);
+                listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
+                mapJokes.put(Util.BEST_JOKES, new Util().getAllBestJokes(10, mapJokes));
+             //   dbh.deleteBestJokes();
+             //   dbh.addBestJokes(mapJokes.get(Util.BEST_JOKES));
             }
             listAdapter.notifyDataSetChanged();
         }
+
         if (listFeeling.size() > 0) {
-            // TODO - check update in new list
-            sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
-            boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
-            titleTag: for (Feeling f : listFeeling) {
-               // boolean wasUpdatedInItsCategory = false;
-                for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                 /*   if ((!Util.BEST_JOKES.equals(entry.getKey()) && !Util.NEW_JOKES.equals(entry.getKey())) && wasUpdatedInItsCategory)
-                        continue titleTag; */
-                    for (Joke joke : entry.getValue()) {
-                        if (!includeDirtyJokes && joke.isDirtyJoke()) {
-                            continue;
+            for (Feeling f : listFeeling) {
+                for (Joke joke : mapJokes.get(f.getCategory())) {
+                    if (joke.getId().equals(f.getId())) {
+                        joke.setLikes(joke.getLikes() + f.getLikes());
+                        joke.setDislikes(joke.getDislikes() + f.getDislikes());
+                        int feelingIndex = mapJokes.get(Util.NEW_JOKES).indexOf(joke);
+                        if(feelingIndex > -1){
+                            mapJokes.get(Util.NEW_JOKES).get(feelingIndex).setDislikes(joke.getDislikes());
+                            mapJokes.get(Util.NEW_JOKES).get(feelingIndex).setLikes(joke.getLikes());
                         }
-                        if (f.getId().equals(joke.getId())) {
-                            joke.setLikes(joke.getLikes() + f.getLikes());
-                            joke.setDislikes(joke.getDislikes() + f.getDislikes());
-                            for (Joke jokeItem : listDataChild.get(entry.getKey())) {
-                                if (f.getId().equals(jokeItem.getId())) {
-                                    jokeItem.setLikes(jokeItem.getLikes() + f.getLikes());
-                                    jokeItem.setDislikes(jokeItem.getDislikes() + f.getDislikes());
-                                   /* if (!(Util.BEST_JOKES.equals(entry.getKey()) || Util.NEW_JOKES.equals(entry.getKey()))) {
-                                        wasUpdatedInItsCategory = true;
-                                    } */
-                                    Collections.sort(listDataChild.get(entry.getKey()));
-                                    continue titleTag;
-                                }
-                            }
+
+                        feelingIndex = listDataChild.get(joke.getCategory()).indexOf(joke);
+                        if(feelingIndex > -1){
+                            listDataChild.get(joke.getCategory()).get(feelingIndex).setDislikes(joke.getDislikes());
+                            listDataChild.get(joke.getCategory()).get(feelingIndex).setLikes(joke.getLikes());
                         }
+
+                        feelingIndex = listDataChild.get(Util.NEW_JOKES).indexOf(joke);
+                        if(feelingIndex > -1){
+                            listDataChild.get(Util.NEW_JOKES).get(feelingIndex).setDislikes(joke.getDislikes());
+                            listDataChild.get(Util.NEW_JOKES).get(feelingIndex).setLikes(joke.getLikes());
+                        }
+                        break;
                     }
                 }
+                Collections.sort(mapJokes.get(f.getCategory()));
+                Collections.sort(listDataChild.get(f.getCategory()));
             }
+
+            Collections.sort(mapJokes.get(Util.NEW_JOKES));
             Collections.sort(listDataChild.get(Util.NEW_JOKES));
-            List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
-            listDataChild. put(Util.BEST_JOKES, listBestJoke);
+
+            listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
+            mapJokes.put(Util.BEST_JOKES, new Util().getAllBestJokes(10, mapJokes));
+         //   dbh.deleteBestJokes();
+          //  dbh.addBestJokes(mapJokes.get(Util.BEST_JOKES));
             listAdapter.notifyDataSetChanged();
         }
     }

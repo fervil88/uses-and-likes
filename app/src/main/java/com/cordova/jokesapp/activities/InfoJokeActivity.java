@@ -171,9 +171,8 @@ public class InfoJokeActivity extends AppCompatActivity {
                                     jokes.add(joke);
                                     mapJokeToDelete.put(joke.getCategory(), jokes);
                                     jdbc.deleteJoke(joke);
-                                    jdbc.deleteNewJoke(joke);
-                                    jdbc.deleteBestJoke(joke);
-                                    Feeling f = new Feeling(joke.getId(), (joke.getLikes()), joke.getDislikes());
+                                 //   jdbc.deleteNewJoke(joke);
+                                    Feeling f = new Feeling(joke.getId(), 0, 0);
                                     listFeeling.remove(f);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.remove(joke.getId());
@@ -195,6 +194,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                     dislikeButton.setImageResource(R.mipmap.red_trash);
                     dislikeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F7FA")));
                     jdbc.updateJokePlusDislike(joke.getId(), joke.getCategory());
+                 //   jdbc.updateJokePlusDislike(joke.getId(), Util.NEW_JOKES);
                     jdbc.updateFeelingDislike(joke.getId());
                     Feeling f = new Feeling();
                     f.setId(joke.getId());
@@ -205,6 +205,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                         listFeeling.add(f);
                     }
                     f.setDislikes(1);
+                    f.setCategory(joke.getCategory());
                 }
             }
         });
@@ -233,6 +234,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                 likeButton.setEnabled(false);
                 likeButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
                 jdbc.updateJokePlusLike(joke.getId(), joke.getCategory());
+             //   jdbc.updateJokePlusDislike(joke.getId(), Util.NEW_JOKES);
                 jdbc.updateFeelingLike(joke.getId());
                 Feeling f = new Feeling();
                 f.setId(joke.getId());
@@ -243,6 +245,7 @@ public class InfoJokeActivity extends AppCompatActivity {
                     listFeeling.add(f);
                 }
                 f.setLikes(1);
+                f.setCategory(joke.getCategory());
             }
         });
     }

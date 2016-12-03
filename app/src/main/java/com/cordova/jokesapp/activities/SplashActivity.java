@@ -120,33 +120,38 @@ public class SplashActivity extends AppCompatActivity {
             publishProgress(30);
 
             List<Joke> newCategory = new LinkedList<>();
+            List<Joke> newAllCategory = new LinkedList<>();
             for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
                 List<Joke> listJokes = new LinkedList<>();
                 for (Joke joke : entry.getValue()) {
+                    boolean isCurrentMonth = false;
+                    if (new Util().isFromCurrentMonth(joke)) {
+                        newAllCategory.add(joke);
+                        isCurrentMonth = true;
+                    }
                     if (!includeDirtyJokes && joke.isDirtyJoke()) {
                         continue;
                     }
-                    if (new Util().isFromCurrentMonth(joke)) {
+                    if (isCurrentMonth) {
                         newCategory.add(joke);
                     }
                     listJokes.add(joke);
                 }
                 listDataChild.put(entry.getKey(), listJokes);
             }
-            dbh.deleteNewJokes();
+        //    dbh.deleteNewJokes();
             Collections.sort(newCategory);
             listDataHeader.add(Util.NEW_JOKES);
             listDataChild.put(Util.NEW_JOKES, newCategory);
-            mapJokes.put(Util.NEW_JOKES, newCategory);
-            dbh.addNewJokes(newCategory);
+            mapJokes.put(Util.NEW_JOKES, newAllCategory);
+            // dbh.addNewJokes(newCategory);
             publishProgress(40);
 
-            dbh.deleteBestJokes();
-            List<Joke> listBestJoke = new Util().getTheBestJokes(10, mapJokes, sharedpreferences);
+            //dbh.deleteBestJokes();
             listDataHeader.add(Util.BEST_JOKES);
-            listDataChild.put(Util.BEST_JOKES, listBestJoke);
-            mapJokes.put(Util.BEST_JOKES, listBestJoke);
-            dbh.addBestJokes(listBestJoke);
+            listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
+            mapJokes.put(Util.BEST_JOKES, new Util().getAllBestJokes(10, mapJokes));
+            //dbh.addBestJokes(listBestJoke);
             publishProgress(60);
             return true;
         }

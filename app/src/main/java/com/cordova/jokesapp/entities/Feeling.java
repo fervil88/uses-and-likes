@@ -13,6 +13,7 @@ public class Feeling implements Entity, Serializable{
     private String id;
     private int likes;
     private int dislikes;
+    private String category;
 
     public Feeling() { }
 
@@ -46,6 +47,14 @@ public class Feeling implements Entity, Serializable{
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
