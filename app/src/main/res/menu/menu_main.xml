@@ -4,33 +4,36 @@
     tools:context="com.cordova.jokesapp.activities.MainActivity">
 
     <item
+        android:id="@+id/switchItem"
+        android:alphabeticShortcut="d"
+        android:title=""
+        app:showAsAction="always"
+        app:actionLayout="@layout/switch_dirty_joe"
+        />
+
+    <item
         android:id="@+id/action_refresh"
-        android:title="@string/refresh"
-        android:icon="@mipmap/ic_menu_refresh"
         android:alphabeticShortcut="r"
-        android:orderInCategory="1"
-        app:showAsAction="ifRoom"/>
+        android:icon="@mipmap/ic_menu_refresh"
+        android:title=""
+        app:showAsAction="always" />
 
-   <group android:checkableBehavior="all">
-        <item android:id="@+id/option_dirty_joke"
-            android:title="@string/dirty_joke" />
-    </group>
+    <item
+        android:id="@+id/option_feedback"
+        android:enabled="false"
+        android:title="@string/feedback"
+        app:showAsAction="never" />
 
-    <group android:checkableBehavior="none">
-        <item
-            android:id="@+id/option_feedback"
-            android:title="@string/feedback"
-            android:enabled="false"/>
+    <item
+        android:id="@+id/option_about"
+        android:enabled="false"
+        android:title="@string/about"
+        app:showAsAction="never" />
 
-        <item
-            android:id="@+id/option_about"
-            android:title="@string/about"
-            android:enabled="false"/>
-    </group>
 
-   <!--  <item
-        android:id="@+id/search"
-        android:title="@string/search"
-        appcompat:actionViewClass="android.support.v7.widget.SearchView"
-        appcompat:showAsAction="always" /> -->
+    <!--  <item
+         android:id="@+id/search"
+         android:title="@string/search"
+         appcompat:actionViewClass="android.support.v7.widget.SearchView"
+         appcompat:showAsAction="always" /> -->
 </menu>

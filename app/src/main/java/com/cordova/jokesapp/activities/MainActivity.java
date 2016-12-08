@@ -8,9 +8,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import com.cordova.jokesapp.R;
@@ -82,13 +84,58 @@ public class MainActivity extends AppCompatActivity {
         this.optionsMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+            MenuItem item = menu.findItem(R.id.switchItem);
+            final SwitchCompat mSwitch = (SwitchCompat) item.getActionView().findViewById(R.id.switchButton);
+            mSwitch.setChecked(sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false));
+            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    // listDataHeader.clear();
+                    listDataChild.clear();
+                    List<Joke> newCategory = new LinkedList<>();
+                    if (isChecked) {
+                        // The toggle is disabled
+                        editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
+                        editor.commit();
+                        for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                            Collections.sort(entry.getValue());
+                            listDataChild.put(entry.getKey(), entry.getValue());
+                        }
+                    } else {
+                        // The switch is enabled
+                        editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+                        editor.commit();
+                        for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                            if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
+                                continue;
+                            List<Joke> listJokes = new LinkedList<>();
+                            for (Joke joke : entry.getValue()) {
+                                if (joke.isDirtyJoke()) {
+                                    continue;
+                                }
+                                if (new Util().isFromCurrentMonth(joke)) {
+                                    newCategory.add(joke);
+                                }
+                                listJokes.add(joke);
+                            }
+                            listDataChild.put(entry.getKey(), listJokes);
+                        }
+                        Collections.sort(newCategory);
+                        listDataChild.put(Util.NEW_JOKES, newCategory);
+                        listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
+
+                    }
+                    listAdapter.notifyDataSetChanged();
+                }
+            });
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
-        menu.getItem(0).setChecked(sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -98,46 +145,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.option_dirty_joke:
-                sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-               // listDataHeader.clear();
-                listDataChild.clear();
-                List<Joke> newCategory = new LinkedList<>();
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
-                    editor.commit();
-                    for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
-                            continue;
-                        List<Joke> listJokes = new LinkedList<>();
-                        for (Joke joke : entry.getValue()) {
-                            if (joke.isDirtyJoke()) {
-                                continue;
-                            }
-                            if (new Util().isFromCurrentMonth(joke)) {
-                                newCategory.add(joke);
-                            }
-                            listJokes.add(joke);
-                        }
-                        listDataChild.put(entry.getKey(), listJokes);
-                    }
-                    Collections.sort(newCategory);
-                    listDataChild.put(Util.NEW_JOKES, newCategory);
-                    listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
-
-                } else {
-                    item.setChecked(true);
-                    editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
-                    editor.commit();
-                    for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                        Collections.sort(entry.getValue());
-                        listDataChild.put(entry.getKey(), entry.getValue());
-                    }
-                }
-                listAdapter.notifyDataSetChanged();
-                return true;
             case R.id.option_feedback:
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.give_us_a_feedback), Toast.LENGTH_LONG).show();
                 return true;
