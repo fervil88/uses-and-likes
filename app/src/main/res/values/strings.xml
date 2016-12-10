@@ -2,7 +2,6 @@
     <string name="app_name">JokesApp</string>
     <string name="action_settings">Settings</string>
     <string name="search">Location</string>
-    <string name="dirty_joke">Incluir Verdes</string>
     <string name="about">Acerca de </string>
     <string name="feedback">Calificar App</string>
     <string name="title_activity_info_joke">You are laughing...Ha</string>
@@ -20,6 +19,7 @@
     <string name="loading_title">Cargando chistes...</string>
     <string name="loading_message">La ansiedad no le debe ganar a tu sentido del humor!!!</string>
     <string name="close_message">¿Vas a parar de reir?</string>
+    <string name="warning_dirty_joke">Chistes para personas adultas serán agregados, ¿vas a querer incluirlos?</string>
 
     <string name="banner_ad_unit_idTest">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
@@ -46,6 +46,8 @@
     <string name="no_exit">Me quedo</string>
     <string name="yes_deletion">Si, borralo</string>
     <string name="no_deletion">No, no lo borres</string>
+    <string name="yes_dirty_joke">Si, jaja!!!</string>
+    <string name="no_dirty_joke">Mmm, mejor no</string>
 
     <!--TODO intro slider-->
     <string name="title_activity_welcome">Home Screen</string>

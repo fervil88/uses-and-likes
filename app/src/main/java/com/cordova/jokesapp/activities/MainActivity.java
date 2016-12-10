@@ -1,5 +1,6 @@
 package com.cordova.jokesapp.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -85,25 +86,46 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
             MenuItem item = menu.findItem(R.id.switchItem);
+            final Activity thisActivity = this;
             final SwitchCompat mSwitch = (SwitchCompat) item.getActionView().findViewById(R.id.switchButton);
             mSwitch.setChecked(sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false));
             mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     sharedpreferences = getSharedPreferences(Util.MY_PREFERENCES, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    final SharedPreferences.Editor editor = sharedpreferences.edit();
                     // listDataHeader.clear();
-                    listDataChild.clear();
                     List<Joke> newCategory = new LinkedList<>();
                     if (isChecked) {
                         // The toggle is disabled
-                        editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
-                        editor.commit();
-                        for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
-                            Collections.sort(entry.getValue());
-                            listDataChild.put(entry.getKey(), entry.getValue());
-                        }
+                        new AlertDialog.Builder(thisActivity)
+                                .setMessage(R.string.warning_dirty_joke)
+                                .setPositiveButton(R.string.yes_dirty_joke, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        listDataChild.clear();
+                                        editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, true);
+                                        editor.commit();
+                                        for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
+                                            Collections.sort(entry.getValue());
+                                            listDataChild.put(entry.getKey(), entry.getValue());
+                                        }
+                                        listAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .setNegativeButton(R.string.no_dirty_joke, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mSwitch.setChecked(false);
+                                    }
+                                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                mSwitch.setChecked(false);
+                            }
+                        }).show();
                     } else {
                         // The switch is enabled
+                        listDataChild.clear();
                         editor.putBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
                         editor.commit();
                         for (Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
@@ -124,9 +146,8 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(newCategory);
                         listDataChild.put(Util.NEW_JOKES, newCategory);
                         listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
-
+                        listAdapter.notifyDataSetChanged();
                     }
-                    listAdapter.notifyDataSetChanged();
                 }
             });
 
@@ -368,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == Util.SHOW_JOKES) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                // new UpdateListFromInfoJoke().execute(data);
+               // new UpdateListFromInfoJoke().execute(data);
                 updateListFromInfoJoke(data);
             }
         }
@@ -377,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateListFromInfoJoke(Intent data){
         Map<String, List<Joke>> mapJokeToDelete = (Map<String, List<Joke>>) data.getSerializableExtra("jokesToDelete");
         List<Feeling> listFeeling = (List<Feeling>) data.getSerializableExtra("listFeeling");
-        DataBaseHandler dbh = DataBaseHandler.getInstance(getApplicationContext());
+      //  DataBaseHandler dbh = DataBaseHandler.getInstance(getApplicationContext());
         if (mapJokeToDelete.size() > 0) {
             boolean wasABestJokeRemoved = false;
             for (Map.Entry<String, List<Joke>> entry : mapJokeToDelete.entrySet()) {
