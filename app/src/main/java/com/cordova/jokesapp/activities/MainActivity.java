@@ -276,8 +276,11 @@ public class MainActivity extends AppCompatActivity {
                             newCategory.add(joke);
                         }
                     }
-                    Collections.sort(listDataChild.get(Util.NEW_JOKES));
-                    Collections.sort(mapJokes.get(Util.NEW_JOKES));
+                    Collections.sort(newCategory);
+                    Collections.sort(newAllCategory);
+
+                    listDataChild.put(Util.NEW_JOKES, newCategory);
+                    mapJokes.put(Util.NEW_JOKES, newAllCategory);
 
                     listDataChild.put(Util.BEST_JOKES, new Util().getTheBestJokes(10, mapJokes, sharedpreferences));
                     mapJokes.put(Util.BEST_JOKES, new Util().getAllBestJokes(10, mapJokes));
