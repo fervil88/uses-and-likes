@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -166,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.last_version), Toast.LENGTH_LONG).show();
                 }
+                return true;
+            case R.id.option_references:
+                Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                intent.putExtra("fromMenu", new Boolean(true));
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -302,7 +308,6 @@ public class MainActivity extends AppCompatActivity {
                         Joke newJoke = (Joke) joke.clone();
                         newJoke.setCategory(Util.NEW_JOKES);
                         newJokes.add(newJoke);
-
                         if (!listDataHeader.contains(joke.getCategory())) {
                             listDataHeader.add(joke.getCategory());
                         }

@@ -3,8 +3,15 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_for_background">#ffce9a</color>
     <color name="color_for_input">#3fb893</color>
+
     <color name="disable_floating_button">#9E9E9E</color>
     <color name="next_floating_button">#125688</color>
+    <color name="update_floating_button">#125688</color>
+    <color name="dislike_floating_button">#D80027</color>
+    <color name="trash_floating_button">#D80027</color>
+    <color name="like_floating_button">#00897B</color>
+    <color name="share_floating_button">#FF4081</color>
+
     <color name="color_for_area">#f9f297</color>
     <color name="grey_disabled">#9E9E9E</color>
 
@@ -31,28 +38,40 @@
 
     <!--TODO intro slider-->
     <!-- Screens background color-->
-    <color name="bg_screen1">#f64c73</color>
-    <color name="bg_screen2">#20d2bb</color>
-    <color name="bg_screen3">#3395ff</color>
-    <color name="bg_screen4">#c873f4</color>
+    <color name="bg_screen_update">#125688</color>
+    <color name="bg_screen_switch">#bcb72e</color>
+    <color name="bg_screen_share">#f64c73</color>
+    <color name="bg_screen_like_dislike">#00897B</color>
+    <color name="bg_screen_dislike_remove">#D80027</color>
+    <color name="bg_screen_next">#125688</color>
+    <color name="bg_screen_jokerapp">#249b57</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>
-    <color name="dot_dark_screen2">#14a895</color>
-    <color name="dot_dark_screen3">#2278d4</color>
-    <color name="dot_dark_screen4">#a854d4</color>
+    <color name="dot_dark_screen2">#02076e</color>
+    <color name="dot_dark_screen3">#14a895</color>
+    <color name="dot_dark_screen4">#eadd2a</color>
+    <color name="dot_dark_screen5">#4c2661</color>
+    <color name="dot_dark_screen6">#d1395c</color>
+    <color name="dot_dark_screen7">#66030f</color>
 
     <!-- dots active colors -->
     <color name="dot_light_screen1">#f98da5</color>
-    <color name="dot_light_screen2">#8cf9eb</color>
-    <color name="dot_light_screen3">#93c6fd</color>
-    <color name="dot_light_screen4">#e4b5fc</color>
+    <color name="dot_light_screen2">#6b71fa</color>
+    <color name="dot_light_screen3">#8cf9eb</color>
+    <color name="dot_light_screen4">#93c6fd</color>
+    <color name="dot_light_screen5">#e4b5fc</color>
+    <color name="dot_light_screen6">#f98da5</color>
+    <color name="dot_light_screen7">#a45c6d</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>
         <item>@color/dot_light_screen2</item>
         <item>@color/dot_light_screen3</item>
         <item>@color/dot_light_screen4</item>
+        <item>@color/dot_light_screen5</item>
+        <item>@color/dot_light_screen6</item>
+        <item>@color/dot_light_screen7</item>
     </array>
 
     <array name="array_dot_inactive">
@@ -60,6 +79,9 @@
         <item>@color/dot_dark_screen2</item>
         <item>@color/dot_dark_screen3</item>
         <item>@color/dot_dark_screen4</item>
+        <item>@color/dot_dark_screen5</item>
+        <item>@color/dot_dark_screen6</item>
+        <item>@color/dot_dark_screen7</item>
     </array>
 
 </resources>

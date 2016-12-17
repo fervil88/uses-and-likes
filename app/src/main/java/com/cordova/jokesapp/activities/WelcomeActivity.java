@@ -38,10 +38,10 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Boolean optionSelected = (Boolean) getIntent().getSerializableExtra("fromMenu");
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
+        if (!prefManager.isFirstTimeLaunch() && (optionSelected == null || !optionSelected )) {
             launchHomeScreen();
             finish();
         }
@@ -65,7 +65,11 @@ public class WelcomeActivity extends AppCompatActivity {
                 R.layout.welcome_side1,
                 R.layout.welcome_side2,
                 R.layout.welcome_side3,
-                R.layout.welcome_side4};
+                R.layout.welcome_side4,
+                R.layout.welcome_side5,
+                R.layout.welcome_side6,
+                R.layout.welcome_side7
+        };
 
         // adding bottom dots
         addBottomDots(0);
@@ -80,7 +84,11 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+                if (!prefManager.isFirstTimeLaunch()) {
+                    finish();
+                } else {
+                    launchHomeScreen();
+                }
             }
         });
 
@@ -94,7 +102,12 @@ public class WelcomeActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchHomeScreen();
+
+                    if (!prefManager.isFirstTimeLaunch()) {
+                        finish();
+                    } else {
+                        launchHomeScreen();
+                    }
                 }
             }
         });

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_screen1">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_screen_update">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/background"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:alpha=".3"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,17 +23,23 @@
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
-            android:src="@mipmap/ic_food" />
+            android:src="@mipmap/ic_update" />
 
-        <TextView
+        <com.cordova.jokesapp.activities.TextViewOutline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/slide_1_title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:shadowColor="@color/bg_screen_update"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="2"
+            custom:outlineSize="@dimen/outline_size"
+            custom:outlineColor="@color/bg_screen_update"/>
 
-        <TextView
+        <com.cordova.jokesapp.activities.TextViewOutline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -32,8 +47,14 @@
             android:paddingRight="@dimen/desc_padding"
             android:text="@string/slide_1_desc"
             android:textAlignment="center"
+            android:shadowColor="@color/bg_screen_update"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="2"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/slide_desc" />
+            custom:outlineSize="@dimen/outline_size"
+            custom:outlineColor="@color/bg_screen_update"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </RelativeLayout>

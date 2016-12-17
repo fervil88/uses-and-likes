@@ -26,6 +26,11 @@
             android:id="@+id/option_about"
             android:title="@string/about"
             android:enabled="false"/>
+
+        <item
+            android:id="@+id/option_references"
+            android:title="@string/references"
+            android:enabled="true"/>
     </group>
 
    <!--  <item

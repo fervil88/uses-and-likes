@@ -70,4 +70,14 @@
         <item name="android:topBright">@color/transparent</item>
         <item name="android:topDark">@color/transparent</item>
     </style>
+
+    <style name="AudioFileInfoOverlayText">
+        <item name="android:paddingLeft">4px</item>
+        <item name="android:paddingBottom">4px</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:shadowColor">#FFF</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
 </resources>

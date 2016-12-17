@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.cordova.jokesapp.activities.MainActivity"
-    android:background="@mipmap/joker_background">
+    android:background="@mipmap/background">
 
     <include layout="@layout/content_main" />
 

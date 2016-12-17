@@ -49,23 +49,33 @@
 
     <!--TODO intro slider-->
     <string name="title_activity_welcome">Home Screen</string>
-    <string name="next">NEXT</string>
-    <string name="skip">SKIP</string>
-    <string name="start">GOT IT</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="skip">OMITIR</string>
+    <string name="start">LISTO</string>
 
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title">ACTUALIZÁ</string>
+    <string name="slide_1_desc">Actualiza periodicamente y consigue nuevos chistes y bromas</string>
 
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title">PERSONALIZÁ</string>
+    <string name="slide_2_desc">Puedes elegir si quieres ver chistes o bromas ofensivas o ver solo los normales</string>
 
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title">COMPARTÍ</string>
+    <string name="slide_3_desc">Compartí los chistes que mas te gustan en cualquier red social</string>
 
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title">VALORÁ</string>
+    <string name="slide_4_desc">Dale like o dislike, danos tu opinión. Los peores desaparecerán</string>
+
+    <string name="slide_5_title">BORRÁ</string>
+    <string name="slide_5_desc">Puedes borrar los chistes o bromas que no te gusten y quedarte con los que sí</string>
+
+    <string name="slide_6_title">SOLICITÁ</string>
+    <string name="slide_6_desc">Puedes obtener otro chiste de la misma categoría de manera aleatoria </string>
+
+    <string name="slide_7_title">JokerApp</string>
+    <string name="slide_7_desc">Ayudanos con tu recomendación, enviandonos tu chiste a corpoideasoft@gmail.com</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="success_to_download_json">Has descargado exitosamente nuevos chistes y bromas</string>
+    <string name="references">Referencias</string>
 </resources>
