@@ -148,7 +148,11 @@ public class Joke implements Entity, Comparable<Joke>, Cloneable, Serializable {
     public int compareTo(Joke anotherJoke) {
 
         float compareQuantityOfLikes = ((Joke) anotherJoke).getLikes() / (((Joke) anotherJoke).getDislikes() != 0 ? ((Joke) anotherJoke).getDislikes() : 1);
-        return (Math.round(compareQuantityOfLikes) - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
+        int diff = (Math.round(compareQuantityOfLikes) - (this.getLikes() / (this.getDislikes() != 0 ? this.getDislikes() : 1) ));
+        if (((Joke) anotherJoke).getLikes() == this.getLikes()){
+            diff = this.getDislikes() - ((Joke) anotherJoke).getDislikes();
+        }
+        return diff;
     }
 
     @Override

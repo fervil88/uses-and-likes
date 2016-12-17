@@ -323,11 +323,12 @@ public class DataBaseHandler extends SQLiteOpenHelper implements JokerDBOperatio
         db.close();
     }
 
-    // Getting All Feeling
+    // Getting All Categories
     public List<String> getAllCategoriesFromJokes() {
         List<String> categoryList = new ArrayList<String>();
         // Select All Query
-        String selectQuery = "SELECT DISTINCT "+ Joke.JokeTable.COLUMN_CATEGORY +" FROM " + Joke.JokeTable.TABLE_NAME;
+        String selectQuery = "SELECT DISTINCT "+ Joke.JokeTable.COLUMN_CATEGORY +" FROM " + Joke.JokeTable.TABLE_NAME +
+                " ORDER BY "+Joke.JokeTable.COLUMN_CATEGORY + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

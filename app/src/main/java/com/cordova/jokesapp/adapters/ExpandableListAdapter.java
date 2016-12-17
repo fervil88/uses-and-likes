@@ -57,6 +57,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final Joke selectedJoke = (Joke) getChild(groupPosition, childPosition);
+        final String selectedCategory = (String) getGroup(groupPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -77,6 +78,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 Intent showJokeIntent = new Intent(context, InfoJokeActivity.class);
                 showJokeIntent.putExtra("joke", selectedJoke);
+                showJokeIntent.putExtra("category", selectedCategory);
                 showJokeIntent.putExtra("listCategory", (Serializable) listDataChild);
                 context.startActivityForResult(showJokeIntent, Util.SHOW_JOKES);
             }

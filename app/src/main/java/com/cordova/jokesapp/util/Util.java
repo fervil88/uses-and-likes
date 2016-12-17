@@ -28,7 +28,6 @@ public class Util {
     public static final String FILENAME = "local_jokes.json";
     public static final String NEW_FILENAME = "new_jokes.json";
     public static final int SHOW_JOKES = 1;
-
     public static final String PARAM_ID = "id";
     public static final String PARAM_USER = "user";
     public static final String PARAM_TITLE = "title";
@@ -41,11 +40,19 @@ public class Util {
     public static final String PARAM_TAG = "tag";
     public static final String PARAM_CHUNK = "chunk";
 
+    public List<Joke> getAllBestJokes(int top, Map<String, List<Joke>> mapJokes){
+        return getTheBestJokes(top, mapJokes, null, true);
+    }
+
 
     public List<Joke> getTheBestJokes(int top, Map<String, List<Joke>> mapJokes, SharedPreferences sharedpreferences){
+        return getTheBestJokes(top, mapJokes, sharedpreferences, false);
+    }
+
+    private List<Joke> getTheBestJokes(int top, Map<String, List<Joke>> mapJokes, SharedPreferences sharedpreferences, boolean includeAll){
         List<Joke> jokes = new LinkedList<>();
         float minAdded = 0;
-        boolean includeDirtyJokes = sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
+        boolean includeDirtyJokes = includeAll ? includeAll : sharedpreferences.getBoolean(Util.MY_ENABLED_HEAVY_JOKE, false);
 
         for(Map.Entry<String, List<Joke>> entry : mapJokes.entrySet()) {
             if(Util.NEW_JOKES.equalsIgnoreCase(entry.getKey()) || Util.BEST_JOKES.equalsIgnoreCase(entry.getKey()))
@@ -55,23 +62,17 @@ public class Util {
                 if (!includeDirtyJokes && joke.isDirtyJoke()){
                     continue;
                 }
-                try {
-                    Joke newJoke = (Joke) joke.clone();
-                    newJoke.setCategory(Util.BEST_JOKES);
-                    if (jokes.size() < top) {
-                        jokes.add(newJoke);
-                        Collections.sort(jokes);
-                        minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
-                    } else if (minAdded <= (joke.getLikes() / (joke.getDislikes() != 0 ? joke.getDislikes() : 1))) {
-                        jokes.remove(jokes.size() - 1);
-                        jokes.add(newJoke);
-                        Collections.sort(jokes);
-                        minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
-                    } else {
-                        break;
-                    }
-                } catch (CloneNotSupportedException e) {
-                    Log.e(Util.TAG, "Error clone joke: " + e.getMessage());
+                if (jokes.size() < top) {
+                    jokes.add(joke); // jokes.add(newJoke);
+                    Collections.sort(jokes);
+                    minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
+                } else if (minAdded <= (joke.getLikes() / (joke.getDislikes() != 0 ? joke.getDislikes() : 1))) {
+                    jokes.remove(jokes.size() - 1);
+                    jokes.add(joke); //jokes.add(newJoke);
+                    Collections.sort(jokes);
+                    minAdded = (jokes.get(jokes.size() - 1).getLikes() / (jokes.get(jokes.size() - 1).getDislikes() != 0 ? jokes.get(jokes.size() - 1).getDislikes() : 1));
+                } else {
+                    break;
                 }
             }
         }
@@ -83,7 +84,7 @@ public class Util {
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd"); //actual date
 
         try {
-            Date jokeDate = jokeDate = simpleDateFormat.parse(joke.getCreationDate());
+            Date jokeDate = simpleDateFormat.parse(joke.getCreationDate());
             Calendar cal = Calendar.getInstance();
             int currentMonth = cal.get(Calendar.MONTH);
             int currentYear = cal.get(Calendar.YEAR);
@@ -94,7 +95,7 @@ public class Util {
                 return true;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(Util.TAG, "Error parsing date: " + e.getMessage());
         }
         return false;
     }
