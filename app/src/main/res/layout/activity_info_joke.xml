@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.cordova.jokesapp.activities.InfoJokeActivity"
-    android:background="@mipmap/background">
+    tools:context="com.cordova.jokesapp.activities.InfoJokeActivity">
 
     <include layout="@layout/content_info_joke" />
 

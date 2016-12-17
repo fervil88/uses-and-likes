@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.cordova.jokesapp.R;
 import com.cordova.jokesapp.entities.DataBaseHandler;
@@ -51,13 +53,14 @@ public class InfoJokeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_joke);
         Intent i = getIntent();
-
         mapJokeToDelete.clear();
         listFeeling.clear();
 
         jdbc = DataBaseHandler.getInstance(getApplicationContext());
         final Joke[] joke = {(Joke) i.getSerializableExtra("joke")};
         final String category = i.getStringExtra("category");
+
+        selectBackgroundColorByCategory(category);
 
         hashCategory = (Map<String, List<Joke>>) i.getSerializableExtra("listCategory");
         final List<Joke> listCategory = hashCategory.get(category);
@@ -68,8 +71,7 @@ public class InfoJokeActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.ad_info_interstitial));
-
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id)); //test id
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
@@ -115,6 +117,52 @@ public class InfoJokeActivity extends AppCompatActivity {
         });
     }
 
+    private void selectBackgroundColorByCategory(String category) {
+        RelativeLayout infoLayout = (RelativeLayout)findViewById(R.id.info_layout);
+
+        String animals = getString(R.string.animals_category);
+        String feminists = getString(R.string.feminists_category);
+        String drunks = getString(R.string.drunks_category);
+        String sports = getString(R.string.sports_category);
+        String maleChauvinists = getString(R.string.male_chauvinists_category);
+        String others = getString(R.string.others_category);
+        String news = getString(R.string.news_category);
+        String best = getString(R.string.bests_category);
+        String professionals = getString(R.string.professionals_category);
+        String isNotSame = getString(R.string.is_not_same_category);
+
+        if(category.equalsIgnoreCase(animals)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.animals_color));
+        }
+        if(category.equalsIgnoreCase(feminists)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.feminist_color));
+        }
+        if(category.equalsIgnoreCase(drunks)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.drunks_color));
+        }
+        if(category.equalsIgnoreCase(sports)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.sports_color));
+        }
+        if(category.equalsIgnoreCase(maleChauvinists)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.male_chauvinist_color));
+        }
+        if(category.equalsIgnoreCase(others)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.others_color));
+        }
+        if(category.equalsIgnoreCase(news)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.news_color));
+        }
+        if(category.equalsIgnoreCase(best)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.best_color));
+        }
+        if(category.equalsIgnoreCase(isNotSame)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.is_not_same_color));
+        }
+        if(category.equalsIgnoreCase(professionals)){
+            infoLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.professionals_color));
+        }
+    }
+
     private void clickOnNext(Joke[] joke, List<Joke> listCategory, Random random) {
         currentId = joke[0].getId();
         while(listCategory.size() > 1 && joke[0].getId() == currentId){
@@ -133,10 +181,7 @@ public class InfoJokeActivity extends AppCompatActivity {
     }
 
     private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
-
+        AdRequest adRequest = new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
     }
 

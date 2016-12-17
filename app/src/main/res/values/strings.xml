@@ -28,8 +28,6 @@
     <string name="ad_info_banner">ca-app-pub-7583676595231228/6361634395</string>
     <string name="ad_info_interstitial">ca-app-pub-7583676595231228/9315100791</string>
 
-
-
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
 
     <string name="refresh">Actualizar</string>
@@ -80,4 +78,16 @@
     <string name="play_again">Play Again</string>
     <string name="success_to_download_json">Has descargado exitosamente nuevos chistes y bromas</string>
     <string name="references">Referencias</string>
+
+    <string name="animals_category">animales</string>
+    <string name="feminists_category">feministas</string>
+    <string name="drunks_category">borrachos</string>
+    <string name="sports_category">deportes</string>
+    <string name="male_chauvinists_category">machistas</string>
+    <string name="others_category">otros</string>
+    <string name="news_category">nuevos</string>
+    <string name="bests_category">destacados</string>
+    <string name="is_not_same_category">no es lo mismo</string>
+    <string name="professionals_category">profesionales</string>
+
 </resources>

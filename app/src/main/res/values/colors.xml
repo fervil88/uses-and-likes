@@ -84,4 +84,15 @@
         <item>@color/dot_dark_screen7</item>
     </array>
 
+    <color name="animals_color">#848484</color>
+    <color name="drunks_color">#5c0129</color>
+    <color name="sports_color">#028441</color>
+    <color name="feminist_color">#bf2dbf</color>
+    <color name="male_chauvinist_color">#02029c</color>
+    <color name="is_not_same_color">#4a347e</color>
+    <color name="others_color">#a50000</color>
+    <color name="professionals_color">#2d2c2c</color>
+    <color name="news_color">#cd6b01</color>
+    <color name="best_color">#837403</color>
+
 </resources>
