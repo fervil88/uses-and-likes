@@ -84,6 +84,8 @@
         <item>@color/dot_dark_screen7</item>
     </array>
 
+    <color name="main_categories_color">#b4b4b4</color>
+
     <color name="animals_color">#848484</color>
     <color name="drunks_color">#5c0129</color>
     <color name="sports_color">#028441</color>

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         listDataHeader = (List<String>) getIntent().getSerializableExtra("listDataHeader");
         listDataChild = (Map<String, List<Joke>>) getIntent().getSerializableExtra("listDataChild");
         mapJokes = (Map<String, List<Joke>>) getIntent().getSerializableExtra("mapJokes");
+
+        CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_layout);
+        mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.main_categories_color));
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.likesList);
